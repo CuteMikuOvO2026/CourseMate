@@ -236,3 +236,70 @@ class MessageOut(BaseModel):
     abstained: bool
     mode: str | None
     created_at: UTCDateTime
+
+
+class QuizCreate(BaseModel):
+    file_ids: list[str] = []
+    count: int = 5
+    kinds: list[str] = ["choice", "short"]
+
+    @field_validator("count")
+    @classmethod
+    def _count(cls, value: int) -> int:
+        if not 1 <= value <= 20:
+            raise ValueError("题量需为 1–20")
+        return value
+
+    @field_validator("kinds")
+    @classmethod
+    def _kinds(cls, value: list[str]) -> list[str]:
+        kinds = list(dict.fromkeys(value))
+        if not kinds or any(item not in {"choice", "short"} for item in kinds):
+            raise ValueError("题型仅支持选择题和简答题")
+        return kinds
+
+
+class QuizAnswerIn(BaseModel):
+    question_id: str
+    answer: str
+
+
+class QuizSubmit(BaseModel):
+    answers: list[QuizAnswerIn]
+
+
+class QuizQuestionOut(BaseModel):
+    id: str
+    ord: int
+    kind: str
+    prompt: str
+    options: list[str]
+    answer: str | None = None
+    explanation: str | None = None
+    source: dict | None = None
+
+
+class QuizOut(BaseModel):
+    id: str
+    title: str
+    question_count: int
+    questions: list[QuizQuestionOut]
+    created_at: UTCDateTime
+
+
+class QuizResultItem(BaseModel):
+    question_id: str
+    answer: str
+    correct: bool
+    expected_answer: str
+    explanation: str
+    source: dict | None = None
+
+
+class QuizAttemptOut(BaseModel):
+    id: str
+    quiz_id: str
+    score: int
+    total: int
+    results: list[QuizResultItem]
+    created_at: UTCDateTime

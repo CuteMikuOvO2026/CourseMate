@@ -55,6 +55,9 @@ class Course(Base):
     conversations: Mapped[list["Conversation"]] = relationship(
         back_populates="course", cascade="all, delete-orphan"
     )
+    quizzes: Mapped[list["Quiz"]] = relationship(
+        back_populates="course", cascade="all, delete-orphan"
+    )
 
 
 class SourceFile(Base):
@@ -164,3 +167,59 @@ class Message(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
     conversation: Mapped[Conversation] = relationship(back_populates="messages")
+
+
+class Quiz(Base):
+    __tablename__ = "quizzes"
+
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=new_id)
+    course_id: Mapped[str] = mapped_column(
+        String(32), ForeignKey("courses.id", ondelete="CASCADE"), index=True
+    )
+    title: Mapped[str] = mapped_column(String(160))
+    question_count: Mapped[int] = mapped_column(Integer)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+    course: Mapped[Course] = relationship(back_populates="quizzes")
+    questions: Mapped[list["QuizQuestion"]] = relationship(
+        back_populates="quiz", cascade="all, delete-orphan", order_by="QuizQuestion.ord"
+    )
+    attempts: Mapped[list["QuizAttempt"]] = relationship(
+        back_populates="quiz", cascade="all, delete-orphan"
+    )
+
+
+class QuizQuestion(Base):
+    __tablename__ = "quiz_questions"
+
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=new_id)
+    quiz_id: Mapped[str] = mapped_column(
+        String(32), ForeignKey("quizzes.id", ondelete="CASCADE"), index=True
+    )
+    ord: Mapped[int] = mapped_column(Integer)
+    kind: Mapped[str] = mapped_column(String(16))
+    prompt: Mapped[str] = mapped_column(Text)
+    options: Mapped[str] = mapped_column(Text, default="[]")
+    answer: Mapped[str] = mapped_column(Text)
+    explanation: Mapped[str] = mapped_column(Text)
+    chunk_id: Mapped[str] = mapped_column(
+        String(32), ForeignKey("chunks.id", ondelete="SET NULL"), nullable=True
+    )
+
+    quiz: Mapped[Quiz] = relationship(back_populates="questions")
+
+
+class QuizAttempt(Base):
+    __tablename__ = "quiz_attempts"
+
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=new_id)
+    quiz_id: Mapped[str] = mapped_column(
+        String(32), ForeignKey("quizzes.id", ondelete="CASCADE"), index=True
+    )
+    answers: Mapped[str] = mapped_column(Text)
+    results: Mapped[str] = mapped_column(Text)
+    score: Mapped[int] = mapped_column(Integer)
+    total: Mapped[int] = mapped_column(Integer)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+    quiz: Mapped[Quiz] = relationship(back_populates="attempts")
