@@ -22,8 +22,8 @@ export default function TopBar() {
       </Link>
       {user && (
         <div className="topbar-user">
-          <span className="user-email" title={user.email}>
-            {user.email}
+          <span className="user-name" title={user.username}>
+            {user.username}
           </span>
           <button type="button" className="ghost-btn small" onClick={handleLogout}>
             退出

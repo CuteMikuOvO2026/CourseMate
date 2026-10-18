@@ -5,9 +5,9 @@ from __future__ import annotations
 PASSWORD = "password123"
 
 
-def register(client, email: str = "student@example.com", password: str = PASSWORD) -> dict:
+def register(client, username: str = "student", password: str = PASSWORD) -> dict:
     response = client.post(
-        "/api/v1/auth/register", json={"email": email, "password": password}
+        "/api/v1/auth/register", json={"username": username, "password": password}
     )
     assert response.status_code == 201, response.text
     return response.json()

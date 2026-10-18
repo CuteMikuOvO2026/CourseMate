@@ -6,7 +6,7 @@ export default function LoginPage() {
   const { user, login, register } = useAuth();
   const navigate = useNavigate();
   const [mode, setMode] = useState('login');
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -16,8 +16,12 @@ export default function LoginPage() {
   async function handleSubmit(event) {
     event.preventDefault();
     setError('');
-    if (!email.trim()) {
-      setError('请输入邮箱');
+    if (!username.trim()) {
+      setError('请输入用户名');
+      return;
+    }
+    if (username.trim().length < 2) {
+      setError('用户名至少 2 个字符');
       return;
     }
     if (password.length < 8) {
@@ -26,8 +30,8 @@ export default function LoginPage() {
     }
     setSubmitting(true);
     try {
-      if (mode === 'login') await login(email.trim(), password);
-      else await register(email.trim(), password);
+      if (mode === 'login') await login(username.trim(), password);
+      else await register(username.trim(), password);
       navigate('/', { replace: true });
     } catch (err) {
       setError(err.message || '操作失败，请稍后重试');
@@ -85,18 +89,18 @@ export default function LoginPage() {
         <p className="auth-sub">
           {mode === 'login'
             ? '继续你的课程复习。'
-            : '一个邮箱即可开始，资料与记录只属于你。'}
+            : '一个用户名即可开始，资料与记录只属于你。'}
         </p>
 
         <form className="form" onSubmit={handleSubmit}>
           <label>
-            邮箱
+            用户名
             <input
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              placeholder="you@example.com"
-              autoComplete="email"
+              type="text"
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
+              placeholder={mode === 'register' ? '例如：xiaoming 或 小明' : '输入用户名'}
+              autoComplete="username"
             />
           </label>
           <label>

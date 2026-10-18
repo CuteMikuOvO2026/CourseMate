@@ -10,7 +10,7 @@ from fastapi.staticfiles import StaticFiles
 
 from . import __version__
 from .config import Settings, load_settings
-from .db import Base, create_engine_and_session
+from .db import Base, create_engine_and_session, migrate_schema
 from .routers import auth, courses, files, health
 
 PLACEHOLDER_HTML = """<!doctype html>
@@ -84,6 +84,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     settings = settings or load_settings()
     engine, session_factory = create_engine_and_session(settings.database_url)
     Base.metadata.create_all(engine)
+    migrate_schema(engine)
 
     app = FastAPI(
         title="CourseMate",

@@ -74,11 +74,11 @@ def test_upload_rejects_oversize(client, settings) -> None:
 
 
 def test_file_isolation(client, second_client) -> None:
-    register(client, email="alice@example.com")
+    register(client, username="alice")
     course = create_course(client)
     file_payload = upload(client, course["id"]).json()
 
-    register(second_client, email="bob@example.com")
+    register(second_client, username="bob")
     assert second_client.get(f"/api/v1/files/{file_payload['id']}").status_code == 404
     assert (
         second_client.get(f"/api/v1/files/{file_payload['id']}/download").status_code

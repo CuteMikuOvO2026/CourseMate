@@ -123,7 +123,7 @@ code {
   min-width: 0;
 }
 
-.user-email {
+.user-name {
   color: var(--muted);
   font-size: 13px;
   max-width: 260px;
@@ -1022,7 +1022,7 @@ code {
     padding: 11px 16px;
   }
 
-  .user-email {
+  .user-name {
     display: none;
   }
 

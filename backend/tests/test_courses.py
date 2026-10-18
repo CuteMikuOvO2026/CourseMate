@@ -47,10 +47,10 @@ def test_course_validation(client) -> None:
 
 
 def test_course_isolation(client, second_client) -> None:
-    register(client, email="alice@example.com")
+    register(client, username="alice")
     course = create_course(client, name="Alice 的课程")
 
-    register(second_client, email="bob@example.com")
+    register(second_client, username="bob")
     assert second_client.get("/api/v1/courses").json() == []
     assert second_client.get(f"/api/v1/courses/{course['id']}").status_code == 404
     assert (

@@ -8,11 +8,11 @@ from tests.helpers import PASSWORD, register
 def test_register_creates_session(client) -> None:
     response = client.post(
         "/api/v1/auth/register",
-        json={"email": "Student@Example.com", "password": PASSWORD},
+        json={"username": "Student", "password": PASSWORD},
     )
     assert response.status_code == 201
     payload = response.json()
-    assert payload["email"] == "student@example.com"
+    assert payload["username"] == "student"
     assert payload["created_at"].endswith("Z")
     assert "password" not in payload
     assert client.cookies.get("coursemate_session")
@@ -22,11 +22,11 @@ def test_register_creates_session(client) -> None:
     assert me.json()["id"] == payload["id"]
 
 
-def test_duplicate_email_rejected(client) -> None:
+def test_duplicate_username_rejected(client) -> None:
     register(client)
     response = client.post(
         "/api/v1/auth/register",
-        json={"email": "student@example.com", "password": PASSWORD},
+        json={"username": "Student", "password": PASSWORD},
     )
     assert response.status_code == 409
 
@@ -34,17 +34,24 @@ def test_duplicate_email_rejected(client) -> None:
 def test_short_password_rejected(client) -> None:
     response = client.post(
         "/api/v1/auth/register",
-        json={"email": "student@example.com", "password": "short"},
+        json={"username": "student", "password": "short"},
     )
     assert response.status_code == 422
 
 
-def test_invalid_email_rejected(client) -> None:
-    response = client.post(
-        "/api/v1/auth/register",
-        json={"email": "not-an-email", "password": PASSWORD},
-    )
-    assert response.status_code == 422
+def test_invalid_username_rejected(client) -> None:
+    for username in ("a", "has space", "bad/slash", "x" * 33):
+        response = client.post(
+            "/api/v1/auth/register",
+            json={"username": username, "password": PASSWORD},
+        )
+        assert response.status_code == 422, username
+
+
+def test_chinese_username_supported(client) -> None:
+    payload = register(client, username="小明")
+    assert payload["username"] == "小明"
+    assert client.get("/api/v1/auth/me").status_code == 200
 
 
 def test_login_and_logout(client) -> None:
@@ -54,13 +61,13 @@ def test_login_and_logout(client) -> None:
 
     bad = client.post(
         "/api/v1/auth/login",
-        json={"email": "student@example.com", "password": "wrong-password"},
+        json={"username": "student", "password": "wrong-password"},
     )
     assert bad.status_code == 401
 
     good = client.post(
         "/api/v1/auth/login",
-        json={"email": "student@example.com", "password": PASSWORD},
+        json={"username": "Student", "password": PASSWORD},
     )
     assert good.status_code == 200
     assert client.get("/api/v1/auth/me").status_code == 200

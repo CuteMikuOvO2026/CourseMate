@@ -8,7 +8,7 @@ from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, PlainSerializer, field_validator
 
-EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+USERNAME_RE = re.compile(r"^[\w.\-]{2,32}$", re.UNICODE)
 COLOR_RE = re.compile(r"^#[0-9a-fA-F]{6}$")
 
 
@@ -22,15 +22,15 @@ UTCDateTime = Annotated[datetime, PlainSerializer(_iso_utc, return_type=str)]
 
 
 class RegisterRequest(BaseModel):
-    email: str
+    username: str
     password: str
 
-    @field_validator("email")
+    @field_validator("username")
     @classmethod
-    def _email(cls, value: str) -> str:
+    def _username(cls, value: str) -> str:
         value = value.strip().lower()
-        if len(value) > 320 or not EMAIL_RE.match(value):
-            raise ValueError("请输入有效的邮箱地址")
+        if not USERNAME_RE.match(value):
+            raise ValueError("用户名需为 2–32 位，可使用中英文、数字、下划线、点和短横线")
         return value
 
     @field_validator("password")
@@ -44,12 +44,12 @@ class RegisterRequest(BaseModel):
 
 
 class LoginRequest(BaseModel):
-    email: str
+    username: str
     password: str
 
-    @field_validator("email")
+    @field_validator("username")
     @classmethod
-    def _email(cls, value: str) -> str:
+    def _username(cls, value: str) -> str:
         return value.strip().lower()
 
 
@@ -57,7 +57,7 @@ class UserOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     id: str
-    email: str
+    username: str
     created_at: UTCDateTime
 
 
