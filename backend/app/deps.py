@@ -8,7 +8,7 @@ from fastapi import Depends, HTTPException, Request
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from .models import Course, SourceFile, User
+from .models import Conversation, Course, SourceFile, User
 from .security import SESSION_COOKIE, decode_access_token
 
 
@@ -62,3 +62,18 @@ def owned_file(
     if source_file is None:
         raise HTTPException(status_code=404, detail="文件不存在")
     return source_file
+
+
+def owned_conversation(
+    conversation_id: str,
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_user),
+) -> Conversation:
+    conversation = db.scalar(
+        select(Conversation)
+        .join(Course, Course.id == Conversation.course_id)
+        .where(Conversation.id == conversation_id, Course.user_id == user.id)
+    )
+    if conversation is None:
+        raise HTTPException(status_code=404, detail="对话不存在")
+    return conversation

@@ -170,3 +170,69 @@ class DocumentPageOut(BaseModel):
 
 class DocumentPageDetail(DocumentPageOut):
     text: str
+
+
+class QueryRequest(BaseModel):
+    question: str
+    conversation_id: str | None = None
+
+    @field_validator("question")
+    @classmethod
+    def _question(cls, value: str) -> str:
+        value = value.strip()
+        if not value:
+            raise ValueError("问题不能为空")
+        if len(value) > 1000:
+            raise ValueError("问题不能超过 1000 字")
+        return value
+
+    @field_validator("conversation_id")
+    @classmethod
+    def _conversation_id(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        value = value.strip()
+        if not value or len(value) > 32:
+            raise ValueError("对话标识无效")
+        return value
+
+
+class CitationOut(BaseModel):
+    index: int
+    chunk_id: str
+    file_id: str
+    file_name: str
+    heading: str
+    locator: str
+    snippet: str
+
+
+class QueryResponse(BaseModel):
+    answer: str
+    citations: list[CitationOut]
+    confidence: str
+    abstained: bool
+    mode: str
+    conversation_id: str
+    elapsed_ms: int
+
+
+class ConversationOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str
+    course_id: str
+    title: str
+    created_at: UTCDateTime
+    updated_at: UTCDateTime
+
+
+class MessageOut(BaseModel):
+    id: str
+    role: str
+    content: str
+    citations: list[CitationOut]
+    confidence: str | None
+    abstained: bool
+    mode: str | None
+    created_at: UTCDateTime

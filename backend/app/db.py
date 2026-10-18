@@ -45,17 +45,27 @@ def migrate_schema(engine: Engine) -> None:
     if engine.dialect.name != "sqlite":
         return
     with engine.begin() as connection:
-        columns = [
+        user_columns = [
             row[1] for row in connection.exec_driver_sql("PRAGMA table_info(users)")
         ]
-        if columns and "email" in columns and "username" not in columns:
+        if user_columns and "email" in user_columns and "username" not in user_columns:
             connection.exec_driver_sql(
                 "ALTER TABLE users RENAME COLUMN email TO username"
             )
-        if columns:
+        if user_columns:
             # 旧索引名随列重命名保留为 ix_users_email，统一改成新名字。
             connection.exec_driver_sql("DROP INDEX IF EXISTS ix_users_email")
             connection.exec_driver_sql(
                 "CREATE UNIQUE INDEX IF NOT EXISTS ix_users_username "
                 "ON users (username)"
+            )
+
+        # Phase 3 在已有的对话表中加入稳定的消息顺序字段；新库由
+        # Base.metadata.create_all 创建，旧库只需补这一列即可兼容。
+        message_columns = [
+            row[1] for row in connection.exec_driver_sql("PRAGMA table_info(messages)")
+        ]
+        if message_columns and "ord" not in message_columns:
+            connection.exec_driver_sql(
+                "ALTER TABLE messages ADD COLUMN ord INTEGER NOT NULL DEFAULT 0"
             )

@@ -5,7 +5,7 @@ from __future__ import annotations
 import uuid
 from datetime import datetime, timezone
 
-from sqlalchemy import DateTime, ForeignKey, Integer, String, Text
+from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .db import Base
@@ -50,6 +50,9 @@ class Course(Base):
 
     user: Mapped[User] = relationship(back_populates="courses")
     files: Mapped[list["SourceFile"]] = relationship(
+        back_populates="course", cascade="all, delete-orphan"
+    )
+    conversations: Mapped[list["Conversation"]] = relationship(
         back_populates="course", cascade="all, delete-orphan"
     )
 
@@ -117,3 +120,47 @@ class Chunk(Base):
     text: Mapped[str] = mapped_column(Text)
 
     file: Mapped[SourceFile] = relationship(back_populates="chunks")
+
+
+class Conversation(Base):
+    """一门课程内的一组问答；历史仅用于展示，不参与检索。"""
+
+    __tablename__ = "conversations"
+
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=new_id)
+    course_id: Mapped[str] = mapped_column(
+        String(32), ForeignKey("courses.id", ondelete="CASCADE"), index=True
+    )
+    title: Mapped[str] = mapped_column(String(160))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=utcnow, onupdate=utcnow
+    )
+
+    course: Mapped[Course] = relationship(back_populates="conversations")
+    messages: Mapped[list["Message"]] = relationship(
+        back_populates="conversation",
+        cascade="all, delete-orphan",
+        order_by="Message.ord",
+    )
+
+
+class Message(Base):
+    """对话消息及其经过校验的引用快照。"""
+
+    __tablename__ = "messages"
+
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=new_id)
+    conversation_id: Mapped[str] = mapped_column(
+        String(32), ForeignKey("conversations.id", ondelete="CASCADE"), index=True
+    )
+    ord: Mapped[int] = mapped_column(Integer, default=0)
+    role: Mapped[str] = mapped_column(String(12))
+    content: Mapped[str] = mapped_column(Text)
+    citations: Mapped[str] = mapped_column(Text, default="[]")
+    confidence: Mapped[str | None] = mapped_column(String(16), nullable=True)
+    abstained: Mapped[bool] = mapped_column(Boolean, default=False)
+    mode: Mapped[str | None] = mapped_column(String(24), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+    conversation: Mapped[Conversation] = relationship(back_populates="messages")

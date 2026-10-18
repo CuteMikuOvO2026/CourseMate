@@ -61,4 +61,12 @@ export const api = {
   page: (fileId, ord) => request(`/files/${fileId}/pages/${ord}`),
   reprocessFile: (fileId) => request(`/files/${fileId}/reprocess`, { method: 'POST' }),
   deleteFile: (id) => request(`/files/${id}`, { method: 'DELETE' }),
+
+  query: (courseId, question, conversationId = null) =>
+    request(`/courses/${courseId}/query`, {
+      method: 'POST',
+      body: { question, ...(conversationId ? { conversation_id: conversationId } : {}) },
+    }),
+  conversations: (courseId) => request(`/courses/${courseId}/conversations`),
+  messages: (conversationId) => request(`/conversations/${conversationId}/messages`),
 };
