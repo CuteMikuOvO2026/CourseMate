@@ -69,4 +69,15 @@ export const api = {
     }),
   conversations: (courseId) => request(`/courses/${courseId}/conversations`),
   messages: (conversationId) => request(`/conversations/${conversationId}/messages`),
+
+  createQuiz: (courseId, data) =>
+    request(`/courses/${courseId}/quizzes`, { method: 'POST', body: data }),
+  quiz: (quizId) => request(`/quizzes/${quizId}`),
+  submitQuiz: (quizId, answers) =>
+    request(`/quizzes/${quizId}/attempts`, { method: 'POST', body: { answers } }),
+  attempts: (courseId) => request(`/courses/${courseId}/attempts`),
+  regradeAttempt: (attemptId, questionId, correct) =>
+    request(`/attempts/${attemptId}/regrade`, {
+      method: 'PATCH', body: { question_id: questionId, correct },
+    }),
 };

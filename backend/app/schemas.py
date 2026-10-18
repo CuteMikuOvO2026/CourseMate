@@ -6,7 +6,7 @@ import re
 from datetime import datetime, timezone
 from typing import Annotated
 
-from pydantic import BaseModel, ConfigDict, PlainSerializer, field_validator
+from pydantic import BaseModel, ConfigDict, Field, PlainSerializer, field_validator
 
 USERNAME_RE = re.compile(r"^[\w.\-]{2,32}$", re.UNICODE)
 COLOR_RE = re.compile(r"^#[0-9a-fA-F]{6}$")
@@ -239,9 +239,9 @@ class MessageOut(BaseModel):
 
 
 class QuizCreate(BaseModel):
-    file_ids: list[str] = []
+    file_ids: list[str] = Field(default_factory=list)
     count: int = 5
-    kinds: list[str] = ["choice", "short"]
+    kinds: list[str] = Field(default_factory=lambda: ["choice", "short"])
 
     @field_validator("count")
     @classmethod
@@ -267,6 +267,14 @@ class QuizAnswerIn(BaseModel):
 class QuizSubmit(BaseModel):
     answers: list[QuizAnswerIn]
 
+    @field_validator("answers")
+    @classmethod
+    def _unique_answers(cls, value: list[QuizAnswerIn]) -> list[QuizAnswerIn]:
+        ids = [item.question_id for item in value]
+        if len(ids) != len(set(ids)):
+            raise ValueError("每道题只能提交一次")
+        return value
+
 
 class QuizQuestionOut(BaseModel):
     id: str
@@ -289,11 +297,13 @@ class QuizOut(BaseModel):
 
 class QuizResultItem(BaseModel):
     question_id: str
+    kind: str = "short"
     answer: str
     correct: bool
     expected_answer: str
     explanation: str
     source: dict | None = None
+    manually_graded: bool = False
 
 
 class QuizAttemptOut(BaseModel):
@@ -303,3 +313,8 @@ class QuizAttemptOut(BaseModel):
     total: int
     results: list[QuizResultItem]
     created_at: UTCDateTime
+
+
+class QuizRegradeRequest(BaseModel):
+    question_id: str
+    correct: bool

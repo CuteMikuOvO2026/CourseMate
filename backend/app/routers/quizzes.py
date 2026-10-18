@@ -12,7 +12,7 @@ from sqlalchemy.orm import Session
 
 from ..deps import get_db, get_current_user, owned_course
 from ..models import Chunk, Course, Quiz, QuizAttempt, QuizQuestion, SourceFile
-from ..schemas import QuizAttemptOut, QuizCreate, QuizOut, QuizQuestionOut, QuizResultItem, QuizSubmit
+from ..schemas import QuizAttemptOut, QuizCreate, QuizOut, QuizQuestionOut, QuizRegradeRequest, QuizResultItem, QuizSubmit
 
 router = APIRouter(tags=["quizzes"])
 
@@ -84,7 +84,7 @@ def create_quiz(payload: QuizCreate, course: Course = Depends(owned_course),
         for sentence in _SENTENCES.split(chunk.text):
             sentence = sentence.strip()
             terms = _terms(sentence)
-            if len(sentence) >= 16 and terms:
+            if len(sentence) >= 8 and terms:
                 candidates.append((chunk, sentence, terms))
     random.Random(f"{course.id}:{len(candidates)}").shuffle(candidates)
 
@@ -110,7 +110,7 @@ def create_quiz(payload: QuizCreate, course: Course = Depends(owned_course),
         if kind == "short":
             options = []
             answer = term
-            prompt = f"根据资料，{sentence[:80]}" if term in sentence else f"请解释“{term}”在本资料中的含义。"
+            prompt = f"请补全资料中的关键术语：{sentence.replace(term, '____', 1)}"
         explanation = f"资料原文：{sentence}"
         db.add(QuizQuestion(quiz_id=quiz.id, ord=made + 1, kind=kind,
                             prompt=prompt, options=json.dumps(options, ensure_ascii=False),
@@ -157,7 +157,7 @@ def submit_quiz(quiz_id: str, payload: QuizSubmit, db: Session = Depends(get_db)
             provided = set(_terms(answer))
             correct = bool(expected and len(expected & provided) / len(expected) >= 0.6)
         correct_count += int(correct)
-        results.append(QuizResultItem(question_id=question.id, answer=answer, correct=correct,
+        results.append(QuizResultItem(question_id=question.id, kind=question.kind, answer=answer, correct=correct,
                                       expected_answer=question.answer,
                                       explanation=question.explanation, source=_source(db, question)))
     attempt = QuizAttempt(quiz_id=quiz.id, answers=json.dumps(submitted, ensure_ascii=False),
@@ -177,3 +177,44 @@ def list_attempts(course: Course = Depends(owned_course), db: Session = Depends(
     return [QuizAttemptOut(id=a.id, quiz_id=a.quiz_id, score=a.score, total=a.total,
                            results=[QuizResultItem.model_validate(item) for item in json.loads(a.results)],
                            created_at=a.created_at) for a, _quiz in rows]
+
+
+@router.get("/attempts/{attempt_id}", response_model=QuizAttemptOut)
+def get_attempt(attempt_id: str, db: Session = Depends(get_db), user=Depends(get_current_user)):
+    row = db.execute(select(QuizAttempt, Quiz).join(Quiz, Quiz.id == QuizAttempt.quiz_id)
+                     .join(Course, Course.id == Quiz.course_id)
+                     .where(QuizAttempt.id == attempt_id, Course.user_id == user.id)).first()
+    if row is None:
+        raise HTTPException(status_code=404, detail="练习记录不存在")
+    attempt, _quiz = row
+    return QuizAttemptOut(id=attempt.id, quiz_id=attempt.quiz_id, score=attempt.score,
+                          total=attempt.total,
+                          results=[QuizResultItem.model_validate(item) for item in json.loads(attempt.results)],
+                          created_at=attempt.created_at)
+
+
+@router.patch("/attempts/{attempt_id}/regrade", response_model=QuizAttemptOut)
+def regrade_attempt(attempt_id: str, payload: QuizRegradeRequest,
+                    db: Session = Depends(get_db), user=Depends(get_current_user)):
+    row = db.execute(select(QuizAttempt, Quiz).join(Quiz, Quiz.id == QuizAttempt.quiz_id)
+                     .join(Course, Course.id == Quiz.course_id)
+                     .where(QuizAttempt.id == attempt_id, Course.user_id == user.id)).first()
+    if row is None:
+        raise HTTPException(status_code=404, detail="练习记录不存在")
+    attempt, _quiz = row
+    results = json.loads(attempt.results)
+    item = next((value for value in results if value["question_id"] == payload.question_id), None)
+    if item is None:
+        raise HTTPException(status_code=404, detail="题目不属于这次练习")
+    if item.get("kind") != "short":
+        raise HTTPException(status_code=422, detail="只有简答题支持人工改判")
+    item["correct"] = payload.correct
+    item["manually_graded"] = True
+    attempt.results = json.dumps(results, ensure_ascii=False)
+    attempt.score = sum(bool(value["correct"]) for value in results)
+    db.commit()
+    db.refresh(attempt)
+    return QuizAttemptOut(id=attempt.id, quiz_id=attempt.quiz_id, score=attempt.score,
+                          total=attempt.total,
+                          results=[QuizResultItem.model_validate(value) for value in results],
+                          created_at=attempt.created_at)

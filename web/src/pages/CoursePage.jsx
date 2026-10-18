@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { api } from '../api';
 import FileDrop from '../components/FileDrop';
 import ChatPanel from '../components/ChatPanel';
+import QuizPanel from '../components/QuizPanel';
 import Modal from '../components/Modal';
 import StatusBadge from '../components/StatusBadge';
 import TopBar from '../components/TopBar';
@@ -11,7 +12,7 @@ import { fileExtension, formatBytes, formatDate } from '../utils';
 const TABS = [
   { id: 'files', label: '资料' },
   { id: 'chat', label: '问答' },
-  { id: 'quiz', label: '练习', hint: '下一阶段' },
+  { id: 'quiz', label: '练习' },
   { id: 'cards', label: '复习卡', hint: '下一阶段' },
   { id: 'tasks', label: '待办', hint: '下一阶段' },
 ];
@@ -249,11 +250,13 @@ export default function CoursePage() {
             courseId={courseId}
             readyFileCount={files.filter((file) => file.status === 'ready').length}
           />
+        ) : tab === 'quiz' ? (
+          <QuizPanel courseId={courseId} files={files} />
         ) : tab !== 'files' ? (
           <section className="placeholder-panel">
             <h2>{TABS.find((item) => item.id === tab).label}将在下一阶段接入</h2>
             <p>
-              当前阶段已完成账户、课程、资料上传、解析与带引用问答。小测、复习卡与待办会逐步开放。
+              课程资料小测已经开放；复习卡与待办将在后续阶段接入。
             </p>
           </section>
         ) : (
