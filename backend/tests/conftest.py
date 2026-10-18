@@ -16,8 +16,9 @@ def settings(tmp_path: Path) -> Settings:
     return Settings(
         data_dir=tmp_path,
         database_url=f"sqlite:///{(tmp_path / 'test.db').as_posix()}",
-        secret_key="test-secret-key",
+        secret_key="test-secret-key-0123456789abcdef",
         web_dist=tmp_path / "dist",
+        max_upload_mb=1,
     )
 
 
@@ -28,5 +29,12 @@ def app(settings: Settings):
 
 @pytest.fixture()
 def client(app):
+    with TestClient(app) as test_client:
+        yield test_client
+
+
+@pytest.fixture()
+def second_client(app):
+    """同一应用、独立 Cookie 的第二个浏览器会话。"""
     with TestClient(app) as test_client:
         yield test_client

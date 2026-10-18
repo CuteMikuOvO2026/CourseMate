@@ -9,8 +9,25 @@
 
 ## 当前进度
 
-**Phase 0（骨架）已完成**：FastAPI 应用工厂、健康检查、静态托管、前端构建链与最小测试。
-后续阶段见 [开发计划](docs/开发计划.md)。
+**Phase 1（账户、课程、资料上传）已完成**：
+
+- 注册 / 登录 / 退出，httpOnly Cookie 会话，密码 PBKDF2 哈希；
+- 课程创建、列表、重命名、删除，课程之间数据完全隔离；
+- PDF / PPTX / DOCX / Markdown / TXT 上传，文件大小与类型校验，私有存储；
+- 资料列表、下载原文件、删除，删除课程时级联清理文件与磁盘数据；
+- 前端登录页、课程列表、课程工作区与上传/文件管理界面。
+
+资料解析、检索问答、小测、复习卡与待办在后续阶段接入。见 [开发计划](docs/开发计划.md)。
+
+## 使用流程
+
+1. 启动后在浏览器打开 http://127.0.0.1:8000；
+2. 首次使用选择「注册」，邮箱 + 至少 8 位密码；
+3. 在课程列表点「+ 新建课程」；
+4. 进入课程后，在「资料」页拖拽或选择文件上传；
+5. 上传后的文件可下载原文件或删除。
+
+> 当前阶段文件状态显示为「等待解析」，解析与问答会在 Phase 2–3 接入。
 
 ## 快速开始
 
@@ -43,10 +60,10 @@ powershell -ExecutionPolicy Bypass -File scripts\test.ps1
 
 | 路径 | 说明 |
 |---|---|
-| `backend/app/` | FastAPI 应用、路由与服务 |
-| `backend/tests/` | pytest 测试 |
+| `backend/app/` | FastAPI 应用：`models`、`schemas`、`security`、`storage`、`routers/` |
+| `backend/tests/` | pytest 测试（账户、课程、文件、越权隔离） |
 | `backend/eval/` | 评测集与评测脚本（Phase 6） |
-| `web/` | React + Vite 前端 |
+| `web/src/` | React 页面与组件 |
 | `docs/` | 开发计划、架构、评测报告 |
 | `scripts/` | 环境、构建与启动脚本 |
 

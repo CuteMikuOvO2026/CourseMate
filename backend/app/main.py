@@ -11,7 +11,7 @@ from fastapi.staticfiles import StaticFiles
 from . import __version__
 from .config import Settings, load_settings
 from .db import Base, create_engine_and_session
-from .routers import health
+from .routers import auth, courses, files, health
 
 PLACEHOLDER_HTML = """<!doctype html>
 <html lang="zh-CN">
@@ -98,6 +98,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.state.session_factory = session_factory
 
     app.include_router(health.router, prefix="/api/v1")
+    app.include_router(auth.router, prefix="/api/v1")
+    app.include_router(courses.router, prefix="/api/v1")
+    app.include_router(files.router, prefix="/api/v1")
     _mount_frontend(app, settings)
     return app
 
