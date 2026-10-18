@@ -77,3 +77,43 @@ class SourceFile(Base):
     )
 
     course: Mapped[Course] = relationship(back_populates="files")
+    pages: Mapped[list["DocumentPage"]] = relationship(
+        back_populates="file", cascade="all, delete-orphan"
+    )
+    chunks: Mapped[list["Chunk"]] = relationship(
+        back_populates="file", cascade="all, delete-orphan"
+    )
+
+
+class DocumentPage(Base):
+    __tablename__ = "document_pages"
+
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=new_id)
+    file_id: Mapped[str] = mapped_column(
+        String(32), ForeignKey("source_files.id", ondelete="CASCADE"), index=True
+    )
+    ord: Mapped[int] = mapped_column(Integer)
+    page_no: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    heading: Mapped[str] = mapped_column(String(300), default="")
+    text: Mapped[str] = mapped_column(Text)
+
+    file: Mapped[SourceFile] = relationship(back_populates="pages")
+
+
+class Chunk(Base):
+    __tablename__ = "chunks"
+
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=new_id)
+    course_id: Mapped[str] = mapped_column(
+        String(32), ForeignKey("courses.id", ondelete="CASCADE"), index=True
+    )
+    file_id: Mapped[str] = mapped_column(
+        String(32), ForeignKey("source_files.id", ondelete="CASCADE"), index=True
+    )
+    ord: Mapped[int] = mapped_column(Integer)
+    page_from: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    page_to: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    heading: Mapped[str] = mapped_column(String(300), default="")
+    text: Mapped[str] = mapped_column(Text)
+
+    file: Mapped[SourceFile] = relationship(back_populates="chunks")

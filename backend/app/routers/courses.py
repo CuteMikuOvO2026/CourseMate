@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 from ..deps import get_current_user, get_db, owned_course
 from ..models import Course, SourceFile, User
 from ..schemas import CourseCreate, CourseOut, CourseUpdate
+from ..services.retrieval import invalidate_course
 from ..storage import delete_course_storage
 
 router = APIRouter(prefix="/courses", tags=["courses"])
@@ -105,4 +106,5 @@ def delete_course(
     db.delete(course)
     db.commit()
     delete_course_storage(request.app.state.settings, course_id)
+    invalidate_course(course_id)
     return Response(status_code=204)

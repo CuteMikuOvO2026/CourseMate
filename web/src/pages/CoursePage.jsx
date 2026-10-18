@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { api } from '../api';
 import FileDrop from '../components/FileDrop';
+import Modal from '../components/Modal';
 import StatusBadge from '../components/StatusBadge';
 import TopBar from '../components/TopBar';
 import { fileExtension, formatBytes, formatDate } from '../utils';
@@ -13,6 +14,8 @@ const TABS = [
   { id: 'cards', label: '复习卡', hint: '下一阶段' },
   { id: 'tasks', label: '待办', hint: '下一阶段' },
 ];
+
+const ACTIVE_STATUSES = new Set(['queued', 'processing']);
 
 export default function CoursePage() {
   const { courseId } = useParams();
@@ -26,10 +29,29 @@ export default function CoursePage() {
   const [uploadMessage, setUploadMessage] = useState('');
   const [uploadErrors, setUploadErrors] = useState([]);
 
+  const [previewFile, setPreviewFile] = useState(null);
+  const [previewPages, setPreviewPages] = useState([]);
+  const [previewOrd, setPreviewOrd] = useState(null);
+  const [previewDetail, setPreviewDetail] = useState(null);
+  const [previewError, setPreviewError] = useState('');
+  const [previewLoading, setPreviewLoading] = useState(false);
+
   useEffect(() => {
     load();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseId]);
+
+  useEffect(() => {
+    if (!files.some((file) => ACTIVE_STATUSES.has(file.status))) return undefined;
+    const timer = setInterval(async () => {
+      try {
+        setFiles(await api.files(courseId));
+      } catch {
+        // 轮询失败时保持当前列表，下一次再试
+      }
+    }, 2000);
+    return () => clearInterval(timer);
+  }, [files, courseId]);
 
   async function load(options = {}) {
     const { silent = false } = options;
@@ -94,6 +116,52 @@ export default function CoursePage() {
       );
     } catch (err) {
       setError(err.message);
+    }
+  }
+
+  async function handleReprocess(file) {
+    try {
+      await api.reprocessFile(file.id);
+      await load({ silent: true });
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+
+  function closePreview() {
+    setPreviewFile(null);
+    setPreviewPages([]);
+    setPreviewOrd(null);
+    setPreviewDetail(null);
+    setPreviewError('');
+    setPreviewLoading(false);
+  }
+
+  async function selectPreviewPage(fileId, ord) {
+    setPreviewOrd(ord);
+    setPreviewDetail(null);
+    try {
+      setPreviewDetail(await api.page(fileId, ord));
+    } catch (err) {
+      setPreviewError(err.message);
+    }
+  }
+
+  async function openPreview(file) {
+    setPreviewFile(file);
+    setPreviewPages([]);
+    setPreviewOrd(null);
+    setPreviewDetail(null);
+    setPreviewError('');
+    setPreviewLoading(true);
+    try {
+      const pages = await api.pages(file.id);
+      setPreviewPages(pages);
+      if (pages.length) await selectPreviewPage(file.id, pages[0].ord);
+    } catch (err) {
+      setPreviewError(err.message);
+    } finally {
+      setPreviewLoading(false);
     }
   }
 
@@ -179,13 +247,13 @@ export default function CoursePage() {
           <section className="placeholder-panel">
             <h2>{TABS.find((item) => item.id === tab).label}将在下一阶段接入</h2>
             <p>
-              当前阶段已完成账户、课程与资料上传。解析、检索问答、小测、复习卡与待办会逐步开放。
+              当前阶段已完成账户、课程、资料上传与解析。检索问答、小测、复习卡与待办会逐步开放。
             </p>
           </section>
         ) : (
           <>
             <div className="phase-note">
-              当前阶段：资料上传与文件管理可用；解析、检索与问答将在后续阶段接入。
+              当前阶段：资料上传与解析已可用；检索问答、小测、复习卡与待办将在后续阶段接入。
             </div>
 
             <FileDrop onFiles={handleFiles} busy={uploading} />
@@ -218,12 +286,36 @@ export default function CoursePage() {
                         <span className="file-meta">
                           {formatBytes(file.size_bytes)} · 上传于 {formatDate(file.created_at)}
                         </span>
+                        {file.status === 'ready' && (
+                          <span className="file-meta">
+                            {file.page_count} 页/节 · {file.chunk_count} 个文本块
+                          </span>
+                        )}
+                        {file.warning && <span className="file-warning">{file.warning}</span>}
                         {file.error_message && (
                           <span className="file-error">{file.error_message}</span>
                         )}
                       </div>
                       <StatusBadge status={file.status} />
                       <div className="file-actions">
+                        {file.status === 'ready' && (
+                          <button
+                            type="button"
+                            className="ghost-btn small"
+                            onClick={() => openPreview(file)}
+                          >
+                            预览
+                          </button>
+                        )}
+                        {file.status === 'failed' && (
+                          <button
+                            type="button"
+                            className="ghost-btn small"
+                            onClick={() => handleReprocess(file)}
+                          >
+                            重新解析
+                          </button>
+                        )}
                         <a
                           className="ghost-btn small"
                           href={`/api/v1/files/${file.id}/download`}
@@ -246,6 +338,60 @@ export default function CoursePage() {
           </>
         )}
       </main>
+
+      {previewFile && (
+        <Modal
+          title={previewFile.name}
+          subtitle={`${previewPages.length} 个可定位单元`}
+          width={780}
+          onClose={closePreview}
+        >
+          {previewError && <div className="alert error">{previewError}</div>}
+          {previewLoading ? (
+            <div className="boot compact">
+              <span className="spinner" />
+              <span>正在读取原文…</span>
+            </div>
+          ) : previewPages.length === 0 ? (
+            <p className="muted">暂无可预览的文本。</p>
+          ) : (
+            <div className="preview-layout">
+              <div className="preview-list">
+                {previewPages.map((page) => (
+                  <button
+                    key={page.ord}
+                    type="button"
+                    className={`preview-item${page.ord === previewOrd ? ' active' : ''}`}
+                    onClick={() => selectPreviewPage(previewFile.id, page.ord)}
+                  >
+                    <strong>
+                      {page.page_no ? `第 ${page.page_no} 页` : `第 ${page.ord} 节`}
+                    </strong>
+                    <span>
+                      {page.heading || '未命名章节'} · {page.char_count} 字
+                    </span>
+                  </button>
+                ))}
+              </div>
+              <div className="preview-text">
+                {previewDetail ? (
+                  <>
+                    <p className="preview-heading">
+                      {previewDetail.heading ||
+                        (previewDetail.page_no
+                          ? `第 ${previewDetail.page_no} 页`
+                          : '正文')}
+                    </p>
+                    <pre>{previewDetail.text}</pre>
+                  </>
+                ) : (
+                  <p className="muted">选择左侧段落查看原文。</p>
+                )}
+              </div>
+            </div>
+          )}
+        </Modal>
+      )}
     </div>
   );
 }

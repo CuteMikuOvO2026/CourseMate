@@ -57,5 +57,8 @@ export const api = {
     form.append('file', file);
     return request(`/courses/${courseId}/files`, { method: 'POST', body: form });
   },
+  pages: (fileId) => request(`/files/${fileId}/pages`),
+  page: (fileId, ord) => request(`/files/${fileId}/pages/${ord}`),
+  reprocessFile: (fileId) => request(`/files/${fileId}/reprocess`, { method: 'POST' }),
   deleteFile: (id) => request(`/files/${id}`, { method: 'DELETE' }),
 };

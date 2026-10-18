@@ -2,14 +2,25 @@
 
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, File, HTTPException, Request, Response, UploadFile
+from fastapi import (
+    APIRouter,
+    BackgroundTasks,
+    Depends,
+    File,
+    HTTPException,
+    Request,
+    Response,
+    UploadFile,
+)
 from fastapi.responses import FileResponse
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ..deps import get_db, owned_course, owned_file
-from ..models import Course, SourceFile, new_id
-from ..schemas import FileOut
+from ..models import Course, DocumentPage, SourceFile, new_id
+from ..schemas import DocumentPageDetail, DocumentPageOut, FileOut
+from ..services.ingest import run_ingest
+from ..services.retrieval import invalidate_course
 from ..storage import (
     UploadValidationError,
     delete_stored_file,
@@ -39,6 +50,7 @@ def list_files(
 @router.post("/courses/{course_id}/files", response_model=FileOut, status_code=201)
 async def upload_file(
     request: Request,
+    background_tasks: BackgroundTasks,
     course: Course = Depends(owned_course),
     file: UploadFile = File(...),
     db: Session = Depends(get_db),
@@ -80,6 +92,12 @@ async def upload_file(
         delete_stored_file(settings, storage_key)
         raise HTTPException(status_code=500, detail="保存文件记录失败") from exc
     db.refresh(source_file)
+    background_tasks.add_task(
+        run_ingest,
+        source_file.id,
+        request.app.state.session_factory,
+        settings,
+    )
     return source_file
 
 
@@ -98,6 +116,72 @@ def download_file(
     return FileResponse(path, media_type=source_file.mime_type, filename=source_file.name)
 
 
+@router.post("/files/{file_id}/reprocess", response_model=FileOut)
+def reprocess_file(
+    request: Request,
+    background_tasks: BackgroundTasks,
+    source_file: SourceFile = Depends(owned_file),
+    db: Session = Depends(get_db),
+) -> SourceFile:
+    if source_file.status in {"queued", "processing"}:
+        raise HTTPException(status_code=409, detail="文件正在解析中，请稍后再试")
+    source_file.status = "queued"
+    source_file.error_message = None
+    source_file.warning = None
+    source_file.processed_at = None
+    db.commit()
+    db.refresh(source_file)
+    background_tasks.add_task(
+        run_ingest,
+        source_file.id,
+        request.app.state.session_factory,
+        request.app.state.settings,
+    )
+    return source_file
+
+
+@router.get("/files/{file_id}/pages", response_model=list[DocumentPageOut])
+def list_pages(
+    source_file: SourceFile = Depends(owned_file), db: Session = Depends(get_db)
+) -> list[DocumentPageOut]:
+    pages = db.scalars(
+        select(DocumentPage)
+        .where(DocumentPage.file_id == source_file.id)
+        .order_by(DocumentPage.ord)
+    ).all()
+    return [
+        DocumentPageOut(
+            ord=page.ord,
+            page_no=page.page_no,
+            heading=page.heading,
+            char_count=len(page.text),
+        )
+        for page in pages
+    ]
+
+
+@router.get("/files/{file_id}/pages/{ord}", response_model=DocumentPageDetail)
+def get_page(
+    ord: int,
+    source_file: SourceFile = Depends(owned_file),
+    db: Session = Depends(get_db),
+) -> DocumentPageDetail:
+    page = db.scalar(
+        select(DocumentPage).where(
+            DocumentPage.file_id == source_file.id, DocumentPage.ord == ord
+        )
+    )
+    if page is None:
+        raise HTTPException(status_code=404, detail="页面不存在")
+    return DocumentPageDetail(
+        ord=page.ord,
+        page_no=page.page_no,
+        heading=page.heading,
+        char_count=len(page.text),
+        text=page.text,
+    )
+
+
 @router.delete("/files/{file_id}", status_code=204)
 def delete_file(
     request: Request,
@@ -105,11 +189,13 @@ def delete_file(
     db: Session = Depends(get_db),
 ) -> Response:
     settings = request.app.state.settings
-    course = db.get(Course, source_file.course_id)
+    course_id = source_file.course_id
+    course = db.get(Course, course_id)
     if course is not None:
         course.index_version += 1
     storage_key = source_file.storage_key
     db.delete(source_file)
     db.commit()
     delete_stored_file(settings, storage_key)
+    invalidate_course(course_id)
     return Response(status_code=204)

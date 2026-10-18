@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import logging
+from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
@@ -12,6 +14,9 @@ from . import __version__
 from .config import Settings, load_settings
 from .db import Base, create_engine_and_session, migrate_schema
 from .routers import auth, courses, files, health
+from .services.ingest import reconcile_pending
+
+logger = logging.getLogger(__name__)
 
 PLACEHOLDER_HTML = """<!doctype html>
 <html lang="zh-CN">
@@ -86,6 +91,14 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     Base.metadata.create_all(engine)
     migrate_schema(engine)
 
+    @asynccontextmanager
+    async def lifespan(_app: FastAPI):
+        try:
+            reconcile_pending(session_factory, settings)
+        except Exception:  # noqa: BLE001
+            logger.exception("启动时恢复未完成的解析任务失败")
+        yield
+
     app = FastAPI(
         title="CourseMate",
         description="课程资料学习助手 API",
@@ -93,6 +106,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         docs_url="/api/docs",
         redoc_url=None,
         openapi_url="/api/openapi.json",
+        lifespan=lifespan,
     )
     app.state.settings = settings
     app.state.engine = engine

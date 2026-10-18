@@ -159,3 +159,14 @@ class FileOut(BaseModel):
     chunk_count: int
     created_at: UTCDateTime
     processed_at: UTCDateTime | None
+
+
+class DocumentPageOut(BaseModel):
+    ord: int
+    page_no: int | None
+    heading: str
+    char_count: int
+
+
+class DocumentPageDetail(DocumentPageOut):
+    text: str
