@@ -1,0 +1,25 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.pytest-tmp/
+*.egg-info/
+
+# 运行数据（SQLite、上传文件、密钥）
+data/
+!data/.gitkeep
+
+# 前端
+web/node_modules/
+web/.pnpm-store/
+.pnpm-store/
+web/dist/
+!web/dist/.gitkeep
+
+# 环境与编辑器
+.env
+.DS_Store
+.idea/
+.vscode/
+*.log
