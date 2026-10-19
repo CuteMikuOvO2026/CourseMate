@@ -1455,7 +1455,7 @@ code {
   display: block;
   width: 100%;
   min-height: 74px;
-  resize: vertical;
+  resize: none;
   padding: 10px 12px;
   border: 1px solid var(--line-strong);
   border-radius: 10px;
