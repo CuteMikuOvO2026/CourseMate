@@ -1,0 +1,26 @@
+{
+  "reviewer": "developer",
+  "reviewed_at": "2026-10-19",
+  "items": [
+    {"id": "q01", "judgment": "supported", "note": "原文直接给出语法、语义、时序三要素。"},
+    {"id": "q02", "judgment": "supported", "note": "原文完整列出 OSI 七层。"},
+    {"id": "q04", "judgment": "supported", "note": "原文说明物理层的传输介质与比特流职责。"},
+    {"id": "q05", "judgment": "supported", "note": "原文给出 2W 波特与带宽定义。"},
+    {"id": "q07", "judgment": "supported", "note": "原文比较光纤与双绞线，给出带宽和抗干扰优势。"},
+    {"id": "q08", "judgment": "supported", "note": "原文列出成帧、差错控制和流量控制。"},
+    {"id": "q10", "judgment": "supported", "note": "原文说明监听、冲突停止和随机退避。"},
+    {"id": "q12", "judgment": "supported", "note": "同一句覆盖交换机隔离冲突域、路由器隔离广播域。"},
+    {"id": "q14", "judgment": "supported", "note": "原文明确 IPv4 地址为 32 位。"},
+    {"id": "q16", "judgment": "supported", "note": "原文给出路由表与最长前缀匹配。"},
+    {"id": "q17", "judgment": "supported", "note": "原文说明 NAT 的私有地址到公网地址转换。"},
+    {"id": "q18", "judgment": "supported", "note": "原文完整描述 SYN、SYN+ACK、ACK 三次握手。"},
+    {"id": "q19", "judgment": "supported", "note": "原文完整描述 FIN/ACK 四次挥手。"},
+    {"id": "q21", "judgment": "supported", "note": "原文列出慢开始、拥塞避免、快重传、快恢复。"},
+    {"id": "q22", "judgment": "supported", "note": "原文列出 UDP 首部四个字段。"},
+    {"id": "q23", "judgment": "supported", "note": "原文同时给出 HTTP 80 与 HTTPS 443。"},
+    {"id": "q25", "judgment": "supported", "note": "原文给出 DNS 解析作用与端口 53。"},
+    {"id": "q29", "judgment": "supported", "note": "原文直接给出截止日期与时间。"},
+    {"id": "q30", "judgment": "supported", "note": "原文直接给出迟交扣分规则。"},
+    {"id": "q31", "judgment": "supported", "note": "原文一句话覆盖 30%、20%、50% 三部分。"}
+  ]
+}

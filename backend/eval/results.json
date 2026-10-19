@@ -1,0 +1,2435 @@
+{
+  "generated_at": "2026-10-19T13:09:43.557661+00:00",
+  "provider": "offline",
+  "top_k": 5,
+  "course": "计算机网络（演示）",
+  "metrics": {
+    "total": 40,
+    "answerable": 32,
+    "unanswerable": 8,
+    "answered_answerable": 32,
+    "abstained_unanswerable": 8,
+    "recall_at_5": 1.0,
+    "citation_locator_rate": 1.0,
+    "answered_with_citations_rate": 1.0,
+    "refusal_rate_unanswerable": 1.0,
+    "keyword_support_rate": 1.0,
+    "p95_ms": 0.799,
+    "parse_success_rate": 1.0,
+    "ready_files": 7,
+    "total_files": 7,
+    "manual_support_rate": 1.0,
+    "manual_sample_size": 20
+  },
+  "items": [
+    {
+      "id": "q01",
+      "question": "协议的三要素是什么？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- 协议是通信双方必须遵守的规则，三要素是语法、语义和时序。 [1]",
+      "abstained": false,
+      "confidence": "high",
+      "mode": "offline",
+      "elapsed_ms": 5.758,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "c4c98c29c9b242bc9f452168bcba95bf",
+          "file_id": "4a5c4918fd644134b33b8df73700cba8",
+          "file_name": "第1讲-网络概述.pdf",
+          "heading": "未命名章节",
+          "locator": "第 1 页",
+          "snippet": "第1讲 计算机网络概述 计算机网络是把地理位置不同的计算机通过通信链路连接起来，实现资源共享和信息传递的 系统。 协议是通信双方必须遵守的规则，三要素是语法、语义和时序。 按覆盖范围，网络可分为局域网、城域网和广域网。 局域网通常覆盖一个房间或一栋楼；广域网可以覆盖城市、国家甚至全球。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第5讲 传输层",
+          "rrf": 0.032002
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.031498
+        },
+        {
+          "file": "作业与复习要求.txt",
+          "page_from": null,
+          "page_to": null,
+          "heading": "全文",
+          "rrf": 0.03101
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.016129
+        }
+      ],
+      "expected": {
+        "file": "第1讲-网络概述.pdf",
+        "page": 1,
+        "heading": null
+      }
+    },
+    {
+      "id": "q02",
+      "question": "OSI 参考模型分为哪七层？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- OSI 参考模型分为七层：物理层、数据链路层、网络层、传输层、会话层、表示层和应用层。 [1]",
+      "abstained": false,
+      "confidence": "high",
+      "mode": "offline",
+      "elapsed_ms": 0.681,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "75589ca85e864788ac228849b8a9c288",
+          "file_id": "4a5c4918fd644134b33b8df73700cba8",
+          "file_name": "第1讲-网络概述.pdf",
+          "heading": "未命名章节",
+          "locator": "第 2 页",
+          "snippet": "OSI 参考模型分为七层：物理层、数据链路层、网络层、传输层、会话层、表示层和应用层。 TCP/IP 模型通常分为四层：网络接口层、网际层、传输层和应用层。 分层的好处是各层相互独立，某一层的实现变化不会影响其他层。 数据封装是指数据在向下传递时逐层添加首部；解封装是接收端逐层去掉首部。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.031054
+        },
+        {
+          "file": "作业与复习要求.txt",
+          "page_from": null,
+          "page_to": null,
+          "heading": "全文",
+          "rrf": 0.030159
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.3 DHCP",
+          "rrf": 0.016129
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "流量控制与拥塞控制",
+          "rrf": 0.015873
+        }
+      ],
+      "expected": {
+        "file": "第1讲-网络概述.pdf",
+        "page": 2,
+        "heading": null
+      }
+    },
+    {
+      "id": "q03",
+      "question": "TCP/IP 模型通常分为哪四层？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- TCP/IP 模型通常分为四层：网络接口层、网际层、传输层和应用层。 [1]",
+      "abstained": false,
+      "confidence": "high",
+      "mode": "offline",
+      "elapsed_ms": 0.64,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "75589ca85e864788ac228849b8a9c288",
+          "file_id": "4a5c4918fd644134b33b8df73700cba8",
+          "file_name": "第1讲-网络概述.pdf",
+          "heading": "未命名章节",
+          "locator": "第 2 页",
+          "snippet": "OSI 参考模型分为七层：物理层、数据链路层、网络层、传输层、会话层、表示层和应用层。 TCP/IP 模型通常分为四层：网络接口层、网际层、传输层和应用层。 分层的好处是各层相互独立，某一层的实现变化不会影响其他层。 数据封装是指数据在向下传递时逐层添加首部；解封装是接收端逐层去掉首部。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.032258
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.030798
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "流量控制与拥塞控制",
+          "rrf": 0.030798
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.3 DHCP",
+          "rrf": 0.030536
+        }
+      ],
+      "expected": {
+        "file": "第1讲-网络概述.pdf",
+        "page": 2,
+        "heading": null
+      }
+    },
+    {
+      "id": "q04",
+      "question": "物理层的主要功能是什么？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- 第2讲 物理层 物理层负责在传输介质上传输原始比特流，主要解决机械、电气、功能和过程特性。 [1]",
+      "abstained": false,
+      "confidence": "medium",
+      "mode": "offline",
+      "elapsed_ms": 0.487,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "abef22ce1b66492b92223d5f4190f0aa",
+          "file_id": "a0ca13a563b949888a4cf26daaa5e5a5",
+          "file_name": "第2讲-物理层.pdf",
+          "heading": "未命名章节",
+          "locator": "第 1 页",
+          "snippet": "第2讲 物理层 物理层负责在传输介质上传输原始比特流，主要解决机械、电气、功能和过程特性。 奈奎斯特准则指出：无噪声理想低通信道的最高码元传输速率为 2W 波特，W 为信道带宽。 香农定理给出有噪声信道的极限数据率：C = W log2(1 + S/N)，S/N 为信噪比。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "数据链路层",
+          "rrf": 0.032258
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.031746
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "UDP",
+          "rrf": 0.015625
+        }
+      ],
+      "expected": {
+        "file": "第2讲-物理层.pdf",
+        "page": 1,
+        "heading": null
+      }
+    },
+    {
+      "id": "q05",
+      "question": "奈奎斯特准则的内容是什么？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- 奈奎斯特准则指出：无噪声理想低通信道的最高码元传输速率为 2W 波特，W 为信道带宽。 [1]",
+      "abstained": false,
+      "confidence": "medium",
+      "mode": "offline",
+      "elapsed_ms": 0.551,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "abef22ce1b66492b92223d5f4190f0aa",
+          "file_id": "a0ca13a563b949888a4cf26daaa5e5a5",
+          "file_name": "第2讲-物理层.pdf",
+          "heading": "未命名章节",
+          "locator": "第 1 页",
+          "snippet": "第2讲 物理层 物理层负责在传输介质上传输原始比特流，主要解决机械、电气、功能和过程特性。 奈奎斯特准则指出：无噪声理想低通信道的最高码元传输速率为 2W 波特，W 为信道带宽。 香农定理给出有噪声信道的极限数据率：C = W log2(1 + S/N)，S/N 为信噪比。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.4 Web 缓存与 CDN",
+          "rrf": 0.032258
+        },
+        {
+          "file": "作业与复习要求.txt",
+          "page_from": null,
+          "page_to": null,
+          "heading": "全文",
+          "rrf": 0.031746
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第5讲 传输层",
+          "rrf": 0.015625
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 3,
+          "page_to": 3,
+          "heading": "以太网与交换机",
+          "rrf": 0.015385
+        }
+      ],
+      "expected": {
+        "file": "第2讲-物理层.pdf",
+        "page": 1,
+        "heading": null
+      }
+    },
+    {
+      "id": "q06",
+      "question": "香农定理的公式是什么？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- 香农定理给出有噪声信道的极限数据率：C = W log2(1 + S/N)，S/N 为信噪比。 [1]",
+      "abstained": false,
+      "confidence": "medium",
+      "mode": "offline",
+      "elapsed_ms": 0.699,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "abef22ce1b66492b92223d5f4190f0aa",
+          "file_id": "a0ca13a563b949888a4cf26daaa5e5a5",
+          "file_name": "第2讲-物理层.pdf",
+          "heading": "未命名章节",
+          "locator": "第 1 页",
+          "snippet": "第2讲 物理层 物理层负责在传输介质上传输原始比特流，主要解决机械、电气、功能和过程特性。 奈奎斯特准则指出：无噪声理想低通信道的最高码元传输速率为 2W 波特，W 为信道带宽。 香农定理给出有噪声信道的极限数据率：C = W log2(1 + S/N)，S/N 为信噪比。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "TCP 连接管理",
+          "rrf": 0.016129
+        },
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.015873
+        },
+        {
+          "file": "作业与复习要求.txt",
+          "page_from": null,
+          "page_to": null,
+          "heading": "全文",
+          "rrf": 0.015625
+        }
+      ],
+      "expected": {
+        "file": "第2讲-物理层.pdf",
+        "page": 1,
+        "heading": null
+      }
+    },
+    {
+      "id": "q07",
+      "question": "光纤相比双绞线有什么优点？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- 光纤与双绞线相比，带宽高、抗电磁干扰强，适合长距离骨干网。 [1]",
+      "abstained": false,
+      "confidence": "medium",
+      "mode": "offline",
+      "elapsed_ms": 0.541,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "96203f37e7244dc783b3f42e1a067404",
+          "file_id": "a0ca13a563b949888a4cf26daaa5e5a5",
+          "file_name": "第2讲-物理层.pdf",
+          "heading": "未命名章节",
+          "locator": "第 2 页",
+          "snippet": "双绞线由两根绝缘铜线绞合而成，价格低、安装方便，常用于局域网。 光纤与双绞线相比，带宽高、抗电磁干扰强，适合长距离骨干网。 基带传输直接传送数字信号；宽带传输把数字信号调制到不同频段。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "流量控制与拥塞控制",
+          "rrf": 0.016129
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.015873
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "数据链路层",
+          "rrf": 0.015625
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "差错控制与 CSMA/CD",
+          "rrf": 0.015385
+        }
+      ],
+      "expected": {
+        "file": "第2讲-物理层.pdf",
+        "page": 2,
+        "heading": null
+      }
+    },
+    {
+      "id": "q08",
+      "question": "数据链路层的主要功能有哪些？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- 数据链路层负责相邻结点之间的可靠传输，主要功能包括成帧、差错控制和流量控制。 [1]",
+      "abstained": false,
+      "confidence": "high",
+      "mode": "offline",
+      "elapsed_ms": 0.689,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "413705552c2647f6bbd19f039d0850b6",
+          "file_id": "ea96aff307e34d499bcc2211ea607db6",
+          "file_name": "第3讲-数据链路层.pptx",
+          "heading": "数据链路层",
+          "locator": "第 1 张幻灯片",
+          "snippet": "数据链路层 数据链路层负责相邻结点之间的可靠传输，主要功能包括成帧、差错控制和流量控制。 帧是数据链路层的基本传输单位，帧头通常包含源 MAC 地址和目的 MAC 地址。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "数据链路层",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.032258
+        },
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.031746
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.030536
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "差错控制与 CSMA/CD",
+          "rrf": 0.030118
+        }
+      ],
+      "expected": {
+        "file": "第3讲-数据链路层.pptx",
+        "page": 1,
+        "heading": "数据链路层"
+      }
+    },
+    {
+      "id": "q09",
+      "question": "CRC 循环冗余校验的作用是什么？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- CRC 循环冗余校验通过在数据后附加冗余码来检测传输错误。 [1]",
+      "abstained": false,
+      "confidence": "high",
+      "mode": "offline",
+      "elapsed_ms": 0.446,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "626c841131834f2d8510e83b284674a7",
+          "file_id": "ea96aff307e34d499bcc2211ea607db6",
+          "file_name": "第3讲-数据链路层.pptx",
+          "heading": "差错控制与 CSMA/CD",
+          "locator": "第 2 张幻灯片",
+          "snippet": "差错控制与 CSMA/CD CRC 循环冗余校验通过在数据后附加冗余码来检测传输错误。 CSMA/CD 用于以太网：发送前先监听信道，冲突时停止发送并随机退避。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "差错控制与 CSMA/CD",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.4 Web 缓存与 CDN",
+          "rrf": 0.031754
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.2 DNS",
+          "rrf": 0.031258
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.030331
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "UDP",
+          "rrf": 0.03031
+        }
+      ],
+      "expected": {
+        "file": "第3讲-数据链路层.pptx",
+        "page": 2,
+        "heading": "差错控制与 CSMA/CD"
+      }
+    },
+    {
+      "id": "q10",
+      "question": "CSMA/CD 如何工作？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- CSMA/CD 用于以太网：发送前先监听信道，冲突时停止发送并随机退避。 [1]",
+      "abstained": false,
+      "confidence": "medium",
+      "mode": "offline",
+      "elapsed_ms": 0.267,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "626c841131834f2d8510e83b284674a7",
+          "file_id": "ea96aff307e34d499bcc2211ea607db6",
+          "file_name": "第3讲-数据链路层.pptx",
+          "heading": "差错控制与 CSMA/CD",
+          "locator": "第 2 张幻灯片",
+          "snippet": "差错控制与 CSMA/CD CRC 循环冗余校验通过在数据后附加冗余码来检测传输错误。 CSMA/CD 用于以太网：发送前先监听信道，冲突时停止发送并随机退避。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "差错控制与 CSMA/CD",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 3,
+          "page_to": 3,
+          "heading": "以太网与交换机",
+          "rrf": 0.016129
+        }
+      ],
+      "expected": {
+        "file": "第3讲-数据链路层.pptx",
+        "page": 2,
+        "heading": "差错控制与 CSMA/CD"
+      }
+    },
+    {
+      "id": "q11",
+      "question": "以太网帧的最小和最大长度是多少？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- 以太网帧的最小长度为 64 字节，最大长度为 1518 字节。 [1]",
+      "abstained": false,
+      "confidence": "high",
+      "mode": "offline",
+      "elapsed_ms": 0.498,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "d612bf2764204be4856ba8489bca8ff3",
+          "file_id": "ea96aff307e34d499bcc2211ea607db6",
+          "file_name": "第3讲-数据链路层.pptx",
+          "heading": "以太网与交换机",
+          "locator": "第 3 张幻灯片",
+          "snippet": "以太网与交换机 以太网帧的最小长度为 64 字节，最大长度为 1518 字节。 交换机根据 MAC 地址表转发帧，可以隔离冲突域，路由器可以隔离广播域。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 3,
+          "page_to": 3,
+          "heading": "以太网与交换机",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "差错控制与 CSMA/CD",
+          "rrf": 0.032258
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.031746
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "UDP",
+          "rrf": 0.030118
+        },
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.015625
+        }
+      ],
+      "expected": {
+        "file": "第3讲-数据链路层.pptx",
+        "page": 3,
+        "heading": "以太网与交换机"
+      }
+    },
+    {
+      "id": "q12",
+      "question": "交换机和路由器分别能隔离什么？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- 交换机根据 MAC 地址表转发帧，可以隔离冲突域，路由器可以隔离广播域。 [1]",
+      "abstained": false,
+      "confidence": "medium",
+      "mode": "offline",
+      "elapsed_ms": 0.538,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "d612bf2764204be4856ba8489bca8ff3",
+          "file_id": "ea96aff307e34d499bcc2211ea607db6",
+          "file_name": "第3讲-数据链路层.pptx",
+          "heading": "以太网与交换机",
+          "locator": "第 3 张幻灯片",
+          "snippet": "以太网与交换机 以太网帧的最小长度为 64 字节，最大长度为 1518 字节。 交换机根据 MAC 地址表转发帧，可以隔离冲突域，路由器可以隔离广播域。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 3,
+          "page_to": 3,
+          "heading": "以太网与交换机",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.032002
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.032002
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第5讲 传输层",
+          "rrf": 0.015625
+        },
+        {
+          "file": "作业与复习要求.txt",
+          "page_from": null,
+          "page_to": null,
+          "heading": "全文",
+          "rrf": 0.015385
+        }
+      ],
+      "expected": {
+        "file": "第3讲-数据链路层.pptx",
+        "page": 3,
+        "heading": "以太网与交换机"
+      }
+    },
+    {
+      "id": "q13",
+      "question": "网络层提供什么样的服务？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- 第4讲 网络层 网络层负责分组转发和路由选择，IP 协议提供无连接、尽最大努力交付的服务。 [1]",
+      "abstained": false,
+      "confidence": "high",
+      "mode": "offline",
+      "elapsed_ms": 0.576,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "a4d67419391c472ca129ad23ac2c63d4",
+          "file_id": "e5500bbf00934bc08eee60f76dcb8d09",
+          "file_name": "第4讲-网络层.pdf",
+          "heading": "未命名章节",
+          "locator": "第 1 页",
+          "snippet": "第4讲 网络层 网络层负责分组转发和路由选择，IP 协议提供无连接、尽最大努力交付的服务。 IPv4 地址长度为 32 位，通常用点分十进制表示，例如 192.168.1.1。 子网掩码用于区分网络号和主机号，/24 表示前 24 位是网络号。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第5讲 传输层",
+          "rrf": 0.032002
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.031258
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "TCP 连接管理",
+          "rrf": 0.03055
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.030331
+        }
+      ],
+      "expected": {
+        "file": "第4讲-网络层.pdf",
+        "page": 1,
+        "heading": null
+      }
+    },
+    {
+      "id": "q14",
+      "question": "IPv4 地址长度是多少位？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- IPv4 地址长度为 32 位，通常用点分十进制表示，例如 192.168.1.1。 [1]",
+      "abstained": false,
+      "confidence": "medium",
+      "mode": "offline",
+      "elapsed_ms": 0.556,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "a4d67419391c472ca129ad23ac2c63d4",
+          "file_id": "e5500bbf00934bc08eee60f76dcb8d09",
+          "file_name": "第4讲-网络层.pdf",
+          "heading": "未命名章节",
+          "locator": "第 1 页",
+          "snippet": "第4讲 网络层 网络层负责分组转发和路由选择，IP 协议提供无连接、尽最大努力交付的服务。 IPv4 地址长度为 32 位，通常用点分十进制表示，例如 192.168.1.1。 子网掩码用于区分网络号和主机号，/24 表示前 24 位是网络号。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.032522
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.032002
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 3,
+          "page_to": 3,
+          "heading": "以太网与交换机",
+          "rrf": 0.031498
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.2 DNS",
+          "rrf": 0.031319
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "UDP",
+          "rrf": 0.03055
+        }
+      ],
+      "expected": {
+        "file": "第4讲-网络层.pdf",
+        "page": 1,
+        "heading": null
+      }
+    },
+    {
+      "id": "q15",
+      "question": "子网掩码 /24 表示什么？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- 子网掩码用于区分网络号和主机号，/24 表示前 24 位是网络号。 [1]",
+      "abstained": false,
+      "confidence": "high",
+      "mode": "offline",
+      "elapsed_ms": 0.516,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "a4d67419391c472ca129ad23ac2c63d4",
+          "file_id": "e5500bbf00934bc08eee60f76dcb8d09",
+          "file_name": "第4讲-网络层.pdf",
+          "heading": "未命名章节",
+          "locator": "第 1 页",
+          "snippet": "第4讲 网络层 网络层负责分组转发和路由选择，IP 协议提供无连接、尽最大努力交付的服务。 IPv4 地址长度为 32 位，通常用点分十进制表示，例如 192.168.1.1。 子网掩码用于区分网络号和主机号，/24 表示前 24 位是网络号。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.3 DHCP",
+          "rrf": 0.032258
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.1 HTTP 与 HTTPS",
+          "rrf": 0.031258
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.030118
+        },
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.015873
+        }
+      ],
+      "expected": {
+        "file": "第4讲-网络层.pdf",
+        "page": 1,
+        "heading": null
+      }
+    },
+    {
+      "id": "q16",
+      "question": "路由器如何选择下一跳？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- 路由器根据目的 IP 地址查找路由表，采用最长前缀匹配原则选择下一跳。 [1]",
+      "abstained": false,
+      "confidence": "high",
+      "mode": "offline",
+      "elapsed_ms": 0.589,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "8d529b69cd1c4631afd91c4c6da15e2c",
+          "file_id": "e5500bbf00934bc08eee60f76dcb8d09",
+          "file_name": "第4讲-网络层.pdf",
+          "heading": "未命名章节",
+          "locator": "第 2 页",
+          "snippet": "路由器根据目的 IP 地址查找路由表，采用最长前缀匹配原则选择下一跳。 NAT 的作用是把私有地址转换为公网地址，缓解 IPv4 地址短缺。 ICMP 用于传递差错报告和网络诊断信息，ping 命令使用 ICMP 回显请求和应答。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 3,
+          "page_to": 3,
+          "heading": "以太网与交换机",
+          "rrf": 0.031754
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.031258
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "数据链路层",
+          "rrf": 0.016129
+        },
+        {
+          "file": "作业与复习要求.txt",
+          "page_from": null,
+          "page_to": null,
+          "heading": "全文",
+          "rrf": 0.015873
+        }
+      ],
+      "expected": {
+        "file": "第4讲-网络层.pdf",
+        "page": 2,
+        "heading": null
+      }
+    },
+    {
+      "id": "q17",
+      "question": "NAT 的作用是什么？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- NAT 的作用是把私有地址转换为公网地址，缓解 IPv4 地址短缺。 [1]",
+      "abstained": false,
+      "confidence": "high",
+      "mode": "offline",
+      "elapsed_ms": 0.459,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "8d529b69cd1c4631afd91c4c6da15e2c",
+          "file_id": "e5500bbf00934bc08eee60f76dcb8d09",
+          "file_name": "第4讲-网络层.pdf",
+          "heading": "未命名章节",
+          "locator": "第 2 页",
+          "snippet": "路由器根据目的 IP 地址查找路由表，采用最长前缀匹配原则选择下一跳。 NAT 的作用是把私有地址转换为公网地址，缓解 IPv4 地址短缺。 ICMP 用于传递差错报告和网络诊断信息，ping 命令使用 ICMP 回显请求和应答。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.032266
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.2 DNS",
+          "rrf": 0.032266
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.4 Web 缓存与 CDN",
+          "rrf": 0.031754
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.016129
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.015385
+        }
+      ],
+      "expected": {
+        "file": "第4讲-网络层.pdf",
+        "page": 2,
+        "heading": null
+      }
+    },
+    {
+      "id": "q18",
+      "question": "TCP 三次握手的过程是什么？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- TCP 通过三次握手建立连接：客户端发送 SYN，服务器回复 SYN+ACK，客户端再发送 ACK。 [1]",
+      "abstained": false,
+      "confidence": "medium",
+      "mode": "offline",
+      "elapsed_ms": 0.527,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "f1160f79d4e845a88ef68024a0ed5470",
+          "file_id": "1f6792775ed54a3fa9e8444eca502eef",
+          "file_name": "第5讲-传输层.docx",
+          "heading": "TCP 连接管理",
+          "locator": "章节定位",
+          "snippet": "TCP 通过三次握手建立连接：客户端发送 SYN，服务器回复 SYN+ACK，客户端再发送 ACK。四次挥手用于释放连接：主动关闭方发送 FIN，对方回复 ACK，随后发送 FIN，主动方回复 ACK。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "TCP 连接管理",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.032002
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第5讲 传输层",
+          "rrf": 0.031025
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "流量控制与拥塞控制",
+          "rrf": 0.030331
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.029877
+        }
+      ],
+      "expected": {
+        "file": "第5讲-传输层.docx",
+        "page": null,
+        "heading": "TCP 连接管理"
+      }
+    },
+    {
+      "id": "q19",
+      "question": "TCP 四次挥手的过程是什么？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- 四次挥手用于释放连接：主动关闭方发送 FIN，对方回复 ACK，随后发送 FIN，主动方回复 ACK。 [1]",
+      "abstained": false,
+      "confidence": "medium",
+      "mode": "offline",
+      "elapsed_ms": 0.455,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "f1160f79d4e845a88ef68024a0ed5470",
+          "file_id": "1f6792775ed54a3fa9e8444eca502eef",
+          "file_name": "第5讲-传输层.docx",
+          "heading": "TCP 连接管理",
+          "locator": "章节定位",
+          "snippet": "TCP 通过三次握手建立连接：客户端发送 SYN，服务器回复 SYN+ACK，客户端再发送 ACK。四次挥手用于释放连接：主动关闭方发送 FIN，对方回复 ACK，随后发送 FIN，主动方回复 ACK。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "TCP 连接管理",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.032258
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "流量控制与拥塞控制",
+          "rrf": 0.031498
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.03031
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第5讲 传输层",
+          "rrf": 0.030159
+        }
+      ],
+      "expected": {
+        "file": "第5讲-传输层.docx",
+        "page": null,
+        "heading": "TCP 连接管理"
+      }
+    },
+    {
+      "id": "q20",
+      "question": "TCP 滑动窗口如何实现流量控制？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- TCP 使用滑动窗口进行流量控制，接收方通过窗口字段告诉发送方可接收的字节数。 [1]",
+      "abstained": false,
+      "confidence": "medium",
+      "mode": "offline",
+      "elapsed_ms": 0.435,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "9306259c1c904df48c2f473204c2e932",
+          "file_id": "1f6792775ed54a3fa9e8444eca502eef",
+          "file_name": "第5讲-传输层.docx",
+          "heading": "流量控制与拥塞控制",
+          "locator": "章节定位",
+          "snippet": "TCP 使用滑动窗口进行流量控制，接收方通过窗口字段告诉发送方可接收的字节数。拥塞控制包括慢开始、拥塞避免、快重传和快恢复四个阶段。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "流量控制与拥塞控制",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "数据链路层",
+          "rrf": 0.032258
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "差错控制与 CSMA/CD",
+          "rrf": 0.03055
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.029958
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "TCP 连接管理",
+          "rrf": 0.028898
+        }
+      ],
+      "expected": {
+        "file": "第5讲-传输层.docx",
+        "page": null,
+        "heading": "流量控制与拥塞控制"
+      }
+    },
+    {
+      "id": "q21",
+      "question": "TCP 拥塞控制包括哪些阶段？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- 拥塞控制包括慢开始、拥塞避免、快重传和快恢复四个阶段。 [1]",
+      "abstained": false,
+      "confidence": "high",
+      "mode": "offline",
+      "elapsed_ms": 0.444,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "9306259c1c904df48c2f473204c2e932",
+          "file_id": "1f6792775ed54a3fa9e8444eca502eef",
+          "file_name": "第5讲-传输层.docx",
+          "heading": "流量控制与拥塞控制",
+          "locator": "章节定位",
+          "snippet": "TCP 使用滑动窗口进行流量控制，接收方通过窗口字段告诉发送方可接收的字节数。拥塞控制包括慢开始、拥塞避免、快重传和快恢复四个阶段。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "流量控制与拥塞控制",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "数据链路层",
+          "rrf": 0.032258
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "差错控制与 CSMA/CD",
+          "rrf": 0.030579
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.03055
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "TCP 连接管理",
+          "rrf": 0.030118
+        }
+      ],
+      "expected": {
+        "file": "第5讲-传输层.docx",
+        "page": null,
+        "heading": "流量控制与拥塞控制"
+      }
+    },
+    {
+      "id": "q22",
+      "question": "UDP 首部有哪些字段？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- UDP 首部只有 8 字节，包含源端口、目的端口、长度和校验和。 [1]",
+      "abstained": false,
+      "confidence": "medium",
+      "mode": "offline",
+      "elapsed_ms": 0.372,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "d46fb8ce08d2454cabdbdcd8ba477e8a",
+          "file_id": "1f6792775ed54a3fa9e8444eca502eef",
+          "file_name": "第5讲-传输层.docx",
+          "heading": "UDP",
+          "locator": "章节定位",
+          "snippet": "UDP 首部只有 8 字节，包含源端口、目的端口、长度和校验和。UDP 不保证可靠交付，但开销小、时延低，适合实时音视频和 DNS 查询。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "UDP",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "流量控制与拥塞控制",
+          "rrf": 0.032258
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.031746
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.3 DHCP",
+          "rrf": 0.03125
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第5讲 传输层",
+          "rrf": 0.030536
+        }
+      ],
+      "expected": {
+        "file": "第5讲-传输层.docx",
+        "page": null,
+        "heading": "UDP"
+      }
+    },
+    {
+      "id": "q23",
+      "question": "HTTP 和 HTTPS 的默认端口分别是多少？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- HTTP 的默认端口是 80，HTTPS 的默认端口是 443，HTTPS 使用 TLS 加密。 [1]",
+      "abstained": false,
+      "confidence": "medium",
+      "mode": "offline",
+      "elapsed_ms": 0.393,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "3307ebe020b34c6f97beceb6ff29ff54",
+          "file_id": "e15500adcfe24ddeadf3414711a8479e",
+          "file_name": "第6讲-应用层.md",
+          "heading": "第6讲 应用层 > 6.1 HTTP 与 HTTPS",
+          "locator": "章节定位",
+          "snippet": "HTTP 的默认端口是 80，HTTPS 的默认端口是 443，HTTPS 使用 TLS 加密。 HTTP 请求方法包括 GET、POST、PUT、DELETE；状态码 200 表示成功，404 表示资源不存在。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.1 HTTP 与 HTTPS",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.2 DNS",
+          "rrf": 0.032258
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.3 DHCP",
+          "rrf": 0.031746
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "UDP",
+          "rrf": 0.030331
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "TCP 连接管理",
+          "rrf": 0.015625
+        }
+      ],
+      "expected": {
+        "file": "第6讲-应用层.md",
+        "page": null,
+        "heading": "6.1 HTTP 与 HTTPS"
+      }
+    },
+    {
+      "id": "q24",
+      "question": "HTTP 状态码 404 表示什么？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- 状态码 200 表示成功，404 表示资源不存在。 [1]",
+      "abstained": false,
+      "confidence": "high",
+      "mode": "offline",
+      "elapsed_ms": 0.799,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "3307ebe020b34c6f97beceb6ff29ff54",
+          "file_id": "e15500adcfe24ddeadf3414711a8479e",
+          "file_name": "第6讲-应用层.md",
+          "heading": "第6讲 应用层 > 6.1 HTTP 与 HTTPS",
+          "locator": "章节定位",
+          "snippet": "HTTP 的默认端口是 80，HTTPS 的默认端口是 443，HTTPS 使用 TLS 加密。 HTTP 请求方法包括 GET、POST、PUT、DELETE；状态码 200 表示成功，404 表示资源不存在。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.1 HTTP 与 HTTPS",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.031281
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.030798
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "TCP 连接管理",
+          "rrf": 0.016129
+        },
+        {
+          "file": "作业与复习要求.txt",
+          "page_from": null,
+          "page_to": null,
+          "heading": "全文",
+          "rrf": 0.015873
+        }
+      ],
+      "expected": {
+        "file": "第6讲-应用层.md",
+        "page": null,
+        "heading": "6.1 HTTP 与 HTTPS"
+      }
+    },
+    {
+      "id": "q25",
+      "question": "DNS 的作用和默认端口是什么？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- DNS 的作用是把域名解析为 IP 地址，默认端口是 53。 [1]",
+      "abstained": false,
+      "confidence": "high",
+      "mode": "offline",
+      "elapsed_ms": 0.446,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "4ceb2473a96147cda1f79e09e37192ad",
+          "file_id": "e15500adcfe24ddeadf3414711a8479e",
+          "file_name": "第6讲-应用层.md",
+          "heading": "第6讲 应用层 > 6.2 DNS",
+          "locator": "章节定位",
+          "snippet": "DNS 的作用是把域名解析为 IP 地址，默认端口是 53。 DNS 查询可以采用递归查询或迭代查询，本地域名服务器会缓存解析结果。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.2 DNS",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.1 HTTP 与 HTTPS",
+          "rrf": 0.032258
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.3 DHCP",
+          "rrf": 0.031746
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "UDP",
+          "rrf": 0.03125
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.4 Web 缓存与 CDN",
+          "rrf": 0.030769
+        }
+      ],
+      "expected": {
+        "file": "第6讲-应用层.md",
+        "page": null,
+        "heading": "6.2 DNS"
+      }
+    },
+    {
+      "id": "q26",
+      "question": "DHCP 能自动分配哪些信息？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- DHCP 用于自动分配 IP 地址、子网掩码、默认网关和 DNS 服务器，使用 UDP 端口 67 和 68。 [1]",
+      "abstained": false,
+      "confidence": "medium",
+      "mode": "offline",
+      "elapsed_ms": 0.488,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "b27eebdd0f644442a97b3cd047cd1cb9",
+          "file_id": "e15500adcfe24ddeadf3414711a8479e",
+          "file_name": "第6讲-应用层.md",
+          "heading": "第6讲 应用层 > 6.3 DHCP",
+          "locator": "章节定位",
+          "snippet": "DHCP 用于自动分配 IP 地址、子网掩码、默认网关和 DNS 服务器，使用 UDP 端口 67 和 68。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.3 DHCP",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.031754
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.031025
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.4 Web 缓存与 CDN",
+          "rrf": 0.016129
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.015873
+        }
+      ],
+      "expected": {
+        "file": "第6讲-应用层.md",
+        "page": null,
+        "heading": "6.3 DHCP"
+      }
+    },
+    {
+      "id": "q27",
+      "question": "CDN 的作用是什么？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- CDN 的作用是把内容分发到离用户更近的边缘节点，降低访问时延。 [1]",
+      "abstained": false,
+      "confidence": "high",
+      "mode": "offline",
+      "elapsed_ms": 0.315,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "5548e1273ee648b0a938cc698365a171",
+          "file_id": "e15500adcfe24ddeadf3414711a8479e",
+          "file_name": "第6讲-应用层.md",
+          "heading": "第6讲 应用层 > 6.4 Web 缓存与 CDN",
+          "locator": "章节定位",
+          "snippet": "Web 缓存可以减少重复请求；CDN 的作用是把内容分发到离用户更近的边缘节点，降低访问时延。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.4 Web 缓存与 CDN",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.2 DNS",
+          "rrf": 0.032258
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.031746
+        }
+      ],
+      "expected": {
+        "file": "第6讲-应用层.md",
+        "page": null,
+        "heading": "6.4 Web 缓存与 CDN"
+      }
+    },
+    {
+      "id": "q28",
+      "question": "实验报告应包含哪五个部分？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- 实验报告应包含实验目的、实验环境、实验步骤、实验结果和总结五个部分。 [1]",
+      "abstained": false,
+      "confidence": "high",
+      "mode": "offline",
+      "elapsed_ms": 0.571,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "50d5d1e5125641a4ae3d1408f3fde411",
+          "file_id": "3d22c75986cf4be98939eea8eddb89c7",
+          "file_name": "作业与复习要求.txt",
+          "heading": "全文",
+          "locator": "章节定位",
+          "snippet": "计算机网络课程作业与复习要求 一、实验报告 实验报告应包含实验目的、实验环境、实验步骤、实验结果和总结五个部分。 报告正文不超过 10 页，图表要编号并注明来源。 二、提交方式 实验报告的截止时间是 2026 年 11 月 8 日 23:59，请提交到课程平台，文件命名为“学号-姓名-实验二.pdf”。 实验报告迟交一天扣 10 分，迟交超过三天按零分计。 三、评分标准 课程总成绩由实验报告 30%、课堂参与和平时作业 20%、期末考试 50% 组成。 实验报告内部：内容完整性 40 分、结果分析 40 分、格式规范 20 分。 四、复习建议 复习时应重点掌握分层模型、连接管理、地址划分和应用层协议。 建议先做历年题，再对照错题回看讲义对应页码。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "作业与复习要求.txt",
+          "page_from": null,
+          "page_to": null,
+          "heading": "全文",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "数据链路层",
+          "rrf": 0.031754
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.031746
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "UDP",
+          "rrf": 0.030835
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.015625
+        }
+      ],
+      "expected": {
+        "file": "作业与复习要求.txt",
+        "page": null,
+        "heading": "全文"
+      }
+    },
+    {
+      "id": "q29",
+      "question": "实验报告的截止时间是什么？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- 实验报告的截止时间是 2026 年 11 月 8 日 23:59，请提交到课程平台，文件命名为“学号-姓名-实验二.pdf”。 [1]",
+      "abstained": false,
+      "confidence": "high",
+      "mode": "offline",
+      "elapsed_ms": 0.487,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "50d5d1e5125641a4ae3d1408f3fde411",
+          "file_id": "3d22c75986cf4be98939eea8eddb89c7",
+          "file_name": "作业与复习要求.txt",
+          "heading": "全文",
+          "locator": "章节定位",
+          "snippet": "计算机网络课程作业与复习要求 一、实验报告 实验报告应包含实验目的、实验环境、实验步骤、实验结果和总结五个部分。 报告正文不超过 10 页，图表要编号并注明来源。 二、提交方式 实验报告的截止时间是 2026 年 11 月 8 日 23:59，请提交到课程平台，文件命名为“学号-姓名-实验二.pdf”。 实验报告迟交一天扣 10 分，迟交超过三天按零分计。 三、评分标准 课程总成绩由实验报告 30%、课堂参与和平时作业 20%、期末考试 50% 组成。 实验报告内部：内容完整性 40 分、结果分析 40 分、格式规范 20 分。 四、复习建议 复习时应重点掌握分层模型、连接管理、地址划分和应用层协议。 建议先做历年题，再对照错题回看讲义对应页码。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "作业与复习要求.txt",
+          "page_from": null,
+          "page_to": null,
+          "heading": "全文",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.031754
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.2 DNS",
+          "rrf": 0.016129
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "UDP",
+          "rrf": 0.015873
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 3,
+          "page_to": 3,
+          "heading": "以太网与交换机",
+          "rrf": 0.015385
+        }
+      ],
+      "expected": {
+        "file": "作业与复习要求.txt",
+        "page": null,
+        "heading": "全文"
+      }
+    },
+    {
+      "id": "q30",
+      "question": "迟交实验报告如何扣分？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- 实验报告迟交一天扣 10 分，迟交超过三天按零分计。 [1]",
+      "abstained": false,
+      "confidence": "medium",
+      "mode": "offline",
+      "elapsed_ms": 0.43,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "50d5d1e5125641a4ae3d1408f3fde411",
+          "file_id": "3d22c75986cf4be98939eea8eddb89c7",
+          "file_name": "作业与复习要求.txt",
+          "heading": "全文",
+          "locator": "章节定位",
+          "snippet": "计算机网络课程作业与复习要求 一、实验报告 实验报告应包含实验目的、实验环境、实验步骤、实验结果和总结五个部分。 报告正文不超过 10 页，图表要编号并注明来源。 二、提交方式 实验报告的截止时间是 2026 年 11 月 8 日 23:59，请提交到课程平台，文件命名为“学号-姓名-实验二.pdf”。 实验报告迟交一天扣 10 分，迟交超过三天按零分计。 三、评分标准 课程总成绩由实验报告 30%、课堂参与和平时作业 20%、期末考试 50% 组成。 实验报告内部：内容完整性 40 分、结果分析 40 分、格式规范 20 分。 四、复习建议 复习时应重点掌握分层模型、连接管理、地址划分和应用层协议。 建议先做历年题，再对照错题回看讲义对应页码。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "作业与复习要求.txt",
+          "page_from": null,
+          "page_to": null,
+          "heading": "全文",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.032002
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "数据链路层",
+          "rrf": 0.016129
+        }
+      ],
+      "expected": {
+        "file": "作业与复习要求.txt",
+        "page": null,
+        "heading": "全文"
+      }
+    },
+    {
+      "id": "q31",
+      "question": "课程总成绩由哪些部分组成？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- 课程总成绩由实验报告 30%、课堂参与和平时作业 20%、期末考试 50% 组成。 [1]",
+      "abstained": false,
+      "confidence": "medium",
+      "mode": "offline",
+      "elapsed_ms": 0.483,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "50d5d1e5125641a4ae3d1408f3fde411",
+          "file_id": "3d22c75986cf4be98939eea8eddb89c7",
+          "file_name": "作业与复习要求.txt",
+          "heading": "全文",
+          "locator": "章节定位",
+          "snippet": "计算机网络课程作业与复习要求 一、实验报告 实验报告应包含实验目的、实验环境、实验步骤、实验结果和总结五个部分。 报告正文不超过 10 页，图表要编号并注明来源。 二、提交方式 实验报告的截止时间是 2026 年 11 月 8 日 23:59，请提交到课程平台，文件命名为“学号-姓名-实验二.pdf”。 实验报告迟交一天扣 10 分，迟交超过三天按零分计。 三、评分标准 课程总成绩由实验报告 30%、课堂参与和平时作业 20%、期末考试 50% 组成。 实验报告内部：内容完整性 40 分、结果分析 40 分、格式规范 20 分。 四、复习建议 复习时应重点掌握分层模型、连接管理、地址划分和应用层协议。 建议先做历年题，再对照错题回看讲义对应页码。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "作业与复习要求.txt",
+          "page_from": null,
+          "page_to": null,
+          "heading": "全文",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.031754
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.2 DNS",
+          "rrf": 0.016129
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "流量控制与拥塞控制",
+          "rrf": 0.015873
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.3 DHCP",
+          "rrf": 0.015385
+        }
+      ],
+      "expected": {
+        "file": "作业与复习要求.txt",
+        "page": null,
+        "heading": "全文"
+      }
+    },
+    {
+      "id": "q32",
+      "question": "复习时应重点掌握哪些内容？",
+      "answerable": true,
+      "answer": "根据课程资料：\n\n- 复习时应重点掌握分层模型、连接管理、地址划分和应用层协议。 [1]",
+      "abstained": false,
+      "confidence": "high",
+      "mode": "offline",
+      "elapsed_ms": 0.475,
+      "recall_hit": true,
+      "keyword_hit": true,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "50d5d1e5125641a4ae3d1408f3fde411",
+          "file_id": "3d22c75986cf4be98939eea8eddb89c7",
+          "file_name": "作业与复习要求.txt",
+          "heading": "全文",
+          "locator": "章节定位",
+          "snippet": "计算机网络课程作业与复习要求 一、实验报告 实验报告应包含实验目的、实验环境、实验步骤、实验结果和总结五个部分。 报告正文不超过 10 页，图表要编号并注明来源。 二、提交方式 实验报告的截止时间是 2026 年 11 月 8 日 23:59，请提交到课程平台，文件命名为“学号-姓名-实验二.pdf”。 实验报告迟交一天扣 10 分，迟交超过三天按零分计。 三、评分标准 课程总成绩由实验报告 30%、课堂参与和平时作业 20%、期末考试 50% 组成。 实验报告内部：内容完整性 40 分、结果分析 40 分、格式规范 20 分。 四、复习建议 复习时应重点掌握分层模型、连接管理、地址划分和应用层协议。 建议先做历年题，再对照错题回看讲义对应页码。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "作业与复习要求.txt",
+          "page_from": null,
+          "page_to": null,
+          "heading": "全文",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.4 Web 缓存与 CDN",
+          "rrf": 0.031281
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "TCP 连接管理",
+          "rrf": 0.016129
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.3 DHCP",
+          "rrf": 0.015873
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "数据链路层",
+          "rrf": 0.015625
+        }
+      ],
+      "expected": {
+        "file": "作业与复习要求.txt",
+        "page": null,
+        "heading": "全文"
+      }
+    },
+    {
+      "id": "q33",
+      "question": "老师上课会不会点名？",
+      "answerable": false,
+      "answer": "课程资料中没有找到足以支持这个问题的内容，因此暂不能回答。",
+      "abstained": true,
+      "confidence": "abstained",
+      "mode": "offline",
+      "elapsed_ms": 0.571,
+      "recall_hit": false,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 0,
+      "citation_valid_count": 0,
+      "citations": [],
+      "hits": [
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.032522
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.016393
+        },
+        {
+          "file": "作业与复习要求.txt",
+          "page_from": null,
+          "page_to": null,
+          "heading": "全文",
+          "rrf": 0.015873
+        }
+      ],
+      "expected": {
+        "file": null,
+        "page": null,
+        "heading": null
+      }
+    },
+    {
+      "id": "q34",
+      "question": "量子计算机的退相干时间是多少？",
+      "answerable": false,
+      "answer": "课程资料中没有找到足以支持这个问题的内容，因此暂不能回答。",
+      "abstained": true,
+      "confidence": "abstained",
+      "mode": "offline",
+      "elapsed_ms": 0.882,
+      "recall_hit": false,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 0,
+      "citation_valid_count": 0,
+      "citations": [],
+      "hits": [
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.032266
+        },
+        {
+          "file": "作业与复习要求.txt",
+          "page_from": null,
+          "page_to": null,
+          "heading": "全文",
+          "rrf": 0.032258
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.2 DNS",
+          "rrf": 0.016393
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 3,
+          "page_to": 3,
+          "heading": "以太网与交换机",
+          "rrf": 0.015625
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.015385
+        }
+      ],
+      "expected": {
+        "file": null,
+        "page": null,
+        "heading": null
+      }
+    },
+    {
+      "id": "q35",
+      "question": "波音 747 的巡航速度是多少？",
+      "answerable": false,
+      "answer": "课程资料中没有找到足以支持这个问题的内容，因此暂不能回答。",
+      "abstained": true,
+      "confidence": "abstained",
+      "mode": "offline",
+      "elapsed_ms": 0.058,
+      "recall_hit": false,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 0,
+      "citation_valid_count": 0,
+      "citations": [],
+      "hits": [],
+      "expected": {
+        "file": null,
+        "page": null,
+        "heading": null
+      }
+    },
+    {
+      "id": "q36",
+      "question": "Python 的装饰器怎么写？",
+      "answerable": false,
+      "answer": "课程资料中没有找到足以支持这个问题的内容，因此暂不能回答。",
+      "abstained": true,
+      "confidence": "abstained",
+      "mode": "offline",
+      "elapsed_ms": 0.034,
+      "recall_hit": false,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 0,
+      "citation_valid_count": 0,
+      "citations": [],
+      "hits": [],
+      "expected": {
+        "file": null,
+        "page": null,
+        "heading": null
+      }
+    },
+    {
+      "id": "q37",
+      "question": "学校食堂几点开门？",
+      "answerable": false,
+      "answer": "课程资料中没有找到足以支持这个问题的内容，因此暂不能回答。",
+      "abstained": true,
+      "confidence": "abstained",
+      "mode": "offline",
+      "elapsed_ms": 0.029,
+      "recall_hit": false,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 0,
+      "citation_valid_count": 0,
+      "citations": [],
+      "hits": [],
+      "expected": {
+        "file": null,
+        "page": null,
+        "heading": null
+      }
+    },
+    {
+      "id": "q38",
+      "question": "莎士比亚的《哈姆雷特》写于哪一年？",
+      "answerable": false,
+      "answer": "课程资料中没有找到足以支持这个问题的内容，因此暂不能回答。",
+      "abstained": true,
+      "confidence": "abstained",
+      "mode": "offline",
+      "elapsed_ms": 0.035,
+      "recall_hit": false,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 0,
+      "citation_valid_count": 0,
+      "citations": [],
+      "hits": [],
+      "expected": {
+        "file": null,
+        "page": null,
+        "heading": null
+      }
+    },
+    {
+      "id": "q39",
+      "question": "光合作用的暗反应发生在哪里？",
+      "answerable": false,
+      "answer": "课程资料中没有找到足以支持这个问题的内容，因此暂不能回答。",
+      "abstained": true,
+      "confidence": "abstained",
+      "mode": "offline",
+      "elapsed_ms": 0.325,
+      "recall_hit": false,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 0,
+      "citation_valid_count": 0,
+      "citations": [],
+      "hits": [
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.4 Web 缓存与 CDN",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.2 DNS",
+          "rrf": 0.032258
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.031746
+        }
+      ],
+      "expected": {
+        "file": null,
+        "page": null,
+        "heading": null
+      }
+    },
+    {
+      "id": "q40",
+      "question": "珠穆朗玛峰的高度是多少米？",
+      "answerable": false,
+      "answer": "课程资料中没有找到足以支持这个问题的内容，因此暂不能回答。",
+      "abstained": true,
+      "confidence": "abstained",
+      "mode": "offline",
+      "elapsed_ms": 0.057,
+      "recall_hit": false,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 0,
+      "citation_valid_count": 0,
+      "citations": [],
+      "hits": [],
+      "expected": {
+        "file": null,
+        "page": null,
+        "heading": null
+      }
+    }
+  ]
+}

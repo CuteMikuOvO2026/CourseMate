@@ -20,6 +20,9 @@ from .retrieval import SearchHit
 logger = logging.getLogger(__name__)
 
 REFUSAL = "课程资料中没有找到足以支持这个问题的内容，因此暂不能回答。"
+# 离线模式的相关性门槛：问题词元被命中句子覆盖的比例过低时拒答，
+# 避免“资料里恰好出现一个相同词”就被当作答案。
+MIN_COVERAGE = 0.2
 _SENTENCE_SPLIT = re.compile(r"(?<=[。！？!?；;])\s*|\n+")
 
 
@@ -42,14 +45,21 @@ def _sentence_candidates(text: str) -> list[str]:
     return [item for item in sentences if len(item) >= 8]
 
 
+def _answer_text(hit: SearchHit) -> str:
+    """PDF 的换行多来自排版折行，先拼回段落再切句。"""
+    if hit.chunk.file_name.lower().endswith(".pdf"):
+        return re.sub(r"\s*\n\s*", " ", hit.chunk.text)
+    return hit.chunk.text
+
+
 def _offline_answer(question: str, hits: list[SearchHit]) -> GeneratedAnswer:
     """以原文句子组成确定性的、可审计的离线回答。"""
     query_terms = set(tokenize(question))
-    excerpts: list[tuple[int, str, int]] = []
+    scored_excerpts: list[tuple[int, str, int]] = []
     seen: set[str] = set()
 
     for index, hit in enumerate(hits, start=1):
-        choices = _sentence_candidates(hit.chunk.text)
+        choices = _sentence_candidates(_answer_text(hit))
         if not choices:
             choices = [_normalise_excerpt(hit.chunk.text)]
         scored = [
@@ -57,23 +67,31 @@ def _offline_answer(question: str, hits: list[SearchHit]) -> GeneratedAnswer:
             for sentence in choices
         ]
         score, sentence = max(scored, key=lambda item: (item[0], len(item[1])))
-        if score <= 0:
+        coverage = score / max(1, len(query_terms))
+        if score <= 0 or coverage < MIN_COVERAGE:
             continue
         fingerprint = sentence.lower()
         if fingerprint in seen:
             continue
         seen.add(fingerprint)
-        excerpts.append((index, sentence, score))
-        if len(excerpts) == 3:
-            break
+        scored_excerpts.append((index, sentence, score))
 
-    if not excerpts:
+    if not scored_excerpts:
         return GeneratedAnswer(REFUSAL, [], "abstained", True, "offline")
+
+    # 只保留与最佳句子接近的摘录，避免把“恰好同层”的弱相关段落也塞进答案。
+    best_score = max(score for _index, _sentence, score in scored_excerpts)
+    cutoff = max(MIN_COVERAGE * max(1, len(query_terms)), best_score * 0.8)
+    excerpts = [
+        item for item in scored_excerpts if item[2] >= cutoff
+    ]
+    excerpts.sort(key=lambda item: (item[2], -item[0]), reverse=True)
+    excerpts = excerpts[:3]
 
     answer = "根据课程资料：\n\n" + "\n".join(
         f"- {sentence} [{index}]" for index, sentence, _score in excerpts
     )
-    best_coverage = excerpts[0][2] / max(1, len(query_terms))
+    best_coverage = best_score / max(1, len(query_terms))
     confidence = "high" if best_coverage >= 0.65 else "medium"
     return GeneratedAnswer(
         answer=answer,

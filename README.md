@@ -9,13 +9,13 @@
 
 ## 当前进度
 
-**Phase 1–5 已完成：账户/课程/资料、解析检索、带引用问答、课程小测、复习卡与资料待办**：
+**Phase 1–6 已完成：账户/课程/资料、解析检索、带引用问答、小测、复习卡、资料待办、演示数据与评测**：
 
 - 注册 / 登录 / 退出，httpOnly Cookie 会话，密码 PBKDF2 哈希；
 - 课程创建、列表、重命名、删除，课程之间数据完全隔离；
 - PDF / PPTX / DOCX / Markdown / TXT 上传，文件大小、类型与文件头校验，私有存储；
 - 后台解析：PDF 保留页码、PPTX 保留幻灯片号、DOCX/Markdown 按章节定位；扫描版 PDF 明确失败并提示不支持 OCR；
-- 标题/页感知分块（400–700 字，单块不超过 1200 字，不跨页/跨章节）；
+- 标题/页感知分块（目标约 600 字，单块不超过 1200 字，不跨页/跨章节）；
 - 课程级混合检索索引：中文 bigram 分词 + BM25 + 哈希 TF-IDF 向量 + RRF，索引随文件变更自动失效；
 - 文件状态自动轮询（等待解析 → 解析中 → 已解析/解析失败），失败原因可读，支持重新解析；
 - 原文预览：按页/章节查看提取文本，并显示页码、章节与字数。
@@ -24,8 +24,10 @@
 - 课程小测：可选资料范围、题量和题型；提交后自动判分，错题附参考答案、解析与原文出处，并保存历史成绩。
 - 复习卡：按选定资料生成问答卡，也支持手动创建；卡片可翻面复习，记录「掌握 / 不熟」与复习次数，并保留来源原文；
 - 资料待办：扫描作业说明中的「截止 / 提交 / deadline」等表述，提取候选截止日期；用户确认（可修改时间）后才创建待办，支持逾期标记、完成勾选、编辑与删除。
+- 演示课程：`backend/scripts/seed_demo.py` 生成 7 份资料（PDF/PPTX/DOCX/Markdown/TXT），账号 `demo / coursemate123`；
+- 评测：40 条评测集（32 条可答 + 8 条无答案）与 `backend/eval/run_eval.py`；演示课程结果 Recall@5 1.000、引用定位合法率 100%、无答案拒答 8/8、20 条人工抽样支持率 100%、p95 约 1 ms，报告见 [评测报告](docs/评测报告.md)。
 
-Phase 6 的评测集、种子课程、架构与评测报告待补。见 [开发计划](docs/开发计划.md)。
+架构设计见 [架构设计](docs/架构设计.md)，运行计划见 [开发计划](docs/开发计划.md)。
 
 ## 使用流程
 
@@ -50,14 +52,26 @@ powershell -ExecutionPolicy Bypass -File scripts\setup.ps1
 # 2. 前端构建（需要 Node 20+ 与 pnpm）
 powershell -ExecutionPolicy Bypass -File scripts\build-web.ps1
 
-# 3. 启动
+# 3. 演示数据（可选，首次会创建 demo / coursemate123）
+cd backend
+..\.venv\Scripts\python.exe scripts\seed_demo.py
+cd ..
+
+# 4. 启动
 powershell -ExecutionPolicy Bypass -File scripts\run.ps1
 # http://127.0.0.1:8000
+
+# 5. 评测
+cd backend
+..\.venv\Scripts\python.exe eval\run_eval.py
 ```
 
 > 若本机执行策略允许，也可以直接用 `pwsh -File scripts\setup.ps1`。
 > 前端构建脚本会自动探测 PATH 中的 Node/pnpm，找不到时回退到本机 DSH runtime 自带的 Node 24 / pnpm 11；
 > 可通过 `COURSEMATE_NODE`、`COURSEMATE_PNPM` 环境变量覆盖。
+
+配置可以写在仓库根目录的 `.env` 中（参考 [.env.example](.env.example)）；`load_settings()` 会自动加载 `.env`，
+已存在的进程环境变量优先。相对路径按仓库根目录解析。
 
 开发模式下也可以直接运行测试：
 
@@ -75,13 +89,21 @@ powershell -ExecutionPolicy Bypass -File scripts\test.ps1
 | `backend/app/` | FastAPI 应用：`models`、`schemas`、`security`、`storage`、`routers/` |
 | `backend/app/services/` | 解析、分块、分词、混合检索、复习卡生成、截止日期提取、摄入与启动对账 |
 | `backend/tests/` | pytest 测试（账户、课程、文件、解析、分块、检索、问答、小测、复习卡、待办、越权隔离） |
-| `backend/eval/` | 评测集与评测脚本（Phase 6） |
+| `backend/eval/` | 40 条评测集、评测脚本、人工抽样、结果 JSON |
+| `backend/scripts/` | 演示课程种子脚本 |
 | `web/src/` | React 页面与组件 |
-| `docs/` | 开发计划、架构、评测报告 |
+| `docs/` | 开发计划、架构设计、评测报告 |
 | `scripts/` | 环境、构建与启动脚本 |
 
 ## 设计文档
 
 - [项目文档](14-课程资料学习助手-项目文档.md)
 - [开发计划](docs/开发计划.md)
-- 架构设计与评测报告在后续阶段补齐。
+- [架构设计](docs/架构设计.md)
+- [评测报告](docs/评测报告.md)
+
+## 已知局限
+
+- 离线问答是原文摘录，不总结、不改写；检索使用哈希 TF-IDF，语义泛化有限。
+- 小测与复习卡由规则生成，质量取决于原文；题目/卡片的模型生成与人工校对仍可增强。
+- 扫描版 PDF 不支持 OCR；多用户协作、PostgreSQL/Celery 部署不在当前 MVP 范围。

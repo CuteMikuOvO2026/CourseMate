@@ -41,22 +41,61 @@ def _read_or_create_secret(data_dir: Path) -> str:
     return value
 
 
+def _load_env_file(path: Path) -> None:
+    """读取仓库根目录的 .env；已存在的进程环境变量优先。"""
+    if not path.is_file():
+        return
+    try:
+        lines = path.read_text(encoding="utf-8-sig").splitlines()
+    except OSError:
+        return
+    for raw in lines:
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        if line.startswith("export "):
+            line = line[7:].lstrip()
+        key, separator, value = line.partition("=")
+        key = key.strip()
+        if (
+            not separator
+            or not key
+            or key[0].isdigit()
+            or not key.replace("_", "").isalnum()
+        ):
+            continue
+        value = value.strip().strip('"').strip("'")
+        os.environ.setdefault(key, value)
+
+
 def load_settings(data_dir: str | Path | None = None) -> Settings:
     """从环境变量读取配置；缺省值指向仓库根目录下的 data/。"""
-    base = Path(
-        data_dir
-        or os.environ.get("COURSEMATE_DATA_DIR")
-        or (REPO_ROOT / "data")
-    ).resolve()
+    _load_env_file(REPO_ROOT / ".env")
+
+    configured_dir = data_dir or os.environ.get("COURSEMATE_DATA_DIR")
+    if configured_dir:
+        candidate = Path(configured_dir)
+        base = candidate if candidate.is_absolute() else REPO_ROOT / candidate
+    else:
+        base = REPO_ROOT / "data"
+    base = base.resolve()
     base.mkdir(parents=True, exist_ok=True)
     (base / "files").mkdir(parents=True, exist_ok=True)
 
     database_url = os.environ.get("COURSEMATE_DATABASE_URL") or (
         f"sqlite:///{(base / 'coursemate.db').as_posix()}"
     )
-    web_dist = Path(
-        os.environ.get("COURSEMATE_WEB_DIST") or (REPO_ROOT / "web" / "dist")
-    ).resolve()
+    configured_dist = os.environ.get("COURSEMATE_WEB_DIST")
+    if configured_dist:
+        dist_candidate = Path(configured_dist)
+        web_dist = (
+            dist_candidate
+            if dist_candidate.is_absolute()
+            else REPO_ROOT / dist_candidate
+        )
+    else:
+        web_dist = REPO_ROOT / "web" / "dist"
+    web_dist = web_dist.resolve()
 
     try:
         max_upload_mb = int(os.environ.get("COURSEMATE_MAX_UPLOAD_MB", "50"))
