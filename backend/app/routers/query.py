@@ -25,8 +25,10 @@ from ..services.answering import (
     answer_question,
     citation_payload,
     llm_available,
+    rewrite_search_query,
 )
-from ..services.retrieval import hybrid_search
+from ..services.query_intent import extract_page_number, is_summary_request
+from ..services.retrieval import hybrid_search, page_hits, summary_hits
 
 router = APIRouter(tags=["query"])
 
@@ -110,13 +112,28 @@ def query_course(
             content=payload.question,
         )
     )
-    hits = hybrid_search(db, course, payload.question, top_k=6)
+    settings = request.app.state.settings
+    use_llm = payload.use_llm
+    model_enabled = llm_available(settings) and use_llm is not False
+    page = extract_page_number(payload.question)
+
+    if page is not None:
+        hits = page_hits(db, course, page)
+    elif is_summary_request(payload.question) and model_enabled:
+        hits = summary_hits(db, course)
+    else:
+        hits = hybrid_search(db, course, payload.question, top_k=6)
+        if not hits and model_enabled:
+            rewritten = rewrite_search_query(settings, payload.question)
+            if rewritten:
+                hits = hybrid_search(db, course, rewritten, top_k=6)
+
     try:
         generated = answer_question(
-            request.app.state.settings,
+            settings,
             payload.question,
             hits,
-            use_llm=payload.use_llm,
+            use_llm=use_llm,
         )
     except LLMUnavailable as exc:
         db.rollback()

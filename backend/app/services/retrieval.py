@@ -200,3 +200,39 @@ def hybrid_search(
     db: Session, course: Course, query: str, top_k: int = 8
 ) -> list[SearchHit]:
     return get_course_index(db, course).search(query, top_k=top_k)
+
+
+def _hits_from_views(views: list[ChunkView]) -> list[SearchHit]:
+    return [SearchHit(chunk=view, bm25=0.0, dense=0.0, rrf=0.0) for view in views]
+
+
+def page_hits(
+    db: Session, course: Course, page_no: int, limit: int = 8
+) -> list[SearchHit]:
+    """按页码/幻灯片号直接取块，绕过词面检索。"""
+    views = [
+        view
+        for view in load_chunk_views(db, course.id)
+        if view.page_from is not None
+        and view.page_from <= page_no <= (view.page_to or view.page_from)
+    ]
+    return _hits_from_views(views[:limit])
+
+
+def summary_hits(
+    db: Session,
+    course: Course,
+    max_chunks: int = 40,
+    max_chars: int = 14000,
+) -> list[SearchHit]:
+    """按资料顺序取样，供“整份资料讲了什么”类总结使用。"""
+    selected: list[ChunkView] = []
+    total_chars = 0
+    for view in load_chunk_views(db, course.id):
+        if len(selected) >= max_chunks:
+            break
+        if selected and total_chars + len(view.text) > max_chars:
+            break
+        selected.append(view)
+        total_chars += len(view.text)
+    return _hits_from_views(selected)

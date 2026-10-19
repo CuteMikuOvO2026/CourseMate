@@ -7,7 +7,7 @@ function CitationList({ citations = [] }) {
   if (!citations.length) return null;
   return (
     <section className="citation-list" aria-label="引用来源">
-      <p className="citation-label">引用来源</p>
+      <p className="citation-label">引用来源 · {citations.length}</p>
       {citations.map((citation) => (
         <article className="citation-card" key={`${citation.chunk_id}-${citation.index}`}>
           <div className="citation-card-head">

@@ -133,6 +133,86 @@ def _extract_json(content: str) -> dict[str, Any]:
     return payload
 
 
+def _chat_completion(
+    settings: Any,
+    messages: list[dict[str, str]],
+    *,
+    max_tokens: int | None = None,
+    temperature: float = 0.1,
+) -> str:
+    if not llm_available(settings):
+        raise LLMUnavailable("模型服务未配置完整")
+    body: dict[str, Any] = {
+        "model": settings.llm_model,
+        "messages": messages,
+        "temperature": temperature,
+    }
+    if max_tokens is not None:
+        body["max_tokens"] = max_tokens
+    request = Request(
+        _openai_url(settings.llm_base_url),
+        data=json.dumps(body, ensure_ascii=False).encode("utf-8"),
+        method="POST",
+        headers={
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {settings.llm_api_key}",
+        },
+    )
+    try:
+        with urlopen(request, timeout=7.5) as response:  # noqa: S310 - URL 由部署者配置
+            payload = json.loads(response.read().decode("utf-8"))
+    except (HTTPError, URLError, TimeoutError) as exc:
+        raise RuntimeError("模型服务暂不可用") from exc
+    try:
+        content = payload["choices"][0]["message"]["content"]
+    except (KeyError, IndexError, TypeError) as exc:
+        raise ValueError("模型服务返回格式异常") from exc
+    if not isinstance(content, str) or not content.strip():
+        raise ValueError("模型返回为空")
+    return content
+
+
+def rewrite_search_query(settings: Any, question: str) -> str:
+    """把中文问题改写成可检索的关键词；失败时返回空串。"""
+    if not llm_available(settings):
+        return ""
+    prompt = f"""把用户问题改写成用于检索课程资料的简短关键词。
+规则：
+1. 如果问题是中文，请把核心概念翻译成英文，因为课程资料可能是英文；
+2. 保留专有名词、缩写和数字；
+3. 最多 8 个关键词；
+4. 只输出一行关键词，不要解释、不要引号。
+
+问题：{question}"""
+    try:
+        content = _chat_completion(
+            settings,
+            [
+                {"role": "system", "content": "你只输出检索关键词，不回答原问题。"},
+                {"role": "user", "content": prompt},
+            ],
+            max_tokens=80,
+            temperature=0.0,
+        )
+    except Exception:  # noqa: BLE001 - 改写失败不应阻塞原有检索
+        logger.warning("查询改写失败，继续使用原问题检索", exc_info=True)
+        return ""
+
+    value = content.strip()
+    if value.startswith("```"):
+        value = re.sub(r"^```(?:text)?\s*|\s*```$", "", value, flags=re.I)
+    line = next((item.strip() for item in value.splitlines() if item.strip()), "")
+    line = re.sub(
+        r"^(?:keywords?|search terms?|关键词|检索词)\s*[:：]\s*",
+        "",
+        line,
+        flags=re.I,
+    )
+    line = re.sub(r"^(?:[-*•]|\d{1,2}[.)、])\s*", "", line)
+    line = line.strip().strip('"').strip("'").strip().rstrip("。.,，;；")
+    return line[:300]
+
+
 def _online_answer(settings: Any, question: str, hits: list[SearchHit]) -> GeneratedAnswer:
     if not (settings.llm_base_url and settings.llm_api_key and settings.llm_model):
         raise ValueError("OpenAI 兼容 Provider 配置不完整")
@@ -156,34 +236,15 @@ def _online_answer(settings: Any, question: str, hits: list[SearchHit]) -> Gener
 
 课程资料：
 {sources}"""
-    body = json.dumps(
-        {
-            "model": settings.llm_model,
-            "messages": [
-                {"role": "system", "content": "你严格遵守课程资料与引用约束。"},
-                {"role": "user", "content": prompt},
-            ],
-            "temperature": 0.1,
-        },
-        ensure_ascii=False,
-    ).encode("utf-8")
-    request = Request(
-        _openai_url(settings.llm_base_url),
-        data=body,
-        method="POST",
-        headers={
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {settings.llm_api_key}",
-        },
+    content = _chat_completion(
+        settings,
+        [
+            {"role": "system", "content": "你严格遵守课程资料与引用约束。"},
+            {"role": "user", "content": prompt},
+        ],
     )
-    try:
-        with urlopen(request, timeout=7.5) as response:  # noqa: S310 - URL 由部署者配置
-            payload = json.loads(response.read().decode("utf-8"))
-    except (HTTPError, URLError, TimeoutError) as exc:
-        raise RuntimeError("模型服务暂不可用") from exc
 
     try:
-        content = payload["choices"][0]["message"]["content"]
         generated = _extract_json(content)
         answer = str(generated["answer"]).strip()
         abstained = bool(generated.get("abstained", False))

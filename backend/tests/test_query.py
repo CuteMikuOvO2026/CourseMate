@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import time
 
+import pymupdf
+
 from app.services.answering import GeneratedAnswer
 from tests.helpers import create_course, register, upload
 
@@ -193,3 +195,123 @@ def test_query_persists_answer_model_metadata(client, monkeypatch) -> None:
     ).json()
     assert history[1]["model"] == "fake-model"
     assert history[1]["degraded"] is False
+
+
+def test_page_question_uses_matching_slide(client, monkeypatch) -> None:
+    register(client)
+    course = create_course(client)
+    document = pymupdf.open()
+    for text in ("第一页：传输层内容。", "第二页：三次握手内容。"):
+        page = document.new_page()
+        page.insert_text((72, 72), text, fontname="china-s", fontsize=14)
+    pdf_bytes = document.tobytes()
+    document.close()
+    uploaded = upload(
+        client,
+        course["id"],
+        filename="slides.pdf",
+        content=pdf_bytes,
+        content_type="application/pdf",
+    )
+    assert uploaded.status_code == 201, uploaded.text
+    assert _wait_ready(client, uploaded.json()["id"])["status"] == "ready"
+
+    captured: dict = {}
+
+    def fake_answer(settings, question, hits, use_llm=None):
+        captured["pages"] = [hit.chunk.page_from for hit in hits]
+        return GeneratedAnswer(
+            "第 2 页主要讲三次握手 [1]",
+            [1],
+            "high",
+            False,
+            "openai",
+            "fake-model",
+        )
+
+    monkeypatch.setattr("app.routers.query.answer_question", fake_answer)
+    response = client.post(
+        f"/api/v1/courses/{course['id']}/query",
+        json={"question": "第2页讲了什么？", "use_llm": True},
+    )
+    assert response.status_code == 200, response.text
+    assert captured["pages"]
+    assert set(captured["pages"]) == {2}
+
+
+def test_summary_question_uses_full_course_context(client, monkeypatch) -> None:
+    register(client)
+    course = create_course(client)
+    paragraphs = [
+        f"第 {index} 段：" + "网络协议数据传输" * 60 for index in range(20)
+    ]
+    uploaded = upload(
+        client,
+        course["id"],
+        filename="长资料.txt",
+        content="\n\n".join(paragraphs),
+    )
+    assert uploaded.status_code == 201, uploaded.text
+    assert _wait_ready(client, uploaded.json()["id"])["status"] == "ready"
+
+    captured: dict = {}
+
+    def fake_answer(settings, question, hits, use_llm=None):
+        captured["hit_count"] = len(hits)
+        return GeneratedAnswer(
+            "这份资料主要讲网络协议 [1]",
+            [1],
+            "medium",
+            False,
+            "openai",
+            "fake-model",
+        )
+
+    monkeypatch.setattr("app.routers.query.llm_available", lambda settings: True)
+    monkeypatch.setattr("app.routers.query.answer_question", fake_answer)
+    response = client.post(
+        f"/api/v1/courses/{course['id']}/query",
+        json={"question": "这份资料主要讲了什么？", "use_llm": True},
+    )
+    assert response.status_code == 200, response.text
+    assert captured["hit_count"] > 6
+
+
+def test_chinese_question_rewrites_for_english_retrieval(client, monkeypatch) -> None:
+    register(client)
+    course = create_course(client)
+    uploaded = upload(
+        client,
+        course["id"],
+        filename="english.txt",
+        content="TCP handshake establishes a connection and synchronizes sequence numbers.",
+    )
+    assert uploaded.status_code == 201, uploaded.text
+    assert _wait_ready(client, uploaded.json()["id"])["status"] == "ready"
+
+    captured: dict = {}
+
+    def fake_rewrite(settings, question):
+        captured["rewritten"] = True
+        return "tcp handshake"
+
+    def fake_answer(settings, question, hits, use_llm=None):
+        captured["hit_count"] = len(hits)
+        return GeneratedAnswer(
+            "TCP 通过握手建立连接 [1]",
+            [1],
+            "high",
+            False,
+            "openai",
+            "fake-model",
+        )
+
+    monkeypatch.setattr("app.routers.query.llm_available", lambda settings: True)
+    monkeypatch.setattr("app.routers.query.rewrite_search_query", fake_rewrite)
+    monkeypatch.setattr("app.routers.query.answer_question", fake_answer)
+    response = client.post(
+        f"/api/v1/courses/{course['id']}/query",
+        json={"question": "三次握手是什么？", "use_llm": True},
+    )
+    assert response.status_code == 200, response.text
+    assert captured == {"rewritten": True, "hit_count": 1}
