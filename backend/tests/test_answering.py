@@ -2,7 +2,16 @@
 
 from __future__ import annotations
 
-from app.services.answering import _offline_answer
+from types import SimpleNamespace
+
+import pytest
+
+from app.services import answering
+from app.services.answering import (
+    LLMUnavailable,
+    _offline_answer,
+    answer_question,
+)
 from app.services.retrieval import ChunkView, SearchHit
 
 
@@ -68,3 +77,77 @@ def test_pdf_line_wrap_is_joined_before_extraction() -> None:
     )
     assert answer.abstained is False
     assert "S/N" in answer.answer
+
+
+CONFIGURED = SimpleNamespace(
+    llm_provider="openai",
+    llm_base_url="https://example.com/v1",
+    llm_api_key="test-key",
+    llm_model="test-model",
+)
+
+
+def test_offline_choice_never_calls_model(monkeypatch) -> None:
+    def fail(*args, **kwargs):
+        raise AssertionError("use_llm=False 不应调用模型")
+
+    monkeypatch.setattr(answering, "_online_answer", fail)
+    answer = answer_question(
+        CONFIGURED,
+        "物理层的主要功能是什么？",
+        [_hit("物理层负责在传输介质上传输原始比特流，主要解决机械、电气、功能和过程特性。")],
+        use_llm=False,
+    )
+    assert answer.mode == "offline"
+    assert answer.model is None
+
+
+def test_explicit_model_choice_requires_configuration() -> None:
+    offline = SimpleNamespace(
+        llm_provider="offline",
+        llm_base_url="",
+        llm_api_key="",
+        llm_model="",
+    )
+    with pytest.raises(LLMUnavailable):
+        answer_question(
+            offline,
+            "物理层的主要功能是什么？",
+            [_hit("物理层负责在传输介质上传输原始比特流。")],
+            use_llm=True,
+        )
+
+
+def test_explicit_model_choice_returns_model_name(monkeypatch) -> None:
+    monkeypatch.setattr(
+        answering,
+        "_online_answer",
+        lambda *args, **kwargs: answering.GeneratedAnswer(
+            "模型回答 [1]", [1], "high", False, "openai", "test-model"
+        ),
+    )
+    answer = answer_question(
+        CONFIGURED,
+        "物理层的主要功能是什么？",
+        [_hit("物理层负责在传输介质上传输原始比特流。")],
+        use_llm=True,
+    )
+    assert answer.mode == "openai"
+    assert answer.model == "test-model"
+    assert answer.degraded is False
+
+
+def test_online_failure_marks_degraded(monkeypatch) -> None:
+    def fail(*args, **kwargs):
+        raise RuntimeError("upstream down")
+
+    monkeypatch.setattr(answering, "_online_answer", fail)
+    answer = answer_question(
+        CONFIGURED,
+        "物理层的主要功能是什么？",
+        [_hit("物理层负责在传输介质上传输原始比特流，主要解决机械、电气、功能和过程特性。")],
+        use_llm=True,
+    )
+    assert answer.mode == "offline"
+    assert answer.model is None
+    assert answer.degraded is True

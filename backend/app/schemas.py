@@ -175,6 +175,7 @@ class DocumentPageDetail(DocumentPageOut):
 class QueryRequest(BaseModel):
     question: str
     conversation_id: str | None = None
+    use_llm: bool | None = None
 
     @field_validator("question")
     @classmethod
@@ -213,8 +214,18 @@ class QueryResponse(BaseModel):
     confidence: str
     abstained: bool
     mode: str
+    model: str | None = None
+    degraded: bool = False
     conversation_id: str
     elapsed_ms: int
+
+
+class AnswerConfigOut(BaseModel):
+    provider: str
+    model: str | None
+    model_available: bool
+    default_use_llm: bool
+    fallback: str = "offline"
 
 
 class ConversationOut(BaseModel):
@@ -235,6 +246,8 @@ class MessageOut(BaseModel):
     confidence: str | None
     abstained: bool
     mode: str | None
+    model: str | None = None
+    degraded: bool = False
     created_at: UTCDateTime
 
 

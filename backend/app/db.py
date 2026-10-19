@@ -69,3 +69,12 @@ def migrate_schema(engine: Engine) -> None:
             connection.exec_driver_sql(
                 "ALTER TABLE messages ADD COLUMN ord INTEGER NOT NULL DEFAULT 0"
             )
+        # 记录实际回答模型，以及“请求模型但已降级”的状态。
+        if message_columns and "model" not in message_columns:
+            connection.exec_driver_sql(
+                "ALTER TABLE messages ADD COLUMN model VARCHAR(120)"
+            )
+        if message_columns and "degraded" not in message_columns:
+            connection.exec_driver_sql(
+                "ALTER TABLE messages ADD COLUMN degraded BOOLEAN NOT NULL DEFAULT 0"
+            )

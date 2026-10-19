@@ -1160,6 +1160,127 @@ code {
   margin: 16px 16px 0;
 }
 
+.answer-mode-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 14px 16px 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: #f8fafc;
+}
+
+.answer-mode-info {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+}
+
+.model-dot {
+  width: 8px;
+  height: 8px;
+  flex: none;
+  border-radius: 50%;
+  background: #94a3b8;
+}
+
+.model-dot.live {
+  background: #10b981;
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.12);
+}
+
+.answer-mode-info strong {
+  display: block;
+  overflow: hidden;
+  color: var(--ink-soft);
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.answer-mode-info small {
+  display: block;
+  margin-top: 2px;
+  color: var(--faint);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.mode-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex: none;
+  color: var(--muted);
+  font-size: 11px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.mode-switch input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.mode-switch-track {
+  position: relative;
+  width: 34px;
+  height: 19px;
+  border-radius: 999px;
+  background: #cbd5e1;
+  transition: background 0.15s;
+}
+
+.mode-switch-track span {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.25);
+  transition: transform 0.15s;
+}
+
+.mode-switch input:checked + .mode-switch-track {
+  background: var(--accent);
+}
+
+.mode-switch input:focus-visible + .mode-switch-track {
+  outline: 2px solid rgba(79, 70, 229, 0.45);
+  outline-offset: 2px;
+}
+
+.mode-switch input:checked + .mode-switch-track span {
+  transform: translateX(15px);
+}
+
+.mode-switch.disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.answer-meta span + span {
+  margin-left: 4px;
+}
+
+.answer-model {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.answer-degraded {
+  color: #b45309;
+  font-weight: 600;
+}
+
 .chat-stream {
   display: flex;
   min-height: 382px;
@@ -2333,6 +2454,19 @@ code {
 
   .chat-stream {
     padding: 18px 14px;
+  }
+
+  .answer-mode-bar {
+    flex-wrap: wrap;
+    margin: 12px 12px 0;
+  }
+
+  .answer-mode-info {
+    width: 100%;
+  }
+
+  .mode-switch {
+    margin-left: auto;
   }
 }
 

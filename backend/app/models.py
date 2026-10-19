@@ -170,6 +170,8 @@ class Message(Base):
     confidence: Mapped[str | None] = mapped_column(String(16), nullable=True)
     abstained: Mapped[bool] = mapped_column(Boolean, default=False)
     mode: Mapped[str | None] = mapped_column(String(24), nullable=True)
+    model: Mapped[str | None] = mapped_column(String(120), nullable=True)
+    degraded: Mapped[bool] = mapped_column(Boolean, default=False)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
     conversation: Mapped[Conversation] = relationship(back_populates="messages")

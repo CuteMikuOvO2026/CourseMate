@@ -10,16 +10,22 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from ..deps import get_db, owned_conversation, owned_course
+from ..deps import get_current_user, get_db, owned_conversation, owned_course
 from ..models import Conversation, Course, Message
 from ..schemas import (
+    AnswerConfigOut,
     CitationOut,
     ConversationOut,
     MessageOut,
     QueryRequest,
     QueryResponse,
 )
-from ..services.answering import answer_question, citation_payload
+from ..services.answering import (
+    LLMUnavailable,
+    answer_question,
+    citation_payload,
+    llm_available,
+)
 from ..services.retrieval import hybrid_search
 
 router = APIRouter(tags=["query"])
@@ -42,6 +48,8 @@ def _message_out(message: Message) -> MessageOut:
         confidence=message.confidence,
         abstained=message.abstained,
         mode=message.mode,
+        model=message.model,
+        degraded=message.degraded,
         created_at=message.created_at,
     )
 
@@ -58,6 +66,21 @@ def _conversation_for_course(
     if conversation is None:
         raise HTTPException(status_code=404, detail="对话不存在")
     return conversation
+
+
+@router.get("/answer/config", response_model=AnswerConfigOut)
+def answer_config(
+    request: Request, _user=Depends(get_current_user)
+) -> AnswerConfigOut:
+    settings = request.app.state.settings
+    available = llm_available(settings)
+    return AnswerConfigOut(
+        provider=settings.llm_provider,
+        model=settings.llm_model or None,
+        model_available=available,
+        default_use_llm=available,
+        fallback="offline",
+    )
 
 
 @router.post("/courses/{course_id}/query", response_model=QueryResponse)
@@ -88,7 +111,16 @@ def query_course(
         )
     )
     hits = hybrid_search(db, course, payload.question, top_k=6)
-    generated = answer_question(request.app.state.settings, payload.question, hits)
+    try:
+        generated = answer_question(
+            request.app.state.settings,
+            payload.question,
+            hits,
+            use_llm=payload.use_llm,
+        )
+    except LLMUnavailable as exc:
+        db.rollback()
+        raise HTTPException(status_code=409, detail=str(exc)) from exc
     citations = [
         citation_payload(hits[index - 1], index)
         for index in generated.citation_indices
@@ -103,6 +135,8 @@ def query_course(
             confidence=generated.confidence,
             abstained=generated.abstained,
             mode=generated.mode,
+            model=generated.model,
+            degraded=generated.degraded,
         )
     )
     # onupdate 只在实际 UPDATE 时触发，明确更新保证会话列表排序正确。
@@ -115,6 +149,8 @@ def query_course(
         confidence=generated.confidence,
         abstained=generated.abstained,
         mode=generated.mode,
+        model=generated.model,
+        degraded=generated.degraded,
         conversation_id=conversation.id,
         elapsed_ms=elapsed_ms,
     )

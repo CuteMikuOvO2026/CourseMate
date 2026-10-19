@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import time
 
+from app.services.answering import GeneratedAnswer
 from tests.helpers import create_course, register, upload
 
 
@@ -46,6 +47,8 @@ def test_query_returns_grounded_answer_citations_and_history(client) -> None:
     result = response.json()
     assert result["abstained"] is False
     assert result["mode"] == "offline"
+    assert result["model"] is None
+    assert result["degraded"] is False
     assert "三次握手" in result["answer"]
     assert "[1]" in result["answer"]
     assert result["citations"]
@@ -134,3 +137,59 @@ def test_query_history_isolation(client, second_client) -> None:
     assert second_client.get(
         f"/api/v1/conversations/{result['conversation_id']}/messages"
     ).status_code == 404
+
+
+def test_answer_config_and_explicit_mode_selection(client) -> None:
+    register(client)
+    config = client.get("/api/v1/answer/config")
+    assert config.status_code == 200
+    assert config.json() == {
+        "provider": "offline",
+        "model": None,
+        "model_available": False,
+        "default_use_llm": False,
+        "fallback": "offline",
+    }
+
+    course, _source_file = _ready_course(client)
+    forced_offline = client.post(
+        f"/api/v1/courses/{course['id']}/query",
+        json={"question": "三次握手是什么？", "use_llm": False},
+    )
+    assert forced_offline.status_code == 200, forced_offline.text
+    assert forced_offline.json()["mode"] == "offline"
+    assert forced_offline.json()["model"] is None
+
+    unavailable = client.post(
+        f"/api/v1/courses/{course['id']}/query",
+        json={"question": "三次握手是什么？", "use_llm": True},
+    )
+    assert unavailable.status_code == 409
+    assert "模型服务未配置" in unavailable.json()["detail"]
+
+
+def test_query_persists_answer_model_metadata(client, monkeypatch) -> None:
+    register(client)
+    course, _source_file = _ready_course(client)
+
+    def fake_answer(*args, **kwargs):
+        return GeneratedAnswer(
+            "模型回答 [1]", [1], "high", False, "openai", "fake-model"
+        )
+
+    monkeypatch.setattr("app.routers.query.answer_question", fake_answer)
+    response = client.post(
+        f"/api/v1/courses/{course['id']}/query",
+        json={"question": "三次握手是什么？", "use_llm": True},
+    )
+    assert response.status_code == 200, response.text
+    result = response.json()
+    assert result["mode"] == "openai"
+    assert result["model"] == "fake-model"
+    assert result["degraded"] is False
+
+    history = client.get(
+        f"/api/v1/conversations/{result['conversation_id']}/messages"
+    ).json()
+    assert history[1]["model"] == "fake-model"
+    assert history[1]["degraded"] is False

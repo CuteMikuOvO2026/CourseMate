@@ -9,7 +9,7 @@ from __future__ import annotations
 import json
 import logging
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from typing import Any
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
@@ -18,6 +18,10 @@ from .analysis import tokenize
 from .retrieval import SearchHit
 
 logger = logging.getLogger(__name__)
+
+
+class LLMUnavailable(RuntimeError):
+    """用户明确要求模型回答，但模型未配置完整。"""
 
 REFUSAL = "课程资料中没有找到足以支持这个问题的内容，因此暂不能回答。"
 # 离线模式的相关性门槛：问题词元被命中句子覆盖的比例过低时拒答，
@@ -33,6 +37,18 @@ class GeneratedAnswer:
     confidence: str
     abstained: bool
     mode: str
+    model: str | None = None
+    degraded: bool = False
+
+
+def llm_available(settings: Any) -> bool:
+    """Provider 选择 openai 且三项配置齐全时才认为模型可用。"""
+    return bool(
+        settings.llm_provider == "openai"
+        and settings.llm_base_url
+        and settings.llm_api_key
+        and settings.llm_model
+    )
 
 
 def _normalise_excerpt(text: str, limit: int = 360) -> str:
@@ -179,7 +195,9 @@ def _online_answer(settings: Any, question: str, hits: list[SearchHit]) -> Gener
     # 服务端拒绝越界、重复和缺失引用；防止模型伪造来源。
     indices = list(dict.fromkeys(indices))
     if abstained:
-        return GeneratedAnswer(REFUSAL, [], "abstained", True, "openai")
+        return GeneratedAnswer(
+            REFUSAL, [], "abstained", True, "openai", settings.llm_model
+        )
     if not answer or not indices or any(index < 1 or index > len(hits) for index in indices):
         raise ValueError("模型回答缺少有效引用")
     mentioned = {int(item) for item in re.findall(r"\[(\d+)\]", answer)}
@@ -188,7 +206,9 @@ def _online_answer(settings: Any, question: str, hits: list[SearchHit]) -> Gener
     confidence = str(generated.get("confidence", "medium")).lower()
     if confidence not in {"high", "medium", "low"}:
         confidence = "medium"
-    return GeneratedAnswer(answer, indices, confidence, False, "openai")
+    return GeneratedAnswer(
+        answer, indices, confidence, False, "openai", settings.llm_model
+    )
 
 
 def _locator(hit: SearchHit) -> str:
@@ -213,12 +233,27 @@ def citation_payload(hit: SearchHit, index: int) -> dict[str, str | int]:
     }
 
 
-def answer_question(settings: Any, question: str, hits: list[SearchHit]) -> GeneratedAnswer:
+def answer_question(
+    settings: Any,
+    question: str,
+    hits: list[SearchHit],
+    use_llm: bool | None = None,
+) -> GeneratedAnswer:
+    """按用户选择或默认 Provider 生成回答。
+
+    use_llm=False 强制离线；True 要求模型（配置缺失时抛 LLMUnavailable）；
+    None 沿用 settings.llm_provider。
+    """
     if not hits:
         return GeneratedAnswer(REFUSAL, [], "abstained", True, "offline")
-    if settings.llm_provider == "openai":
+    if use_llm is False:
+        return _offline_answer(question, hits)
+    if use_llm is True and not llm_available(settings):
+        raise LLMUnavailable("模型服务未配置完整，请检查 Base URL、API Key 和模型名")
+    if llm_available(settings):
         try:
             return _online_answer(settings, question, hits)
         except Exception:  # noqa: BLE001 - 降级是面向用户的正常路径
             logger.warning("OpenAI 兼容问答失败，已降级为离线回答", exc_info=True)
+            return replace(_offline_answer(question, hits), degraded=True)
     return _offline_answer(question, hits)
