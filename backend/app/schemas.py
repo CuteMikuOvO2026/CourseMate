@@ -318,3 +318,192 @@ class QuizAttemptOut(BaseModel):
 class QuizRegradeRequest(BaseModel):
     question_id: str
     correct: bool
+
+
+class FlashcardSourceOut(BaseModel):
+    chunk_id: str
+    file_id: str
+    file_name: str
+    locator: str
+    heading: str
+    snippet: str
+
+
+class FlashcardCreate(BaseModel):
+    front: str
+    back: str
+    source_chunk_ids: list[str] = Field(default_factory=list)
+
+    @field_validator("front")
+    @classmethod
+    def _front(cls, value: str) -> str:
+        value = value.strip()
+        if not value:
+            raise ValueError("卡片正面不能为空")
+        if len(value) > 300:
+            raise ValueError("卡片正面不能超过 300 字")
+        return value
+
+    @field_validator("back")
+    @classmethod
+    def _back(cls, value: str) -> str:
+        value = value.strip()
+        if not value:
+            raise ValueError("卡片背面不能为空")
+        if len(value) > 3000:
+            raise ValueError("卡片背面不能超过 3000 字")
+        return value
+
+    @field_validator("source_chunk_ids")
+    @classmethod
+    def _source_ids(cls, value: list[str]) -> list[str]:
+        ids = list(dict.fromkeys(item.strip() for item in value if item.strip()))
+        if len(ids) > 20:
+            raise ValueError("来源文本块不能超过 20 个")
+        return ids
+
+
+class FlashcardGenerate(BaseModel):
+    file_ids: list[str] = Field(default_factory=list)
+    count: int = 8
+
+    @field_validator("file_ids")
+    @classmethod
+    def _file_ids(cls, value: list[str]) -> list[str]:
+        return list(dict.fromkeys(item.strip() for item in value if item.strip()))
+
+    @field_validator("count")
+    @classmethod
+    def _count(cls, value: int) -> int:
+        if not 1 <= value <= 20:
+            raise ValueError("生成数量需为 1–20")
+        return value
+
+
+class FlashcardReviewIn(BaseModel):
+    mastery: str
+
+    @field_validator("mastery")
+    @classmethod
+    def _mastery(cls, value: str) -> str:
+        value = value.strip().lower()
+        if value not in {"mastered", "unfamiliar"}:
+            raise ValueError("掌握状态仅支持 mastered 或 unfamiliar")
+        return value
+
+
+class FlashcardOut(BaseModel):
+    id: str
+    course_id: str
+    front: str
+    back: str
+    mastery: str
+    sources: list[FlashcardSourceOut]
+    review_count: int = 0
+    last_reviewed_at: UTCDateTime | None = None
+    created_at: UTCDateTime
+    updated_at: UTCDateTime
+
+
+class TaskCandidateRequest(BaseModel):
+    file_ids: list[str] = Field(default_factory=list)
+
+    @field_validator("file_ids")
+    @classmethod
+    def _file_ids(cls, value: list[str]) -> list[str]:
+        return list(dict.fromkeys(item.strip() for item in value if item.strip()))
+
+
+class TaskCandidateOut(BaseModel):
+    title: str
+    due_at: UTCDateTime | None
+    due_text: str
+    needs_confirmation: bool
+    confirmation_reason: str | None = None
+    source_file_id: str
+    source_file_name: str
+    locator: str
+    heading: str
+    snippet: str
+
+
+class TaskCreate(BaseModel):
+    title: str
+    due_at: datetime | None = None
+    source_file_id: str | None = None
+    source_snippet: str | None = None
+
+    @field_validator("title")
+    @classmethod
+    def _title(cls, value: str) -> str:
+        value = value.strip()
+        if not value:
+            raise ValueError("待办标题不能为空")
+        if len(value) > 200:
+            raise ValueError("待办标题不能超过 200 字")
+        return value
+
+    @field_validator("due_at")
+    @classmethod
+    def _due_at(cls, value: datetime | None) -> datetime | None:
+        if value is not None and value.tzinfo is None:
+            # API 约定 ISO 8601；无偏移的输入按 UTC 解释，避免本地/UTC 混淆。
+            return value.replace(tzinfo=timezone.utc)
+        return value
+
+    @field_validator("source_snippet")
+    @classmethod
+    def _snippet(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        value = value.strip()
+        if len(value) > 2000:
+            raise ValueError("来源片段不能超过 2000 字")
+        return value or None
+
+    @field_validator("source_file_id")
+    @classmethod
+    def _source_file_id(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        value = value.strip()
+        return value or None
+
+
+class TaskUpdate(BaseModel):
+    title: str | None = None
+    due_at: datetime | None = None
+    done: bool | None = None
+
+    @field_validator("title")
+    @classmethod
+    def _title(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        value = value.strip()
+        if not value:
+            raise ValueError("待办标题不能为空")
+        if len(value) > 200:
+            raise ValueError("待办标题不能超过 200 字")
+        return value
+
+    @field_validator("due_at")
+    @classmethod
+    def _due_at(cls, value: datetime | None) -> datetime | None:
+        if value is not None and value.tzinfo is None:
+            return value.replace(tzinfo=timezone.utc)
+        return value
+
+
+class TaskOut(BaseModel):
+    id: str
+    course_id: str
+    title: str
+    due_at: UTCDateTime | None
+    source_file_id: str | None
+    source_file_name: str | None
+    source_snippet: str | None
+    confirmed: bool
+    done: bool
+    created_at: UTCDateTime
+    updated_at: UTCDateTime

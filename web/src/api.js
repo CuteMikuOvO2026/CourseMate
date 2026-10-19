@@ -80,4 +80,22 @@ export const api = {
     request(`/attempts/${attemptId}/regrade`, {
       method: 'PATCH', body: { question_id: questionId, correct },
     }),
+
+  flashcards: (courseId) => request(`/courses/${courseId}/flashcards`),
+  createFlashcard: (courseId, data) =>
+    request(`/courses/${courseId}/flashcards`, { method: 'POST', body: data }),
+  generateFlashcards: (courseId, data) =>
+    request(`/courses/${courseId}/flashcards/generate`, { method: 'POST', body: data }),
+  reviewFlashcard: (cardId, mastery) =>
+    request(`/flashcards/${cardId}/reviews`, { method: 'POST', body: { mastery } }),
+  deleteFlashcard: (cardId) => request(`/flashcards/${cardId}`, { method: 'DELETE' }),
+
+  tasks: (courseId) => request(`/courses/${courseId}/tasks`),
+  createTask: (courseId, data) =>
+    request(`/courses/${courseId}/tasks`, { method: 'POST', body: data }),
+  taskCandidates: (courseId, data = {}) =>
+    request(`/courses/${courseId}/tasks/candidates`, { method: 'POST', body: data }),
+  updateTask: (taskId, data) =>
+    request(`/tasks/${taskId}`, { method: 'PATCH', body: data }),
+  deleteTask: (taskId) => request(`/tasks/${taskId}`, { method: 'DELETE' }),
 };

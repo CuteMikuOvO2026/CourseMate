@@ -8,7 +8,7 @@ from fastapi import Depends, HTTPException, Request
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from .models import Conversation, Course, SourceFile, User
+from .models import Conversation, Course, Flashcard, SourceFile, Task, User
 from .security import SESSION_COOKIE, decode_access_token
 
 
@@ -77,3 +77,33 @@ def owned_conversation(
     if conversation is None:
         raise HTTPException(status_code=404, detail="对话不存在")
     return conversation
+
+
+def owned_flashcard(
+    flashcard_id: str,
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_user),
+) -> Flashcard:
+    flashcard = db.scalar(
+        select(Flashcard)
+        .join(Course, Course.id == Flashcard.course_id)
+        .where(Flashcard.id == flashcard_id, Course.user_id == user.id)
+    )
+    if flashcard is None:
+        raise HTTPException(status_code=404, detail="复习卡不存在")
+    return flashcard
+
+
+def owned_task(
+    task_id: str,
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_user),
+) -> Task:
+    task = db.scalar(
+        select(Task)
+        .join(Course, Course.id == Task.course_id)
+        .where(Task.id == task_id, Course.user_id == user.id)
+    )
+    if task is None:
+        raise HTTPException(status_code=404, detail="待办不存在")
+    return task

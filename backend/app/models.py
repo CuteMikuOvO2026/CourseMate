@@ -58,6 +58,12 @@ class Course(Base):
     quizzes: Mapped[list["Quiz"]] = relationship(
         back_populates="course", cascade="all, delete-orphan"
     )
+    flashcards: Mapped[list["Flashcard"]] = relationship(
+        back_populates="course", cascade="all, delete-orphan"
+    )
+    tasks: Mapped[list["Task"]] = relationship(
+        back_populates="course", cascade="all, delete-orphan"
+    )
 
 
 class SourceFile(Base):
@@ -223,3 +229,72 @@ class QuizAttempt(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
     quiz: Mapped[Quiz] = relationship(back_populates="attempts")
+
+
+class Flashcard(Base):
+    """由资料生成或手工创建的问答卡；来源 chunk 以 JSON 保存。"""
+
+    __tablename__ = "flashcards"
+
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=new_id)
+    course_id: Mapped[str] = mapped_column(
+        String(32), ForeignKey("courses.id", ondelete="CASCADE"), index=True
+    )
+    front: Mapped[str] = mapped_column(Text)
+    back: Mapped[str] = mapped_column(Text)
+    source_chunk_ids: Mapped[str] = mapped_column(Text, default="[]")
+    mastery: Mapped[str] = mapped_column(String(16), default="new", index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=utcnow, onupdate=utcnow
+    )
+
+    course: Mapped[Course] = relationship(back_populates="flashcards")
+    reviews: Mapped[list["FlashcardReview"]] = relationship(
+        back_populates="flashcard",
+        cascade="all, delete-orphan",
+        order_by="FlashcardReview.created_at",
+    )
+
+
+class FlashcardReview(Base):
+    """一次“掌握/不熟”复习记录。"""
+
+    __tablename__ = "flashcard_reviews"
+
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=new_id)
+    flashcard_id: Mapped[str] = mapped_column(
+        String(32), ForeignKey("flashcards.id", ondelete="CASCADE"), index=True
+    )
+    mastery: Mapped[str] = mapped_column(String(16))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+    flashcard: Mapped[Flashcard] = relationship(back_populates="reviews")
+
+
+class Task(Base):
+    """用户确认后的课程待办；候选本身不落库。"""
+
+    __tablename__ = "tasks"
+
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=new_id)
+    course_id: Mapped[str] = mapped_column(
+        String(32), ForeignKey("courses.id", ondelete="CASCADE"), index=True
+    )
+    title: Mapped[str] = mapped_column(String(200))
+    due_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True, index=True
+    )
+    source_file_id: Mapped[str | None] = mapped_column(
+        String(32), ForeignKey("source_files.id", ondelete="SET NULL"), nullable=True
+    )
+    source_snippet: Mapped[str | None] = mapped_column(Text, nullable=True)
+    confirmed: Mapped[bool] = mapped_column(Boolean, default=True)
+    done: Mapped[bool] = mapped_column(Boolean, default=False, index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=utcnow, onupdate=utcnow
+    )
+
+    course: Mapped[Course] = relationship(back_populates="tasks")
+    source_file: Mapped[SourceFile | None] = relationship()

@@ -13,7 +13,7 @@ from fastapi.staticfiles import StaticFiles
 from . import __version__
 from .config import Settings, load_settings
 from .db import Base, create_engine_and_session, migrate_schema
-from .routers import auth, courses, files, health, query, quizzes
+from .routers import auth, courses, files, flashcards, health, query, quizzes, tasks
 from .services.ingest import reconcile_pending
 
 logger = logging.getLogger(__name__)
@@ -118,6 +118,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(files.router, prefix="/api/v1")
     app.include_router(query.router, prefix="/api/v1")
     app.include_router(quizzes.router, prefix="/api/v1")
+    app.include_router(flashcards.router, prefix="/api/v1")
+    app.include_router(tasks.router, prefix="/api/v1")
     _mount_frontend(app, settings)
     return app
 
