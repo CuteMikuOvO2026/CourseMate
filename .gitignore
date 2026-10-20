@@ -19,7 +19,43 @@ web/dist/
 
 # 环境与编辑器
 .env
+.env.*
+!.env.example
 .DS_Store
 .idea/
 .vscode/
 *.log
+
+# AI / Agent 工具与本地工作区（与项目功能无关，含本地笔记）
+.workbuddy-ai/
+.claude/
+.codebuddy/
+.cursor/
+.continue/
+.aider*
+
+# 操作系统与编辑器临时文件
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
+*.bak
+*.orig
+*.tmp
+
+# 测试与覆盖率产物
+.coverage
+coverage/
+htmlcov/
+.tox/
+.hypothesis/
+
+# 构建产物（根目录；web/dist 已单独处理）
+/build/
+/dist/
+
+# 杂项
+nohup.out
+*.pid
+.cache/

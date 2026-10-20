@@ -11,12 +11,21 @@
 
 **Phase 1–6 已完成：账户/课程/资料、解析检索、带引用问答、小测、复习卡、资料待办、演示数据与评测**：
 
+> Phase 6.5 检索升级已完成：新增真实 embedding 通道（`chunk_vectors` 表）、可选重排、
+> 向量覆盖率探活与语义评测集，默认仍为零依赖的哈希向量。见
+> [RAG 升级改造清单](docs/RAG升级改造清单.md)。
+
 - 注册 / 登录 / 退出，httpOnly Cookie 会话，密码 PBKDF2 哈希；
 - 课程创建、列表、重命名、删除，课程之间数据完全隔离；
 - PDF / PPTX / DOCX / Markdown / TXT 上传，文件大小、类型与文件头校验，私有存储；
 - 后台解析：PDF 保留页码、PPTX 保留幻灯片号、DOCX/Markdown 按章节定位；扫描版 PDF 明确失败并提示不支持 OCR；
 - 标题/页感知分块（目标约 600 字，单块不超过 1200 字，不跨页/跨章节）；
-- 课程级混合检索索引：中文 bigram 分词 + BM25 + 哈希 TF-IDF 向量 + RRF，索引随文件变更自动失效；
+- 课程级混合检索索引：中文 bigram 分词 + BM25 + 向量 + RRF，索引随文件变更自动失效；
+  - 默认向量通道为**哈希 TF-IDF**（零依赖、确定性、离线可用）；
+  - 配置 `COURSEMATE_EMBEDDING_PROVIDER=openai` 后改用 OpenAI 兼容 `/embeddings` 的**真实语义向量**，支持跨语言检索（英文提问命中中文资料）；
+  - 向量按模型存入 `chunk_vectors` 表，缺失或失败时**整体**退回哈希向量，不会出现混合排序；
+  - 可选重排 `COURSEMATE_RERANK_ENABLED=1`（Cohere / Jina 兼容 `/rerank`），在 Top-50 候选上精排回 Top-6；
+  - `GET /api/v1/health` 返回 `embedding.coverage`，可判断检索是否真的用上了语义向量。
 - 文件状态自动轮询（等待解析 → 解析中 → 已解析/解析失败），失败原因可读，支持重新解析；
 - 原文预览：按页/章节查看提取文本，并显示页码、章节与字数。
 - 课程级问答：默认离线摘录式回答，或可选 OpenAI 兼容 Provider；所有回答都带可验证的文件、页码/章节与原文引用；无依据时明确拒答；
@@ -75,6 +84,32 @@ cd backend
 配置可以写在仓库根目录的 `.env` 中（参考 [.env.example](.env.example)）；`load_settings()` 会自动加载 `.env`，
 已存在的进程环境变量优先。相对路径按仓库根目录解析。
 
+语义检索与重排（可选，默认全部关闭）：
+
+```bash
+# 真实语义向量：OpenAI 兼容 /embeddings
+COURSEMATE_EMBEDDING_PROVIDER=openai
+COURSEMATE_EMBEDDING_BASE_URL=https://api.siliconflow.cn/v1
+COURSEMATE_EMBEDDING_API_KEY=
+COURSEMATE_EMBEDDING_MODEL=BAAI/bge-m3
+COURSEMATE_EMBEDDING_DIM=1024
+
+# 重排：Cohere / Jina 兼容 /rerank
+COURSEMATE_RERANK_ENABLED=1
+COURSEMATE_RERANK_BASE_URL=https://api.jina.ai/v1
+COURSEMATE_RERANK_API_KEY=
+COURSEMATE_RERANK_MODEL=BAAI/bge-reranker-v2-m3
+```
+
+```powershell
+# 生效后为历史资料回填向量（幂等，可反复执行）
+cd backend
+..\.venv\Scripts\python.exe scripts\reindex_vectors.py
+```
+
+> 语义向量只影响「找得到」。离线摘录式回答仍按原文词元抽取，跨语言提问即使检索命中，
+> 离线模式也会拒答——需要 `COURSEMATE_LLM_PROVIDER=openai` 走生成才能真正回答。
+
 开发模式下也可以直接运行测试：
 
 ```powershell
@@ -89,7 +124,7 @@ powershell -ExecutionPolicy Bypass -File scripts\test.ps1
 | 路径 | 说明 |
 |---|---|
 | `backend/app/` | FastAPI 应用：`models`、`schemas`、`security`、`storage`、`routers/` |
-| `backend/app/services/` | 解析、分块、分词、混合检索、查询意图/改写、复习卡生成、截止日期提取、摄入与启动对账 |
+| `backend/app/services/` | 解析、分析、分块、检索、向量化、重排、查询意图/改写、复习卡生成、截止日期提取、摄入与启动对账 |
 | `backend/tests/` | pytest 测试（账户、课程、文件、解析、分块、检索、问答、查询改写、小测、复习卡、待办、越权隔离） |
 | `backend/eval/` | 40 条评测集、评测脚本、人工抽样、结果 JSON |
 | `backend/scripts/` | 演示课程种子脚本 |
