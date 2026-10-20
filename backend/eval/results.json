@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-10-20T06:25:30.127579+00:00",
+  "generated_at": "2026-10-20T07:24:45.502476+00:00",
   "provider": "offline",
-  "embedding_provider": "hash",
+  "embedding_provider": "openai",
   "top_k": 5,
   "course": "计算机网络（演示）",
   "metrics": {
@@ -15,7 +15,7 @@
     "answered_with_citations_rate": 1.0,
     "refusal_rate_unanswerable": 1.0,
     "keyword_support_rate": 1.0,
-    "p95_ms": 0.67,
+    "p95_ms": 294.053,
     "parse_success_rate": 1.0,
     "ready_files": 7,
     "total_files": 7,
@@ -31,7 +31,7 @@
       "abstained": false,
       "confidence": "high",
       "mode": "offline",
-      "elapsed_ms": 4.615,
+      "elapsed_ms": 285.75,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -62,28 +62,28 @@
           "page_from": null,
           "page_to": null,
           "heading": "第5讲 传输层",
-          "rrf": 0.032002
+          "rrf": 0.032258
         },
         {
           "file": "第4讲-网络层.pdf",
           "page_from": 1,
           "page_to": 1,
           "heading": "",
-          "rrf": 0.031498
+          "rrf": 0.030579
         },
         {
           "file": "作业与复习要求.txt",
           "page_from": null,
           "page_to": null,
           "heading": "全文",
-          "rrf": 0.03101
+          "rrf": 0.028783
         },
         {
-          "file": "第4讲-网络层.pdf",
-          "page_from": 2,
-          "page_to": 2,
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
           "heading": "",
-          "rrf": 0.016129
+          "rrf": 0.015873
         }
       ],
       "expected": {
@@ -100,7 +100,7 @@
       "abstained": false,
       "confidence": "high",
       "mode": "offline",
-      "elapsed_ms": 0.589,
+      "elapsed_ms": 313.145,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -131,27 +131,27 @@
           "page_from": 1,
           "page_to": 1,
           "heading": "",
-          "rrf": 0.031054
+          "rrf": 0.031754
         },
         {
           "file": "作业与复习要求.txt",
           "page_from": null,
           "page_to": null,
           "heading": "全文",
-          "rrf": 0.030159
+          "rrf": 0.029031
         },
         {
-          "file": "第6讲-应用层.md",
-          "page_from": null,
-          "page_to": null,
-          "heading": "第6讲 应用层 > 6.3 DHCP",
+          "file": "第4讲-网络层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
           "rrf": 0.016129
         },
         {
-          "file": "第5讲-传输层.docx",
-          "page_from": null,
-          "page_to": null,
-          "heading": "流量控制与拥塞控制",
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
           "rrf": 0.015873
         }
       ],
@@ -169,7 +169,7 @@
       "abstained": false,
       "confidence": "high",
       "mode": "offline",
-      "elapsed_ms": 0.496,
+      "elapsed_ms": 242.533,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -196,32 +196,32 @@
           "rrf": 0.032787
         },
         {
-          "file": "第1讲-网络概述.pdf",
-          "page_from": 1,
-          "page_to": 1,
-          "heading": "",
-          "rrf": 0.032258
-        },
-        {
           "file": "第4讲-网络层.pdf",
           "page_from": 1,
           "page_to": 1,
           "heading": "",
-          "rrf": 0.030798
+          "rrf": 0.032002
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.031281
         },
         {
           "file": "第5讲-传输层.docx",
           "page_from": null,
           "page_to": null,
-          "heading": "流量控制与拥塞控制",
-          "rrf": 0.030798
+          "heading": "第5讲 传输层",
+          "rrf": 0.031258
         },
         {
-          "file": "第6讲-应用层.md",
+          "file": "第5讲-传输层.docx",
           "page_from": null,
           "page_to": null,
-          "heading": "第6讲 应用层 > 6.3 DHCP",
-          "rrf": 0.030536
+          "heading": "TCP 连接管理",
+          "rrf": 0.03125
         }
       ],
       "expected": {
@@ -238,7 +238,7 @@
       "abstained": false,
       "confidence": "medium",
       "mode": "offline",
-      "elapsed_ms": 0.433,
+      "elapsed_ms": 228.641,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -279,11 +279,18 @@
           "rrf": 0.031746
         },
         {
-          "file": "第5讲-传输层.docx",
+          "file": "第4讲-网络层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.015625
+        },
+        {
+          "file": "第6讲-应用层.md",
           "page_from": null,
           "page_to": null,
-          "heading": "UDP",
-          "rrf": 0.015625
+          "heading": "第6讲 应用层 > 6.2 DNS",
+          "rrf": 0.015385
         }
       ],
       "expected": {
@@ -300,7 +307,7 @@
       "abstained": false,
       "confidence": "medium",
       "mode": "offline",
-      "elapsed_ms": 0.528,
+      "elapsed_ms": 252.07,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -327,32 +334,32 @@
           "rrf": 0.032787
         },
         {
-          "file": "第6讲-应用层.md",
-          "page_from": null,
-          "page_to": null,
-          "heading": "第6讲 应用层 > 6.4 Web 缓存与 CDN",
-          "rrf": 0.032258
-        },
-        {
           "file": "作业与复习要求.txt",
           "page_from": null,
           "page_to": null,
           "heading": "全文",
-          "rrf": 0.031746
+          "rrf": 0.031025
         },
         {
-          "file": "第5讲-传输层.docx",
+          "file": "第6讲-应用层.md",
           "page_from": null,
           "page_to": null,
-          "heading": "第5讲 传输层",
-          "rrf": 0.015625
+          "heading": "第6讲 应用层 > 6.4 Web 缓存与 CDN",
+          "rrf": 0.029462
         },
         {
-          "file": "第3讲-数据链路层.pptx",
-          "page_from": 3,
-          "page_to": 3,
-          "heading": "以太网与交换机",
-          "rrf": 0.015385
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.016129
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.015873
         }
       ],
       "expected": {
@@ -369,7 +376,7 @@
       "abstained": false,
       "confidence": "medium",
       "mode": "offline",
-      "elapsed_ms": 0.504,
+      "elapsed_ms": 294.053,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -396,25 +403,32 @@
           "rrf": 0.032787
         },
         {
-          "file": "第5讲-传输层.docx",
+          "file": "作业与复习要求.txt",
           "page_from": null,
           "page_to": null,
-          "heading": "TCP 连接管理",
+          "heading": "全文",
           "rrf": 0.016129
         },
         {
-          "file": "第2讲-物理层.pdf",
+          "file": "第1讲-网络概述.pdf",
           "page_from": 2,
           "page_to": 2,
           "heading": "",
           "rrf": 0.015873
         },
         {
-          "file": "作业与复习要求.txt",
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.015625
+        },
+        {
+          "file": "第6讲-应用层.md",
           "page_from": null,
           "page_to": null,
-          "heading": "全文",
-          "rrf": 0.015625
+          "heading": "第6讲 应用层 > 6.2 DNS",
+          "rrf": 0.015385
         }
       ],
       "expected": {
@@ -431,7 +445,7 @@
       "abstained": false,
       "confidence": "medium",
       "mode": "offline",
-      "elapsed_ms": 0.426,
+      "elapsed_ms": 220.401,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -458,31 +472,31 @@
           "rrf": 0.032787
         },
         {
-          "file": "第5讲-传输层.docx",
-          "page_from": null,
-          "page_to": null,
-          "heading": "流量控制与拥塞控制",
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
           "rrf": 0.016129
         },
         {
-          "file": "第1讲-网络概述.pdf",
+          "file": "第4讲-网络层.pdf",
           "page_from": 2,
           "page_to": 2,
           "heading": "",
           "rrf": 0.015873
         },
         {
-          "file": "第3讲-数据链路层.pptx",
+          "file": "第1讲-网络概述.pdf",
           "page_from": 1,
           "page_to": 1,
-          "heading": "数据链路层",
+          "heading": "",
           "rrf": 0.015625
         },
         {
           "file": "第3讲-数据链路层.pptx",
-          "page_from": 2,
-          "page_to": 2,
-          "heading": "差错控制与 CSMA/CD",
+          "page_from": 3,
+          "page_to": 3,
+          "heading": "以太网与交换机",
           "rrf": 0.015385
         }
       ],
@@ -500,7 +514,7 @@
       "abstained": false,
       "confidence": "high",
       "mode": "offline",
-      "elapsed_ms": 0.526,
+      "elapsed_ms": 227.669,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -538,21 +552,21 @@
           "page_from": 1,
           "page_to": 1,
           "heading": "",
-          "rrf": 0.031746
+          "rrf": 0.030366
         },
         {
           "file": "第1讲-网络概述.pdf",
           "page_from": 1,
           "page_to": 1,
           "heading": "",
-          "rrf": 0.030536
+          "rrf": 0.029469
         },
         {
           "file": "第3讲-数据链路层.pptx",
           "page_from": 2,
           "page_to": 2,
           "heading": "差错控制与 CSMA/CD",
-          "rrf": 0.030118
+          "rrf": 0.028446
         }
       ],
       "expected": {
@@ -569,7 +583,7 @@
       "abstained": false,
       "confidence": "high",
       "mode": "offline",
-      "elapsed_ms": 0.397,
+      "elapsed_ms": 233.037,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -600,28 +614,28 @@
           "page_from": null,
           "page_to": null,
           "heading": "第6讲 应用层 > 6.4 Web 缓存与 CDN",
-          "rrf": 0.031754
-        },
-        {
-          "file": "第6讲-应用层.md",
-          "page_from": null,
-          "page_to": null,
-          "heading": "第6讲 应用层 > 6.2 DNS",
-          "rrf": 0.031258
+          "rrf": 0.032258
         },
         {
           "file": "第4讲-网络层.pdf",
           "page_from": 2,
           "page_to": 2,
           "heading": "",
-          "rrf": 0.030331
+          "rrf": 0.030777
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.2 DNS",
+          "rrf": 0.030579
         },
         {
           "file": "第5讲-传输层.docx",
           "page_from": null,
           "page_to": null,
           "heading": "UDP",
-          "rrf": 0.03031
+          "rrf": 0.02967
         }
       ],
       "expected": {
@@ -638,7 +652,7 @@
       "abstained": false,
       "confidence": "medium",
       "mode": "offline",
-      "elapsed_ms": 0.235,
+      "elapsed_ms": 214.332,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -665,11 +679,32 @@
           "rrf": 0.032787
         },
         {
-          "file": "第3讲-数据链路层.pptx",
-          "page_from": 3,
-          "page_to": 3,
-          "heading": "以太网与交换机",
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.4 Web 缓存与 CDN",
           "rrf": 0.016129
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.015873
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "TCP 连接管理",
+          "rrf": 0.015625
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.015385
         }
       ],
       "expected": {
@@ -686,7 +721,7 @@
       "abstained": false,
       "confidence": "high",
       "mode": "offline",
-      "elapsed_ms": 0.438,
+      "elapsed_ms": 223.426,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -713,13 +748,6 @@
           "rrf": 0.032787
         },
         {
-          "file": "第3讲-数据链路层.pptx",
-          "page_from": 2,
-          "page_to": 2,
-          "heading": "差错控制与 CSMA/CD",
-          "rrf": 0.032258
-        },
-        {
           "file": "第4讲-网络层.pdf",
           "page_from": 1,
           "page_to": 1,
@@ -731,14 +759,21 @@
           "page_from": null,
           "page_to": null,
           "heading": "UDP",
-          "rrf": 0.030118
+          "rrf": 0.03101
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "差错控制与 CSMA/CD",
+          "rrf": 0.029287
         },
         {
           "file": "第2讲-物理层.pdf",
           "page_from": 1,
           "page_to": 1,
           "heading": "",
-          "rrf": 0.015625
+          "rrf": 0.016129
         }
       ],
       "expected": {
@@ -755,7 +790,7 @@
       "abstained": false,
       "confidence": "medium",
       "mode": "offline",
-      "elapsed_ms": 0.67,
+      "elapsed_ms": 241.273,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -786,28 +821,28 @@
           "page_from": 2,
           "page_to": 2,
           "heading": "",
-          "rrf": 0.032002
+          "rrf": 0.032258
         },
         {
           "file": "第4讲-网络层.pdf",
           "page_from": 1,
           "page_to": 1,
           "heading": "",
-          "rrf": 0.032002
+          "rrf": 0.031025
         },
         {
-          "file": "第5讲-传输层.docx",
-          "page_from": null,
-          "page_to": null,
-          "heading": "第5讲 传输层",
+          "file": "第2讲-物理层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.015873
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
           "rrf": 0.015625
-        },
-        {
-          "file": "作业与复习要求.txt",
-          "page_from": null,
-          "page_to": null,
-          "heading": "全文",
-          "rrf": 0.015385
         }
       ],
       "expected": {
@@ -824,7 +859,7 @@
       "abstained": false,
       "confidence": "high",
       "mode": "offline",
-      "elapsed_ms": 0.495,
+      "elapsed_ms": 470.835,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -862,21 +897,21 @@
           "page_from": 2,
           "page_to": 2,
           "heading": "",
-          "rrf": 0.031258
-        },
-        {
-          "file": "第5讲-传输层.docx",
-          "page_from": null,
-          "page_to": null,
-          "heading": "TCP 连接管理",
-          "rrf": 0.03055
+          "rrf": 0.031498
         },
         {
           "file": "第1讲-网络概述.pdf",
           "page_from": 1,
           "page_to": 1,
           "heading": "",
-          "rrf": 0.030331
+          "rrf": 0.03101
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.2 DNS",
+          "rrf": 0.030077
         }
       ],
       "expected": {
@@ -893,7 +928,7 @@
       "abstained": false,
       "confidence": "medium",
       "mode": "offline",
-      "elapsed_ms": 0.415,
+      "elapsed_ms": 213.199,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -917,20 +952,27 @@
           "page_from": 1,
           "page_to": 1,
           "heading": "",
-          "rrf": 0.032522
-        },
-        {
-          "file": "第4讲-网络层.pdf",
-          "page_from": 2,
-          "page_to": 2,
-          "heading": "",
-          "rrf": 0.032002
+          "rrf": 0.032787
         },
         {
           "file": "第3讲-数据链路层.pptx",
           "page_from": 3,
           "page_to": 3,
           "heading": "以太网与交换机",
+          "rrf": 0.032002
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.031754
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "UDP",
           "rrf": 0.031498
         },
         {
@@ -938,14 +980,7 @@
           "page_from": null,
           "page_to": null,
           "heading": "第6讲 应用层 > 6.2 DNS",
-          "rrf": 0.031319
-        },
-        {
-          "file": "第5讲-传输层.docx",
-          "page_from": null,
-          "page_to": null,
-          "heading": "UDP",
-          "rrf": 0.03055
+          "rrf": 0.030077
         }
       ],
       "expected": {
@@ -962,7 +997,7 @@
       "abstained": false,
       "confidence": "high",
       "mode": "offline",
-      "elapsed_ms": 0.447,
+      "elapsed_ms": 239.237,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -993,28 +1028,28 @@
           "page_from": null,
           "page_to": null,
           "heading": "第6讲 应用层 > 6.3 DHCP",
-          "rrf": 0.032258
-        },
-        {
-          "file": "第6讲-应用层.md",
-          "page_from": null,
-          "page_to": null,
-          "heading": "第6讲 应用层 > 6.1 HTTP 与 HTTPS",
-          "rrf": 0.031258
+          "rrf": 0.032002
         },
         {
           "file": "第1讲-网络概述.pdf",
           "page_from": 2,
           "page_to": 2,
           "heading": "",
-          "rrf": 0.030118
+          "rrf": 0.031754
         },
         {
-          "file": "第2讲-物理层.pdf",
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.1 HTTP 与 HTTPS",
+          "rrf": 0.031498
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
           "page_from": 1,
           "page_to": 1,
           "heading": "",
-          "rrf": 0.015873
+          "rrf": 0.015385
         }
       ],
       "expected": {
@@ -1031,7 +1066,7 @@
       "abstained": false,
       "confidence": "high",
       "mode": "offline",
-      "elapsed_ms": 0.562,
+      "elapsed_ms": 224.175,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -1058,32 +1093,32 @@
           "rrf": 0.032787
         },
         {
-          "file": "第3讲-数据链路层.pptx",
-          "page_from": 3,
-          "page_to": 3,
-          "heading": "以太网与交换机",
-          "rrf": 0.031754
-        },
-        {
           "file": "第4讲-网络层.pdf",
           "page_from": 1,
           "page_to": 1,
           "heading": "",
-          "rrf": 0.031258
+          "rrf": 0.032002
         },
         {
           "file": "第3讲-数据链路层.pptx",
-          "page_from": 1,
-          "page_to": 1,
-          "heading": "数据链路层",
-          "rrf": 0.016129
+          "page_from": 3,
+          "page_to": 3,
+          "heading": "以太网与交换机",
+          "rrf": 0.031514
         },
         {
-          "file": "作业与复习要求.txt",
+          "file": "第5讲-传输层.docx",
           "page_from": null,
           "page_to": null,
-          "heading": "全文",
+          "heading": "流量控制与拥塞控制",
           "rrf": 0.015873
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "TCP 连接管理",
+          "rrf": 0.015625
         }
       ],
       "expected": {
@@ -1100,7 +1135,7 @@
       "abstained": false,
       "confidence": "high",
       "mode": "offline",
-      "elapsed_ms": 0.424,
+      "elapsed_ms": 237.787,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -1124,34 +1159,34 @@
           "page_from": 2,
           "page_to": 2,
           "heading": "",
-          "rrf": 0.032266
-        },
-        {
-          "file": "第6讲-应用层.md",
-          "page_from": null,
-          "page_to": null,
-          "heading": "第6讲 应用层 > 6.2 DNS",
-          "rrf": 0.032266
+          "rrf": 0.032787
         },
         {
           "file": "第6讲-应用层.md",
           "page_from": null,
           "page_to": null,
           "heading": "第6讲 应用层 > 6.4 Web 缓存与 CDN",
-          "rrf": 0.031754
+          "rrf": 0.032002
         },
         {
-          "file": "第4讲-网络层.pdf",
-          "page_from": 1,
-          "page_to": 1,
-          "heading": "",
-          "rrf": 0.016129
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.2 DNS",
+          "rrf": 0.032002
         },
         {
           "file": "第1讲-网络概述.pdf",
-          "page_from": 2,
-          "page_to": 2,
+          "page_from": 1,
+          "page_to": 1,
           "heading": "",
+          "rrf": 0.015625
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "数据链路层",
           "rrf": 0.015385
         }
       ],
@@ -1169,7 +1204,7 @@
       "abstained": false,
       "confidence": "medium",
       "mode": "offline",
-      "elapsed_ms": 0.448,
+      "elapsed_ms": 207.871,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -1196,32 +1231,32 @@
           "rrf": 0.032787
         },
         {
-          "file": "第2讲-物理层.pdf",
-          "page_from": 1,
-          "page_to": 1,
-          "heading": "",
-          "rrf": 0.032002
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "流量控制与拥塞控制",
+          "rrf": 0.031754
         },
         {
           "file": "第5讲-传输层.docx",
           "page_from": null,
           "page_to": null,
           "heading": "第5讲 传输层",
-          "rrf": 0.031025
-        },
-        {
-          "file": "第5讲-传输层.docx",
-          "page_from": null,
-          "page_to": null,
-          "heading": "流量控制与拥塞控制",
-          "rrf": 0.030331
+          "rrf": 0.031746
         },
         {
           "file": "第1讲-网络概述.pdf",
           "page_from": 2,
           "page_to": 2,
           "heading": "",
-          "rrf": 0.029877
+          "rrf": 0.03101
+        },
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.030018
         }
       ],
       "expected": {
@@ -1238,7 +1273,7 @@
       "abstained": false,
       "confidence": "medium",
       "mode": "offline",
-      "elapsed_ms": 0.506,
+      "elapsed_ms": 233.359,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -1265,32 +1300,32 @@
           "rrf": 0.032787
         },
         {
-          "file": "第2讲-物理层.pdf",
-          "page_from": 1,
-          "page_to": 1,
-          "heading": "",
-          "rrf": 0.032258
-        },
-        {
           "file": "第5讲-传输层.docx",
           "page_from": null,
           "page_to": null,
           "heading": "流量控制与拥塞控制",
-          "rrf": 0.031498
-        },
-        {
-          "file": "第1讲-网络概述.pdf",
-          "page_from": 2,
-          "page_to": 2,
-          "heading": "",
-          "rrf": 0.03031
+          "rrf": 0.031754
         },
         {
           "file": "第5讲-传输层.docx",
           "page_from": null,
           "page_to": null,
           "heading": "第5讲 传输层",
-          "rrf": 0.030159
+          "rrf": 0.031746
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.030536
+        },
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.030415
         }
       ],
       "expected": {
@@ -1307,7 +1342,7 @@
       "abstained": false,
       "confidence": "medium",
       "mode": "offline",
-      "elapsed_ms": 0.459,
+      "elapsed_ms": 229.687,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -1334,32 +1369,32 @@
           "rrf": 0.032787
         },
         {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "TCP 连接管理",
+          "rrf": 0.031514
+        },
+        {
           "file": "第3讲-数据链路层.pptx",
           "page_from": 1,
           "page_to": 1,
           "heading": "数据链路层",
-          "rrf": 0.032258
+          "rrf": 0.031054
         },
         {
-          "file": "第3讲-数据链路层.pptx",
-          "page_from": 2,
-          "page_to": 2,
-          "heading": "差错控制与 CSMA/CD",
-          "rrf": 0.03055
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第5讲 传输层",
+          "rrf": 0.031025
         },
         {
           "file": "第1讲-网络概述.pdf",
           "page_from": 2,
           "page_to": 2,
           "heading": "",
-          "rrf": 0.029958
-        },
-        {
-          "file": "第5讲-传输层.docx",
-          "page_from": null,
-          "page_to": null,
-          "heading": "TCP 连接管理",
-          "rrf": 0.028898
+          "rrf": 0.030579
         }
       ],
       "expected": {
@@ -1376,7 +1411,7 @@
       "abstained": false,
       "confidence": "high",
       "mode": "offline",
-      "elapsed_ms": 0.434,
+      "elapsed_ms": 234.056,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -1403,32 +1438,32 @@
           "rrf": 0.032787
         },
         {
-          "file": "第3讲-数据链路层.pptx",
-          "page_from": 1,
-          "page_to": 1,
-          "heading": "数据链路层",
-          "rrf": 0.032258
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "TCP 连接管理",
+          "rrf": 0.031754
         },
         {
           "file": "第3讲-数据链路层.pptx",
           "page_from": 2,
           "page_to": 2,
           "heading": "差错控制与 CSMA/CD",
-          "rrf": 0.030579
+          "rrf": 0.031258
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "数据链路层",
+          "rrf": 0.031054
         },
         {
           "file": "第1讲-网络概述.pdf",
           "page_from": 2,
           "page_to": 2,
           "heading": "",
-          "rrf": 0.03055
-        },
-        {
-          "file": "第5讲-传输层.docx",
-          "page_from": null,
-          "page_to": null,
-          "heading": "TCP 连接管理",
-          "rrf": 0.030118
+          "rrf": 0.030798
         }
       ],
       "expected": {
@@ -1445,7 +1480,7 @@
       "abstained": false,
       "confidence": "medium",
       "mode": "offline",
-      "elapsed_ms": 0.709,
+      "elapsed_ms": 234.067,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -1475,29 +1510,29 @@
           "file": "第5讲-传输层.docx",
           "page_from": null,
           "page_to": null,
-          "heading": "流量控制与拥塞控制",
-          "rrf": 0.032258
-        },
-        {
-          "file": "第1讲-网络概述.pdf",
-          "page_from": 2,
-          "page_to": 2,
-          "heading": "",
-          "rrf": 0.031746
+          "heading": "第5讲 传输层",
+          "rrf": 0.031514
         },
         {
           "file": "第6讲-应用层.md",
           "page_from": null,
           "page_to": null,
           "heading": "第6讲 应用层 > 6.3 DHCP",
-          "rrf": 0.03125
+          "rrf": 0.031498
         },
         {
           "file": "第5讲-传输层.docx",
           "page_from": null,
           "page_to": null,
-          "heading": "第5讲 传输层",
-          "rrf": 0.030536
+          "heading": "流量控制与拥塞控制",
+          "rrf": 0.031281
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.031258
         }
       ],
       "expected": {
@@ -1514,7 +1549,7 @@
       "abstained": false,
       "confidence": "medium",
       "mode": "offline",
-      "elapsed_ms": 0.507,
+      "elapsed_ms": 221.629,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -1559,13 +1594,13 @@
           "page_from": null,
           "page_to": null,
           "heading": "UDP",
-          "rrf": 0.030331
+          "rrf": 0.03101
         },
         {
-          "file": "第5讲-传输层.docx",
-          "page_from": null,
-          "page_to": null,
-          "heading": "TCP 连接管理",
+          "file": "第4讲-网络层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
           "rrf": 0.015625
         }
       ],
@@ -1583,7 +1618,7 @@
       "abstained": false,
       "confidence": "high",
       "mode": "offline",
-      "elapsed_ms": 0.572,
+      "elapsed_ms": 225.171,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -1614,28 +1649,28 @@
           "page_from": 1,
           "page_to": 1,
           "heading": "",
-          "rrf": 0.031281
+          "rrf": 0.032258
         },
         {
           "file": "第1讲-网络概述.pdf",
           "page_from": 2,
           "page_to": 2,
           "heading": "",
-          "rrf": 0.030798
+          "rrf": 0.030159
         },
         {
-          "file": "第5讲-传输层.docx",
-          "page_from": null,
-          "page_to": null,
-          "heading": "TCP 连接管理",
-          "rrf": 0.016129
-        },
-        {
-          "file": "作业与复习要求.txt",
-          "page_from": null,
-          "page_to": null,
-          "heading": "全文",
+          "file": "第4讲-网络层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
           "rrf": 0.015873
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.2 DNS",
+          "rrf": 0.015625
         }
       ],
       "expected": {
@@ -1652,7 +1687,7 @@
       "abstained": false,
       "confidence": "high",
       "mode": "offline",
-      "elapsed_ms": 0.378,
+      "elapsed_ms": 225.768,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -1682,22 +1717,22 @@
           "file": "第6讲-应用层.md",
           "page_from": null,
           "page_to": null,
-          "heading": "第6讲 应用层 > 6.1 HTTP 与 HTTPS",
-          "rrf": 0.032258
+          "heading": "第6讲 应用层 > 6.3 DHCP",
+          "rrf": 0.032002
         },
         {
           "file": "第6讲-应用层.md",
           "page_from": null,
           "page_to": null,
-          "heading": "第6讲 应用层 > 6.3 DHCP",
-          "rrf": 0.031746
+          "heading": "第6讲 应用层 > 6.1 HTTP 与 HTTPS",
+          "rrf": 0.031754
         },
         {
-          "file": "第5讲-传输层.docx",
-          "page_from": null,
-          "page_to": null,
-          "heading": "UDP",
-          "rrf": 0.03125
+          "file": "第4讲-网络层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.031025
         },
         {
           "file": "第6讲-应用层.md",
@@ -1721,7 +1756,7 @@
       "abstained": false,
       "confidence": "medium",
       "mode": "offline",
-      "elapsed_ms": 0.489,
+      "elapsed_ms": 225.975,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -1752,28 +1787,28 @@
           "page_from": 2,
           "page_to": 2,
           "heading": "",
-          "rrf": 0.031754
+          "rrf": 0.032258
         },
         {
           "file": "第1讲-网络概述.pdf",
           "page_from": 1,
           "page_to": 1,
           "heading": "",
-          "rrf": 0.031025
+          "rrf": 0.029762
         },
         {
           "file": "第6讲-应用层.md",
           "page_from": null,
           "page_to": null,
-          "heading": "第6讲 应用层 > 6.4 Web 缓存与 CDN",
-          "rrf": 0.016129
+          "heading": "第6讲 应用层 > 6.2 DNS",
+          "rrf": 0.015873
         },
         {
-          "file": "第1讲-网络概述.pdf",
-          "page_from": 2,
-          "page_to": 2,
-          "heading": "",
-          "rrf": 0.015873
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "UDP",
+          "rrf": 0.015625
         }
       ],
       "expected": {
@@ -1790,7 +1825,7 @@
       "abstained": false,
       "confidence": "high",
       "mode": "offline",
-      "elapsed_ms": 0.419,
+      "elapsed_ms": 220.962,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -1828,7 +1863,21 @@
           "page_from": 2,
           "page_to": 2,
           "heading": "",
-          "rrf": 0.031746
+          "rrf": 0.031258
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "差错控制与 CSMA/CD",
+          "rrf": 0.015873
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.3 DHCP",
+          "rrf": 0.015625
         }
       ],
       "expected": {
@@ -1845,7 +1894,7 @@
       "abstained": false,
       "confidence": "high",
       "mode": "offline",
-      "elapsed_ms": 0.536,
+      "elapsed_ms": 227.237,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -1872,32 +1921,32 @@
           "rrf": 0.032787
         },
         {
-          "file": "第3讲-数据链路层.pptx",
-          "page_from": 1,
-          "page_to": 1,
-          "heading": "数据链路层",
-          "rrf": 0.031754
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "UDP",
+          "rrf": 0.031514
         },
         {
           "file": "第4讲-网络层.pdf",
           "page_from": 2,
           "page_to": 2,
           "heading": "",
-          "rrf": 0.031746
+          "rrf": 0.031498
         },
         {
-          "file": "第5讲-传输层.docx",
-          "page_from": null,
-          "page_to": null,
-          "heading": "UDP",
-          "rrf": 0.030835
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "数据链路层",
+          "rrf": 0.03055
         },
         {
           "file": "第1讲-网络概述.pdf",
-          "page_from": 1,
-          "page_to": 1,
+          "page_from": 2,
+          "page_to": 2,
           "heading": "",
-          "rrf": 0.015625
+          "rrf": 0.016129
         }
       ],
       "expected": {
@@ -1914,7 +1963,7 @@
       "abstained": false,
       "confidence": "high",
       "mode": "offline",
-      "elapsed_ms": 0.49,
+      "elapsed_ms": 229.672,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -1945,20 +1994,20 @@
           "page_from": 2,
           "page_to": 2,
           "heading": "",
-          "rrf": 0.031754
+          "rrf": 0.031281
         },
         {
-          "file": "第6讲-应用层.md",
-          "page_from": null,
-          "page_to": null,
-          "heading": "第6讲 应用层 > 6.2 DNS",
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
           "rrf": 0.016129
         },
         {
-          "file": "第5讲-传输层.docx",
-          "page_from": null,
-          "page_to": null,
-          "heading": "UDP",
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "差错控制与 CSMA/CD",
           "rrf": 0.015873
         },
         {
@@ -1966,7 +2015,7 @@
           "page_from": 3,
           "page_to": 3,
           "heading": "以太网与交换机",
-          "rrf": 0.015385
+          "rrf": 0.015625
         }
       ],
       "expected": {
@@ -1983,7 +2032,7 @@
       "abstained": false,
       "confidence": "medium",
       "mode": "offline",
-      "elapsed_ms": 0.388,
+      "elapsed_ms": 228.785,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -2014,14 +2063,28 @@
           "page_from": 2,
           "page_to": 2,
           "heading": "",
-          "rrf": 0.032002
+          "rrf": 0.030415
         },
         {
           "file": "第3讲-数据链路层.pptx",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "差错控制与 CSMA/CD",
+          "rrf": 0.016129
+        },
+        {
+          "file": "第2讲-物理层.pdf",
           "page_from": 1,
           "page_to": 1,
-          "heading": "数据链路层",
-          "rrf": 0.016129
+          "heading": "",
+          "rrf": 0.015873
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.4 Web 缓存与 CDN",
+          "rrf": 0.015625
         }
       ],
       "expected": {
@@ -2038,7 +2101,7 @@
       "abstained": false,
       "confidence": "medium",
       "mode": "offline",
-      "elapsed_ms": 0.586,
+      "elapsed_ms": 224.121,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -2069,28 +2132,28 @@
           "page_from": 1,
           "page_to": 1,
           "heading": "",
-          "rrf": 0.031754
+          "rrf": 0.031514
         },
         {
-          "file": "第6讲-应用层.md",
-          "page_from": null,
-          "page_to": null,
-          "heading": "第6讲 应用层 > 6.2 DNS",
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
           "rrf": 0.016129
         },
         {
-          "file": "第5讲-传输层.docx",
-          "page_from": null,
-          "page_to": null,
-          "heading": "流量控制与拥塞控制",
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
           "rrf": 0.015873
         },
         {
-          "file": "第6讲-应用层.md",
-          "page_from": null,
-          "page_to": null,
-          "heading": "第6讲 应用层 > 6.3 DHCP",
-          "rrf": 0.015385
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.015625
         }
       ],
       "expected": {
@@ -2107,7 +2170,7 @@
       "abstained": false,
       "confidence": "high",
       "mode": "offline",
-      "elapsed_ms": 0.563,
+      "elapsed_ms": 239.88,
       "recall_hit": true,
       "keyword_hit": true,
       "citation_valid": true,
@@ -2138,27 +2201,27 @@
           "page_from": null,
           "page_to": null,
           "heading": "第6讲 应用层 > 6.4 Web 缓存与 CDN",
-          "rrf": 0.031281
+          "rrf": 0.031514
         },
         {
-          "file": "第5讲-传输层.docx",
-          "page_from": null,
-          "page_to": null,
-          "heading": "TCP 连接管理",
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
           "rrf": 0.016129
         },
         {
-          "file": "第6讲-应用层.md",
-          "page_from": null,
-          "page_to": null,
-          "heading": "第6讲 应用层 > 6.3 DHCP",
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
           "rrf": 0.015873
         },
         {
-          "file": "第3讲-数据链路层.pptx",
-          "page_from": 1,
-          "page_to": 1,
-          "heading": "数据链路层",
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
           "rrf": 0.015625
         }
       ],
@@ -2176,7 +2239,7 @@
       "abstained": true,
       "confidence": "abstained",
       "mode": "offline",
-      "elapsed_ms": 0.424,
+      "elapsed_ms": 202.28,
       "recall_hit": false,
       "keyword_hit": false,
       "citation_valid": true,
@@ -2190,21 +2253,35 @@
           "page_from": 2,
           "page_to": 2,
           "heading": "",
-          "rrf": 0.032522
+          "rrf": 0.031319
+        },
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.016393
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.2 DNS",
+          "rrf": 0.016129
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "TCP 连接管理",
+          "rrf": 0.015873
         },
         {
           "file": "第4讲-网络层.pdf",
           "page_from": 2,
           "page_to": 2,
           "heading": "",
-          "rrf": 0.016393
-        },
-        {
-          "file": "作业与复习要求.txt",
-          "page_from": null,
-          "page_to": null,
-          "heading": "全文",
-          "rrf": 0.015873
+          "rrf": 0.015625
         }
       ],
       "expected": {
@@ -2221,7 +2298,7 @@
       "abstained": true,
       "confidence": "abstained",
       "mode": "offline",
-      "elapsed_ms": 0.494,
+      "elapsed_ms": 231.71,
       "recall_hit": false,
       "keyword_hit": false,
       "citation_valid": true,
@@ -2231,13 +2308,6 @@
       "citations": [],
       "hits": [
         {
-          "file": "第1讲-网络概述.pdf",
-          "page_from": 1,
-          "page_to": 1,
-          "heading": "",
-          "rrf": 0.032266
-        },
-        {
           "file": "作业与复习要求.txt",
           "page_from": null,
           "page_to": null,
@@ -2245,10 +2315,17 @@
           "rrf": 0.032258
         },
         {
-          "file": "第6讲-应用层.md",
-          "page_from": null,
-          "page_to": null,
-          "heading": "第6讲 应用层 > 6.2 DNS",
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.031319
+        },
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
           "rrf": 0.016393
         },
         {
@@ -2256,14 +2333,14 @@
           "page_from": 3,
           "page_to": 3,
           "heading": "以太网与交换机",
-          "rrf": 0.015625
+          "rrf": 0.015873
         },
         {
           "file": "第4讲-网络层.pdf",
-          "page_from": 2,
-          "page_to": 2,
+          "page_from": 1,
+          "page_to": 1,
           "heading": "",
-          "rrf": 0.015385
+          "rrf": 0.015625
         }
       ],
       "expected": {
@@ -2280,7 +2357,7 @@
       "abstained": true,
       "confidence": "abstained",
       "mode": "offline",
-      "elapsed_ms": 0.04,
+      "elapsed_ms": 251.244,
       "recall_hit": false,
       "keyword_hit": false,
       "citation_valid": true,
@@ -2288,7 +2365,43 @@
       "citation_count": 0,
       "citation_valid_count": 0,
       "citations": [],
-      "hits": [],
+      "hits": [
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.016393
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "流量控制与拥塞控制",
+          "rrf": 0.016129
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 3,
+          "page_to": 3,
+          "heading": "以太网与交换机",
+          "rrf": 0.015873
+        },
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.015625
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.015385
+        }
+      ],
       "expected": {
         "file": null,
         "page": null,
@@ -2303,7 +2416,7 @@
       "abstained": true,
       "confidence": "abstained",
       "mode": "offline",
-      "elapsed_ms": 0.03,
+      "elapsed_ms": 245.944,
       "recall_hit": false,
       "keyword_hit": false,
       "citation_valid": true,
@@ -2311,7 +2424,43 @@
       "citation_count": 0,
       "citation_valid_count": 0,
       "citations": [],
-      "hits": [],
+      "hits": [
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.016393
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "UDP",
+          "rrf": 0.016129
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.015873
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "TCP 连接管理",
+          "rrf": 0.015625
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.015385
+        }
+      ],
       "expected": {
         "file": null,
         "page": null,
@@ -2326,7 +2475,7 @@
       "abstained": true,
       "confidence": "abstained",
       "mode": "offline",
-      "elapsed_ms": 0.028,
+      "elapsed_ms": 237.361,
       "recall_hit": false,
       "keyword_hit": false,
       "citation_valid": true,
@@ -2334,7 +2483,43 @@
       "citation_count": 0,
       "citation_valid_count": 0,
       "citations": [],
-      "hits": [],
+      "hits": [
+        {
+          "file": "作业与复习要求.txt",
+          "page_from": null,
+          "page_to": null,
+          "heading": "全文",
+          "rrf": 0.016393
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "TCP 连接管理",
+          "rrf": 0.016129
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.1 HTTP 与 HTTPS",
+          "rrf": 0.015873
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.015625
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.015385
+        }
+      ],
       "expected": {
         "file": null,
         "page": null,
@@ -2349,7 +2534,7 @@
       "abstained": true,
       "confidence": "abstained",
       "mode": "offline",
-      "elapsed_ms": 0.034,
+      "elapsed_ms": 251.68,
       "recall_hit": false,
       "keyword_hit": false,
       "citation_valid": true,
@@ -2357,7 +2542,43 @@
       "citation_count": 0,
       "citation_valid_count": 0,
       "citations": [],
-      "hits": [],
+      "hits": [
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.016393
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.1 HTTP 与 HTTPS",
+          "rrf": 0.016129
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.015873
+        },
+        {
+          "file": "作业与复习要求.txt",
+          "page_from": null,
+          "page_to": null,
+          "heading": "全文",
+          "rrf": 0.015625
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "TCP 连接管理",
+          "rrf": 0.015385
+        }
+      ],
       "expected": {
         "file": null,
         "page": null,
@@ -2372,7 +2593,7 @@
       "abstained": true,
       "confidence": "abstained",
       "mode": "offline",
-      "elapsed_ms": 0.282,
+      "elapsed_ms": 242.0,
       "recall_hit": false,
       "keyword_hit": false,
       "citation_valid": true,
@@ -2385,22 +2606,36 @@
           "file": "第6讲-应用层.md",
           "page_from": null,
           "page_to": null,
-          "heading": "第6讲 应用层 > 6.4 Web 缓存与 CDN",
-          "rrf": 0.032787
+          "heading": "第6讲 应用层 > 6.2 DNS",
+          "rrf": 0.031754
         },
         {
           "file": "第6讲-应用层.md",
           "page_from": null,
           "page_to": null,
-          "heading": "第6讲 应用层 > 6.2 DNS",
-          "rrf": 0.032258
+          "heading": "第6讲 应用层 > 6.4 Web 缓存与 CDN",
+          "rrf": 0.031319
         },
         {
           "file": "第4讲-网络层.pdf",
           "page_from": 2,
           "page_to": 2,
           "heading": "",
-          "rrf": 0.031746
+          "rrf": 0.029958
+        },
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.016393
+        },
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.016129
         }
       ],
       "expected": {
@@ -2417,7 +2652,7 @@
       "abstained": true,
       "confidence": "abstained",
       "mode": "offline",
-      "elapsed_ms": 0.042,
+      "elapsed_ms": 227.953,
       "recall_hit": false,
       "keyword_hit": false,
       "citation_valid": true,
@@ -2425,7 +2660,43 @@
       "citation_count": 0,
       "citation_valid_count": 0,
       "citations": [],
-      "hits": [],
+      "hits": [
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 3,
+          "page_to": 3,
+          "heading": "以太网与交换机",
+          "rrf": 0.016393
+        },
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.016129
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "数据链路层",
+          "rrf": 0.015873
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.015625
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.015385
+        }
+      ],
       "expected": {
         "file": null,
         "page": null,

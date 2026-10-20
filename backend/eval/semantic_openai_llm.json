@@ -1,0 +1,825 @@
+{
+  "generated_at": "2026-10-20T07:25:25.547662+00:00",
+  "provider": "openai",
+  "embedding_provider": "openai",
+  "top_k": 5,
+  "course": "计算机网络（演示）",
+  "metrics": {
+    "total": 12,
+    "answerable": 10,
+    "unanswerable": 2,
+    "answered_answerable": 9,
+    "abstained_unanswerable": 2,
+    "recall_at_5": 1.0,
+    "citation_locator_rate": 1.0,
+    "answered_with_citations_rate": 1.0,
+    "refusal_rate_unanswerable": 1.0,
+    "keyword_support_rate": 0.0,
+    "p95_ms": 1696.323,
+    "parse_success_rate": 1.0,
+    "ready_files": 7,
+    "total_files": 7,
+    "manual_support_rate": 0.0,
+    "manual_sample_size": 0
+  },
+  "items": [
+    {
+      "id": "s01",
+      "question": "Why is layering useful in network design?",
+      "answerable": true,
+      "answer": "分层的好处是各层相互独立，某一层的实现变化不会影响其他层。[1]",
+      "abstained": false,
+      "confidence": "high",
+      "mode": "openai",
+      "elapsed_ms": 1145.132,
+      "recall_hit": true,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "75589ca85e864788ac228849b8a9c288",
+          "file_id": "4a5c4918fd644134b33b8df73700cba8",
+          "file_name": "第1讲-网络概述.pdf",
+          "heading": "未命名章节",
+          "locator": "第 2 页",
+          "snippet": "OSI 参考模型分为七层：物理层、数据链路层、网络层、传输层、会话层、表示层和应用层。 TCP/IP 模型通常分为四层：网络接口层、网际层、传输层和应用层。 分层的好处是各层相互独立，某一层的实现变化不会影响其他层。 数据封装是指数据在向下传递时逐层添加首部；解封装是接收端逐层去掉首部。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.016393
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.016129
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.015873
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.015625
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.4 Web 缓存与 CDN",
+          "rrf": 0.015385
+        }
+      ],
+      "expected": {
+        "file": "第1讲-网络概述.pdf",
+        "page": 2,
+        "heading": null
+      }
+    },
+    {
+      "id": "s02",
+      "question": "How does the receiver slow the sender down?",
+      "answerable": true,
+      "answer": "接收方通过窗口字段告诉发送方可接收的字节数，从而进行流量控制，使发送方放慢发送速度。[1]",
+      "abstained": false,
+      "confidence": "high",
+      "mode": "openai",
+      "elapsed_ms": 1111.322,
+      "recall_hit": true,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "9306259c1c904df48c2f473204c2e932",
+          "file_id": "1f6792775ed54a3fa9e8444eca502eef",
+          "file_name": "第5讲-传输层.docx",
+          "heading": "流量控制与拥塞控制",
+          "locator": "章节定位",
+          "snippet": "TCP 使用滑动窗口进行流量控制，接收方通过窗口字段告诉发送方可接收的字节数。拥塞控制包括慢开始、拥塞避免、快重传和快恢复四个阶段。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "流量控制与拥塞控制",
+          "rrf": 0.016393
+        },
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.016129
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "TCP 连接管理",
+          "rrf": 0.015873
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 3,
+          "page_to": 3,
+          "heading": "以太网与交换机",
+          "rrf": 0.015625
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.4 Web 缓存与 CDN",
+          "rrf": 0.015385
+        }
+      ],
+      "expected": {
+        "file": "第5讲-传输层.docx",
+        "page": null,
+        "heading": "流量控制与拥塞控制"
+      }
+    },
+    {
+      "id": "s03",
+      "question": "Which device stops broadcast traffic?",
+      "answerable": true,
+      "answer": "路由器可以隔离广播域，因此能阻止广播流量。[2]",
+      "abstained": false,
+      "confidence": "high",
+      "mode": "openai",
+      "elapsed_ms": 995.39,
+      "recall_hit": true,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 2,
+          "chunk_id": "d612bf2764204be4856ba8489bca8ff3",
+          "file_id": "ea96aff307e34d499bcc2211ea607db6",
+          "file_name": "第3讲-数据链路层.pptx",
+          "heading": "以太网与交换机",
+          "locator": "第 3 张幻灯片",
+          "snippet": "以太网与交换机 以太网帧的最小长度为 64 字节，最大长度为 1518 字节。 交换机根据 MAC 地址表转发帧，可以隔离冲突域，路由器可以隔离广播域。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "流量控制与拥塞控制",
+          "rrf": 0.016393
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 3,
+          "page_to": 3,
+          "heading": "以太网与交换机",
+          "rrf": 0.016129
+        },
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.015873
+        },
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.015625
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.015385
+        }
+      ],
+      "expected": {
+        "file": "第3讲-数据链路层.pptx",
+        "page": 3,
+        "heading": null
+      }
+    },
+    {
+      "id": "s04",
+      "question": "What happens when the network is congested?",
+      "answerable": true,
+      "answer": "课程资料仅说明拥塞控制包括慢开始、拥塞避免、快重传和快恢复四个阶段，未具体说明网络拥塞时会发生什么。[1]",
+      "abstained": false,
+      "confidence": "low",
+      "mode": "openai",
+      "elapsed_ms": 1118.966,
+      "recall_hit": true,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "9306259c1c904df48c2f473204c2e932",
+          "file_id": "1f6792775ed54a3fa9e8444eca502eef",
+          "file_name": "第5讲-传输层.docx",
+          "heading": "流量控制与拥塞控制",
+          "locator": "章节定位",
+          "snippet": "TCP 使用滑动窗口进行流量控制，接收方通过窗口字段告诉发送方可接收的字节数。拥塞控制包括慢开始、拥塞避免、快重传和快恢复四个阶段。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "流量控制与拥塞控制",
+          "rrf": 0.016393
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.016129
+        },
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.015873
+        },
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.015625
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.015385
+        }
+      ],
+      "expected": {
+        "file": "第5讲-传输层.docx",
+        "page": null,
+        "heading": "流量控制与拥塞控制"
+      }
+    },
+    {
+      "id": "s05",
+      "question": "Why does content load faster from a nearby server?",
+      "answerable": true,
+      "answer": "CDN 的作用是把内容分发到离用户更近的边缘节点，降低访问时延。[1]",
+      "abstained": false,
+      "confidence": "high",
+      "mode": "openai",
+      "elapsed_ms": 764.23,
+      "recall_hit": true,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "5548e1273ee648b0a938cc698365a171",
+          "file_id": "e15500adcfe24ddeadf3414711a8479e",
+          "file_name": "第6讲-应用层.md",
+          "heading": "第6讲 应用层 > 6.4 Web 缓存与 CDN",
+          "locator": "章节定位",
+          "snippet": "Web 缓存可以减少重复请求；CDN 的作用是把内容分发到离用户更近的边缘节点，降低访问时延。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.4 Web 缓存与 CDN",
+          "rrf": 0.016393
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第5讲 传输层",
+          "rrf": 0.016129
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.015873
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.2 DNS",
+          "rrf": 0.015625
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.015385
+        }
+      ],
+      "expected": {
+        "file": "第6讲-应用层.md",
+        "page": null,
+        "heading": "6.4 Web 缓存与 CDN"
+      }
+    },
+    {
+      "id": "s06",
+      "question": "What is the maximum data rate of a noisy channel?",
+      "answerable": true,
+      "answer": "根据香农定理，有噪声信道的极限数据率为 C = W log2(1 + S/N)，其中 W 为信道带宽，S/N 为信噪比。[1]",
+      "abstained": false,
+      "confidence": "high",
+      "mode": "openai",
+      "elapsed_ms": 1026.081,
+      "recall_hit": true,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "abef22ce1b66492b92223d5f4190f0aa",
+          "file_id": "a0ca13a563b949888a4cf26daaa5e5a5",
+          "file_name": "第2讲-物理层.pdf",
+          "heading": "未命名章节",
+          "locator": "第 1 页",
+          "snippet": "第2讲 物理层 物理层负责在传输介质上传输原始比特流，主要解决机械、电气、功能和过程特性。 奈奎斯特准则指出：无噪声理想低通信道的最高码元传输速率为 2W 波特，W 为信道带宽。 香农定理给出有噪声信道的极限数据率：C = W log2(1 + S/N)，S/N 为信噪比。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.016393
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 3,
+          "page_to": 3,
+          "heading": "以太网与交换机",
+          "rrf": 0.016129
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "流量控制与拥塞控制",
+          "rrf": 0.015873
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "UDP",
+          "rrf": 0.015625
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.015385
+        }
+      ],
+      "expected": {
+        "file": "第2讲-物理层.pdf",
+        "page": 1,
+        "heading": null
+      }
+    },
+    {
+      "id": "s07",
+      "question": "怎么判断两台机器在不在同一个网段？",
+      "answerable": true,
+      "answer": "课程资料中没有找到足以支持这个问题的内容，因此暂不能回答。",
+      "abstained": true,
+      "confidence": "abstained",
+      "mode": "openai",
+      "elapsed_ms": 1430.967,
+      "recall_hit": true,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 0,
+      "citation_valid_count": 0,
+      "citations": [],
+      "hits": [
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.016393
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.016129
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.015873
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 3,
+          "page_to": 3,
+          "heading": "以太网与交换机",
+          "rrf": 0.015625
+        },
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.015385
+        }
+      ],
+      "expected": {
+        "file": "第4讲-网络层.pdf",
+        "page": 1,
+        "heading": null
+      }
+    },
+    {
+      "id": "s08",
+      "question": "信号最快能跑多快取决于哪些参数？",
+      "answerable": true,
+      "answer": "资料中与“信号最快能跑多快”相关的参数出现在奈奎斯特准则和香农定理中：无噪声理想低通信道的最高码元传输速率为 2W 波特，W 为信道带宽[2]；有噪声信道的极限数据率为 C = W log2(1 + S/N)，其中 W 为信道带宽，S/N 为信噪比[2]。因此，依据资料可归纳为取决于信道带宽 W，以及在有噪声信道下还取决于信噪比 S/N[2]。",
+      "abstained": false,
+      "confidence": "high",
+      "mode": "openai",
+      "elapsed_ms": 1696.323,
+      "recall_hit": true,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 2,
+          "chunk_id": "abef22ce1b66492b92223d5f4190f0aa",
+          "file_id": "a0ca13a563b949888a4cf26daaa5e5a5",
+          "file_name": "第2讲-物理层.pdf",
+          "heading": "未命名章节",
+          "locator": "第 1 页",
+          "snippet": "第2讲 物理层 物理层负责在传输介质上传输原始比特流，主要解决机械、电气、功能和过程特性。 奈奎斯特准则指出：无噪声理想低通信道的最高码元传输速率为 2W 波特，W 为信道带宽。 香农定理给出有噪声信道的极限数据率：C = W log2(1 + S/N)，S/N 为信噪比。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.031319
+        },
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.016393
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "流量控制与拥塞控制",
+          "rrf": 0.016129
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 3,
+          "page_to": 3,
+          "heading": "以太网与交换机",
+          "rrf": 0.015873
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.015625
+        }
+      ],
+      "expected": {
+        "file": "第2讲-物理层.pdf",
+        "page": 1,
+        "heading": null
+      }
+    },
+    {
+      "id": "s09",
+      "question": "帧最短可以是多少？",
+      "answerable": true,
+      "answer": "以太网帧的最小长度为 64 字节。[1]",
+      "abstained": false,
+      "confidence": "high",
+      "mode": "openai",
+      "elapsed_ms": 986.087,
+      "recall_hit": true,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 1,
+          "chunk_id": "d612bf2764204be4856ba8489bca8ff3",
+          "file_id": "ea96aff307e34d499bcc2211ea607db6",
+          "file_name": "第3讲-数据链路层.pptx",
+          "heading": "以太网与交换机",
+          "locator": "第 3 张幻灯片",
+          "snippet": "以太网与交换机 以太网帧的最小长度为 64 字节，最大长度为 1518 字节。 交换机根据 MAC 地址表转发帧，可以隔离冲突域，路由器可以隔离广播域。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 3,
+          "page_to": 3,
+          "heading": "以太网与交换机",
+          "rrf": 0.016393
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "UDP",
+          "rrf": 0.016129
+        },
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.015873
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "数据链路层",
+          "rrf": 0.015625
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.015385
+        }
+      ],
+      "expected": {
+        "file": "第3讲-数据链路层.pptx",
+        "page": 3,
+        "heading": null
+      }
+    },
+    {
+      "id": "s10",
+      "question": "内网机器怎么跟外面的网络通信？",
+      "answerable": true,
+      "answer": "课程资料提到 NAT 的作用是把私有地址转换为公网地址，可据此实现内网与外部网络的地址转换通信 [3]。但资料未具体说明内网机器与外部网络通信的完整机制或配置方法。",
+      "abstained": false,
+      "confidence": "low",
+      "mode": "openai",
+      "elapsed_ms": 1092.707,
+      "recall_hit": true,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 1,
+      "citation_valid_count": 1,
+      "citations": [
+        {
+          "index": 3,
+          "chunk_id": "8d529b69cd1c4631afd91c4c6da15e2c",
+          "file_id": "e5500bbf00934bc08eee60f76dcb8d09",
+          "file_name": "第4讲-网络层.pdf",
+          "heading": "未命名章节",
+          "locator": "第 2 页",
+          "snippet": "路由器根据目的 IP 地址查找路由表，采用最长前缀匹配原则选择下一跳。 NAT 的作用是把私有地址转换为公网地址，缓解 IPv4 地址短缺。 ICMP 用于传递差错报告和网络诊断信息，ping 命令使用 ICMP 回显请求和应答。"
+        }
+      ],
+      "hits": [
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.031754
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.031025
+        },
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.030777
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.03031
+        }
+      ],
+      "expected": {
+        "file": "第4讲-网络层.pdf",
+        "page": 2,
+        "heading": null
+      }
+    },
+    {
+      "id": "s11",
+      "question": "这门课的补考怎么安排？",
+      "answerable": false,
+      "answer": "课程资料中没有找到足以支持这个问题的内容，因此暂不能回答。",
+      "abstained": true,
+      "confidence": "abstained",
+      "mode": "openai",
+      "elapsed_ms": 1112.038,
+      "recall_hit": false,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 0,
+      "citation_valid_count": 0,
+      "citations": [],
+      "hits": [
+        {
+          "file": "作业与复习要求.txt",
+          "page_from": null,
+          "page_to": null,
+          "heading": "全文",
+          "rrf": 0.016393
+        },
+        {
+          "file": "第3讲-数据链路层.pptx",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "差错控制与 CSMA/CD",
+          "rrf": 0.016129
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.4 Web 缓存与 CDN",
+          "rrf": 0.015873
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.015625
+        },
+        {
+          "file": "第6讲-应用层.md",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第6讲 应用层 > 6.2 DNS",
+          "rrf": 0.015385
+        }
+      ],
+      "expected": {
+        "file": null,
+        "page": null,
+        "heading": null
+      }
+    },
+    {
+      "id": "s12",
+      "question": "老师要求用哪个版本的教材？",
+      "answerable": false,
+      "answer": "课程资料中没有找到足以支持这个问题的内容，因此暂不能回答。",
+      "abstained": true,
+      "confidence": "abstained",
+      "mode": "openai",
+      "elapsed_ms": 1227.064,
+      "recall_hit": false,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 0,
+      "citation_valid_count": 0,
+      "citations": [],
+      "hits": [
+        {
+          "file": "作业与复习要求.txt",
+          "page_from": null,
+          "page_to": null,
+          "heading": "全文",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.016129
+        },
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.015873
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第5讲 传输层",
+          "rrf": 0.015625
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "UDP",
+          "rrf": 0.015385
+        }
+      ],
+      "expected": {
+        "file": null,
+        "page": null,
+        "heading": null
+      }
+    }
+  ]
+}

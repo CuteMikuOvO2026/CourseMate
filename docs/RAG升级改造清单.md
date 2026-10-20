@@ -2,7 +2,7 @@
 
 > 目标版本：MVP v1.1
 > 编写依据：`backend/app/services/retrieval.py`、`answering.py`、`ingest.py`、`config.py`、`models.py`（2026-10-20 代码快照）
-> 实施状态：**阶段 0–4 已完成并合入，阶段 5 待接入真实 embedding 后收尾**（见文末「实施记录」）
+> 实施状态：**阶段 0–5 全部完成**；R5.3 硬门槛已于 2026-10-20 通过（真实 embedding：硅基流动 BAAI/bge-m3，见文末「实施记录」）
 
 ## 0. 一句话目标
 
@@ -573,7 +573,7 @@ cd backend
 ..\.venv\Scripts\python.exe eval\run_eval.py --dataset eval\semantic.json --save eval\semantic_openai.json
 ```
 
-- [ ] **R5.3 硬门槛（全部满足才允许合并）** —— 代码链路已就绪，但「接入真实 embedding 前后对比」这一步需要真实 Key，尚未执行
+- [x] **R5.3 硬门槛（全部满足才允许合并）** —— 2026-10-20 已通过，结果见下表
 
 | 指标 | 门槛 | 说明 |
 |---|---|---|
@@ -586,6 +586,23 @@ cd backend
 | 无 Key 模式 | 21 个测试文件全绿 | C1 约束 |
 
 > 重点盯"拒答率"：语义向量会让原本检索不到的无关问题也命中，`MIN_COVERAGE=0.2` 的门槛可能不够。如果拒答掉到 6/8，**不要调阈值糊弄过去**，优先检查是否该给 dense 通道加最低相似度下限（例如余弦 < 0.3 直接丢弃）。
+
+**实测结果（2026-10-20，硅基流动 `BAAI/bge-m3`，52 个 chunk 全部回填）：**
+
+| 指标 | 门槛 | 实测 | 状态 |
+|---|---|---|---|
+| 语义集 Recall@5 | ≥ 0.80，比 hash 基线提升 ≥ 0.4 | **1.000**（0.000 → 1.000，+1.000，10/10 新命中） | ✅ |
+| 原 40 条 Recall@5 | ≥ 1.000（不回退） | 1.000，逐题对比改善 0、回退 0 | ✅ |
+| 无答案拒答 | 8/8，不下降 | 8/8（100%） | ✅ |
+| 引用定位合法率 | 100% | 100%（离线回归与真实 LLM 端到端两跑均 100%） | ✅ |
+| p95 | ≤ 8000 ms | 294 ms（离线回答）/ 1696 ms（真实 LLM 端到端） | ✅ |
+| 解析成功率 | 100%（7/7） | 100%（7/7） | ✅ |
+| 无 Key 模式测试 | 21 个测试文件全绿 | 126 passed | ✅ |
+
+追加验证：语义集 + 真实 LLM（DeepSeek）端到端跑，10 条跨语言题全部**带有效引用**用中文回答
+（如 "Why is layering useful in network design?" →「分层的好处是各层相互独立……[1]」→
+第1讲-网络概述.pdf 第 2 页），2 条无答案仍正确拒答。存档：
+`backend/eval/semantic_openai.json`（离线）、`semantic_openai_llm.json`（LLM）。
 
 - [x] **R5.4 文档同步**
 
@@ -676,11 +693,23 @@ cd backend
 
 ### 未完成项
 
-- **R5.3 硬门槛**：需要真实 embedding Key。拿到后只需跑第 9 节的两条命令即可出对比。
-- **R5.4 的 `docs/评测报告.md`**：已把语义集章节并入报告生成逻辑，但真实分数的对比数字仍缺。
+- 无。R5.3 已于 2026-10-20 通过，`docs/评测报告.md` 已包含语义集前后对比
+  （Recall@5 0.000 → 1.000）。后续可选：真实课程资料上的复测、3–5 位同学试用。
 
 ### 回滚
 
 `.env` 里改回 `COURSEMATE_EMBEDDING_PROVIDER=hash`、`COURSEMATE_RERANK_ENABLED=0` 即可，
 `chunk_vectors` 表不影响任何现有查询路径。已验证默认模式下 40 条评测逐题结果
 与基线完全一致（改善 0、回退 0）。
+
+### R5.3 验收记录（2026-10-20，接入硅基流动 BAAI/bge-m3 后）
+
+- 现有库补建 `chunk_vectors` 表（`create_all` + `migrate_schema`，复现 main.py 启动逻辑），
+  `reindex_vectors.py` 回填 52 个 chunk（演示课程 18 + 深度学习与计算机视觉 34），覆盖率 100%。
+- **修复 `reindex_vectors.py` 漏 import `delete`**：该脚本此前从未完整执行过
+  （dry-run 先被缺失的表挡住），NameError 在真正写入时才暴露。
+- **修复 `eval/run_eval.py` 未给 `hybrid_search` 传 settings**：`settings=None` 时
+  检索走纯哈希路径，评测永远测不到真实 embedding——这是 R5.3 无法闭环的直接原因。
+  同时让报告第 9 节在 `semantic_openai.json` 存在时自动渲染前后对比。
+- 评测三跑：语义集（真实 embedding + 离线回答）Recall@5 0.000 → 1.000；
+  原 40 题回归逐题一致；语义集 + DeepSeek 端到端 10 条跨语言题全部带有效引用回答。

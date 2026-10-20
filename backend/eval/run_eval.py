@@ -151,6 +151,7 @@ def _load_manual_support(answer_by_id: dict[str, dict]) -> dict | None:
 
 SEMANTIC_PATH = Path(__file__).with_name("semantic.json")
 SEMANTIC_BASELINE_PATH = Path(__file__).with_name("baseline_v1_semantic.json")
+SEMANTIC_RESULT_PATH = Path(__file__).with_name("semantic_openai.json")
 
 
 def _semantic_section() -> str:
@@ -170,13 +171,33 @@ def _semantic_section() -> str:
             "| 数据集 | 题数 | Recall@5 | 拒答率 | 用途 |",
             "|---|---:|---:|---:|---|",
             "| `dataset.json` | 40 | 1.000 | 8/8（100%） | 回归：升级后不得下降 |",
-            f"| `semantic.json` | {metrics['total']} | "
+            f"| `semantic.json`（hash 基线） | {metrics['total']} | "
             f"**{metrics['recall_at_5']:.3f}** | "
             f"{metrics['abstained_unanswerable']}/{metrics['unanswerable']}"
-            f"（{metrics['refusal_rate_unanswerable']:.0%}） | 收益：证明真实 embedding 的价值 |",
-            "",
-            f"语义集基线存档：`backend/eval/{SEMANTIC_BASELINE_PATH.name}`。",
+            f"（{metrics['refusal_rate_unanswerable']:.0%}） | 升级前基线 |",
         ])
+        if SEMANTIC_RESULT_PATH.is_file():
+            upgraded = json.loads(SEMANTIC_RESULT_PATH.read_text(encoding="utf-8"))
+            after = upgraded["metrics"]
+            lines.append(
+                f"| `semantic.json`（真实 embedding） | {after['total']} | "
+                f"**{after['recall_at_5']:.3f}** | "
+                f"{after['abstained_unanswerable']}/{after['unanswerable']}"
+                f"（{after['refusal_rate_unanswerable']:.0%}） | 升级后对比 |"
+            )
+            lines.append("")
+            lines.append(
+                f"Recall@5 变化 {after['recall_at_5'] - metrics['recall_at_5']:+.3f}"
+                f"（{metrics['recall_at_5']:.3f} → {after['recall_at_5']:.3f}），"
+                f"对比存档：`backend/eval/{SEMANTIC_RESULT_PATH.name}`。"
+            )
+        else:
+            lines.append("")
+            lines.append(
+                f"语义集基线存档：`backend/eval/{SEMANTIC_BASELINE_PATH.name}`；"
+                "尚未生成真实 embedding 的对比结果"
+                "（`run_eval.py --dataset eval/semantic.json --save eval/semantic_openai.json`）。"
+            )
     else:
         lines.append("> 尚未生成语义集基线，请先运行 `run_eval.py --dataset eval/semantic.json`。")
 
@@ -446,7 +467,7 @@ def run_eval(
         answer_by_id = {}
         for item in items:
             started = time.perf_counter()
-            hits = hybrid_search(db, course, item["question"], top_k=top_k)
+            hits = hybrid_search(db, course, item["question"], settings, top_k=top_k)
             generated = answer_question(settings, item["question"], hits)
             elapsed_ms = (time.perf_counter() - started) * 1000
 
