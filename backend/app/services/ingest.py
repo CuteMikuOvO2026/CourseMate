@@ -8,10 +8,17 @@ import threading
 from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
 
-from ..models import Chunk, Course, DocumentPage, SourceFile, utcnow
+from ..models import Chunk, ChunkVector, Course, DocumentPage, SourceFile, utcnow
 from ..storage import storage_path
 from .chunking import chunk_document
+from .embedding import get_embedder
 from .parsing import ParseError, parse_document
+from .vectors import (
+    embed_chunk_text,
+    embed_texts,
+    encode_vector,
+    delete_vectors_for_model,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -90,6 +97,8 @@ def process_file(db: Session, file_id: str, settings) -> None:
         source_file.processed_at = utcnow()
         _bump_course(db, source_file.course_id)
         db.commit()
+
+        _embed_new_chunks(db, settings, file_id)
     except ParseError as exc:
         db.rollback()
         _mark_failed(db, file_id, str(exc))
@@ -97,6 +106,58 @@ def process_file(db: Session, file_id: str, settings) -> None:
         logger.exception("解析失败 file_id=%s", file_id)
         db.rollback()
         _mark_failed(db, file_id, "解析失败，请检查文件后重试")
+
+
+def _embed_new_chunks(db: Session, settings, file_id: str) -> None:
+    """解析成功后为这批新 chunk 补齐向量。
+
+    失败只记日志：文件已经是 ready，用户可正常使用；下次检索或运行
+    `scripts/reindex_vectors.py` 时会再试。向量化绝不能让上传失败。
+    """
+    if get_embedder(settings) is None:
+        return
+    try:
+        from sqlalchemy import select as _select  # noqa: PLC0415
+
+        chunk_rows = list(
+            db.scalars(_select(Chunk).where(Chunk.file_id == file_id)).all()
+        )
+        if not chunk_rows:
+            return
+        vectors = embed_texts(
+            settings, [embed_chunk_text(chunk) for chunk in chunk_rows]
+        )
+        if vectors is None or len(vectors) != len(chunk_rows):
+            if vectors is not None:
+                logger.warning(
+                    "向量数量(%d)与 chunk 数量(%d)不一致，放弃本次补齐",
+                    len(vectors),
+                    len(chunk_rows),
+                )
+            return
+
+        delete_vectors_for_model(
+            db, [chunk.id for chunk in chunk_rows], settings.embedding_model
+        )
+        for chunk, vector in zip(chunk_rows, vectors):
+            db.add(
+                ChunkVector(
+                    chunk_id=chunk.id,
+                    model=settings.embedding_model,
+                    dim=len(vector),
+                    vector=encode_vector(vector),
+                )
+            )
+        db.commit()
+        logger.info(
+            "已补齐向量 file=%s model=%s 数量=%d",
+            file_id,
+            settings.embedding_model,
+            len(chunk_rows),
+        )
+    except Exception:  # noqa: BLE001 - 向量化失败不得影响解析结果
+        logger.exception("补齐向量失败 file_id=%s", file_id)
+        db.rollback()
 
 
 def run_ingest(file_id: str, session_factory, settings) -> None:

@@ -1,24 +1,34 @@
-"""课程级混合检索：BM25 + 哈希 TF-IDF 向量 + RRF。"""
+"""课程级混合检索：BM25 +（哈希向量 | 真实 embedding）+ RRF。"""
 
 from __future__ import annotations
 
 import hashlib
+import logging
 import math
 import threading
 from collections import Counter, defaultdict
 from dataclasses import dataclass
+from typing import Any
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ..models import Chunk, Course, SourceFile
 from .analysis import tokenize
+from .embedding import HASH_MODEL_NAME, embedder_name, embed_texts, get_embedder
+from .vectors import load_vectors
+
+logger = logging.getLogger(__name__)
 
 BM25_K1 = 1.5
 BM25_B = 0.75
 RRF_K = 60
 RANK_LIMIT = 50
 VECTOR_DIM = 768
+
+# 缓存键 = (course.index_version, 向量模型名)；换 embedding 模型会自动重建索引。
+_CACHE: dict[str, tuple[tuple[int, str], CourseIndex]] = {}
+_LOCK = threading.Lock()
 
 
 @dataclass(frozen=True)
@@ -46,13 +56,27 @@ def _vector_dim(term: str) -> int:
 
 
 class CourseIndex:
-    """一次性构建、可复用的课程检索索引。"""
+    """一次性构建、可复用的课程检索索引。
 
-    def __init__(self, chunks: list[ChunkView]) -> None:
+    dense 通道有两种来源，二者互斥：
+    - `hash_vectors`：全程零依赖的哈希 TF-IDF 稀疏桶，默认路径；
+    - `dense_vectors`：来自 `chunk_vectors` 表的真实 embedding，逐块稠密点积。
+
+    `dense_vectors` 存在时优先使用；它必须覆盖全部 chunk，
+    不允许出现「一半语义一半哈希」的混合排序。
+    """
+
+    def __init__(
+        self,
+        chunks: list[ChunkView],
+        embeddings: list[list[float]] | None = None,
+    ) -> None:
         self.chunks = chunks
         self.n = len(chunks)
         self.tfs: list[Counter[str]] = []
         self.doc_lens: list[int] = []
+        self.hash_vectors: list[dict[int, float]] = []
+        self.dense_vectors: list[list[float]] | None = None
         document_frequency: Counter[str] = Counter()
 
         for chunk in chunks:
@@ -69,24 +93,36 @@ class CourseIndex:
             term: math.log(1 + (self.n - frequency + 0.5) / (frequency + 0.5))
             for term, frequency in document_frequency.items()
         }
-        self.vectors: list[dict[int, float]] = []
+
+        if embeddings is not None and len(embeddings) == self.n:
+            self.dense_vectors = embeddings
+        else:
+            if embeddings is not None:
+                logger.warning(
+                    "外部向量数量(%d)与 chunk 数量(%d)不一致，回退哈希向量",
+                    len(embeddings),
+                    self.n,
+                )
+            self._build_hash_vectors()
+
+    def _build_hash_vectors(self) -> None:
+        self.hash_vectors = []
         for tf in self.tfs:
             vector: defaultdict[int, float] = defaultdict(float)
             for term, frequency in tf.items():
                 weight = (1 + math.log(frequency)) * self.idf.get(term, 0.0)
                 vector[_vector_dim(term)] += weight
             norm = math.sqrt(sum(value * value for value in vector.values())) or 1.0
-            self.vectors.append(
+            self.hash_vectors.append(
                 {dim: value / norm for dim, value in vector.items()}
             )
 
-    def search(self, query: str, top_k: int = 8) -> list[SearchHit]:
-        query_tokens = tokenize(query)
-        if not query_tokens or not self.chunks:
-            return []
-        query_tf = Counter(query_tokens)
+    @property
+    def uses_dense_embedding(self) -> bool:
+        return self.dense_vectors is not None
 
-        bm25_scores: list[float] = []
+    def _bm25_scores(self, query_tf: Counter) -> list[float]:
+        scores: list[float] = []
         for index, tf in enumerate(self.tfs):
             doc_len = self.doc_lens[index]
             length_norm = (
@@ -102,8 +138,10 @@ class CourseIndex:
                     continue
                 denominator = frequency + BM25_K1 * length_norm
                 score += idf * (frequency * (BM25_K1 + 1)) / denominator
-            bm25_scores.append(score)
+            scores.append(score)
+        return scores
 
+    def _hash_dense_scores(self, query_tf: Counter) -> list[float]:
         query_vector: defaultdict[int, float] = defaultdict(float)
         for term, frequency in query_tf.items():
             idf = self.idf.get(term)
@@ -111,16 +149,45 @@ class CourseIndex:
                 continue
             query_vector[_vector_dim(term)] += (1 + math.log(frequency)) * idf
         query_norm = math.sqrt(sum(value * value for value in query_vector.values()))
-        dense_scores = [0.0] * self.n
-        if query_norm:
-            normalized_query = {
-                dim: value / query_norm for dim, value in query_vector.items()
-            }
-            for index, vector in enumerate(self.vectors):
-                dense_scores[index] = sum(
-                    value * normalized_query.get(dim, 0.0)
-                    for dim, value in vector.items()
-                )
+        scores = [0.0] * self.n
+        if not query_norm:
+            return scores
+        normalized_query = {
+            dim: value / query_norm for dim, value in query_vector.items()
+        }
+        for index, vector in enumerate(self.hash_vectors):
+            scores[index] = sum(
+                value * normalized_query.get(dim, 0.0)
+                for dim, value in vector.items()
+            )
+        return scores
+
+    def _embedding_dense_scores(self, query_vector: list[float]) -> list[float]:
+        """真实 embedding 已各自 L2 归一化，这里只需归一化查询向量后点积。"""
+        norm = math.sqrt(sum(value * value for value in query_vector)) or 1.0
+        unit_query = [value / norm for value in query_vector]
+        assert self.dense_vectors is not None
+        return [
+            sum(a * b for a, b in zip(vector, unit_query))
+            for vector in self.dense_vectors
+        ]
+
+    def search(
+        self,
+        query: str,
+        top_k: int = 8,
+        query_vector: list[float] | None = None,
+    ) -> list[SearchHit]:
+        query_tokens = tokenize(query)
+        if not query_tokens or not self.chunks:
+            return []
+        query_tf = Counter(query_tokens)
+
+        bm25_scores = self._bm25_scores(query_tf)
+        if self.dense_vectors is not None and query_vector is not None:
+            dense_scores = self._embedding_dense_scores(query_vector)
+        else:
+            dense_scores = self._hash_dense_scores(query_tf)
 
         bm25_order = sorted(
             (index for index in range(self.n) if bm25_scores[index] > 0),
@@ -155,8 +222,62 @@ class CourseIndex:
         ]
 
 
-_CACHE: dict[str, tuple[int, CourseIndex]] = {}
-_LOCK = threading.Lock()
+def _load_chunk_ids(db: Session, views: list[ChunkView]) -> list[str]:
+    return [view.id for view in views]
+
+
+def _course_embeddings(
+    db: Session, settings: Any, views: list[ChunkView]
+) -> list[list[float]] | None:
+    """按 chunk 顺序取真实 embedding；hash 模式或数据不全时返回 None。"""
+    if get_embedder(settings) is None:
+        return None
+    name = embedder_name(settings)
+    vectors = load_vectors(db, _load_chunk_ids(db, views), name)
+    if vectors is None:
+        logger.info("课程向量不完整（model=%s），本课程回退哈希向量", name)
+    return vectors
+
+
+def get_course_index(db: Session, course: Course, settings: Any | None = None) -> CourseIndex:
+    """返回课程索引；缓存键同时包含 index_version 与向量模型。"""
+    name = HASH_MODEL_NAME if settings is None else embedder_name(settings)
+    key = (course.index_version, name)
+
+    with _LOCK:
+        cached = _CACHE.get(course.id)
+    if cached is not None and cached[0] == key:
+        return cached[1]
+
+    views = load_chunk_views(db, course.id)
+    embeddings = None if settings is None else _course_embeddings(db, settings, views)
+    index = CourseIndex(views, embeddings)
+
+    with _LOCK:
+        _CACHE[course.id] = (key, index)
+    return index
+
+
+def invalidate_course(course_id: str) -> None:
+    with _LOCK:
+        _CACHE.pop(course_id, None)
+
+
+def hybrid_search(
+    db: Session,
+    course: Course,
+    query: str,
+    settings: Any | None = None,
+    top_k: int = 8,
+) -> list[SearchHit]:
+    """混合检索；settings 为 None 时等价于历史上的纯哈希路径。"""
+    index = get_course_index(db, course, settings)
+    query_vector = None
+    if settings is not None and index.uses_dense_embedding:
+        vectors = embed_texts(settings, [query])
+        if vectors:
+            query_vector = vectors[0]
+    return index.search(query, top_k=top_k, query_vector=query_vector)
 
 
 def load_chunk_views(db: Session, course_id: str) -> list[ChunkView]:
@@ -178,28 +299,6 @@ def load_chunk_views(db: Session, course_id: str) -> list[ChunkView]:
         )
         for chunk, file_name in rows
     ]
-
-
-def get_course_index(db: Session, course: Course) -> CourseIndex:
-    with _LOCK:
-        cached = _CACHE.get(course.id)
-    if cached is not None and cached[0] == course.index_version:
-        return cached[1]
-    index = CourseIndex(load_chunk_views(db, course.id))
-    with _LOCK:
-        _CACHE[course.id] = (course.index_version, index)
-    return index
-
-
-def invalidate_course(course_id: str) -> None:
-    with _LOCK:
-        _CACHE.pop(course_id, None)
-
-
-def hybrid_search(
-    db: Session, course: Course, query: str, top_k: int = 8
-) -> list[SearchHit]:
-    return get_course_index(db, course).search(query, top_k=top_k)
 
 
 def _hits_from_views(views: list[ChunkView]) -> list[SearchHit]:

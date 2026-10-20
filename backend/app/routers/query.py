@@ -28,7 +28,11 @@ from ..services.answering import (
     rewrite_search_query,
 )
 from ..services.query_intent import extract_page_number, is_summary_request
+from ..services.rerank import rerank_hits
 from ..services.retrieval import hybrid_search, page_hits, summary_hits
+
+RETRIEVE_TOP_K = 50
+FINAL_TOP_K = 6
 
 router = APIRouter(tags=["query"])
 
@@ -122,11 +126,18 @@ def query_course(
     elif is_summary_request(payload.question) and model_enabled:
         hits = summary_hits(db, course)
     else:
-        hits = hybrid_search(db, course, payload.question, top_k=6)
+        # 先取大候选集，重排后再截断；未启用重排时等价于直接取前 N
+        hits = hybrid_search(
+            db, course, payload.question, settings, top_k=RETRIEVE_TOP_K
+        )
+        hits = rerank_hits(settings, payload.question, hits, FINAL_TOP_K)
         if not hits and model_enabled:
             rewritten = rewrite_search_query(settings, payload.question)
             if rewritten:
-                hits = hybrid_search(db, course, rewritten, top_k=6)
+                hits = hybrid_search(
+                    db, course, rewritten, settings, top_k=RETRIEVE_TOP_K
+                )
+                hits = rerank_hits(settings, rewritten, hits, FINAL_TOP_K)
 
     try:
         generated = answer_question(
