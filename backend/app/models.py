@@ -5,7 +5,15 @@ from __future__ import annotations
 import uuid
 from datetime import datetime, timezone
 
-from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, String, Text
+from sqlalchemy import (
+    Boolean,
+    DateTime,
+    ForeignKey,
+    Integer,
+    LargeBinary,
+    String,
+    Text,
+)
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .db import Base
@@ -129,6 +137,26 @@ class Chunk(Base):
     text: Mapped[str] = mapped_column(Text)
 
     file: Mapped[SourceFile] = relationship(back_populates="chunks")
+
+
+class ChunkVector(Base):
+    """chunk 的向量缓存；按模型区分，换模型不销毁旧向量。
+
+    向量以 float32 小端字节存储，读取时用 array.array 解码。只在
+    `embedding_provider=openai` 时写入；hash provider 走进程内索引。
+    """
+
+    __tablename__ = "chunk_vectors"
+
+    chunk_id: Mapped[str] = mapped_column(
+        String(32), ForeignKey("chunks.id", ondelete="CASCADE"), primary_key=True
+    )
+    model: Mapped[str] = mapped_column(String(120), primary_key=True)
+    dim: Mapped[int] = mapped_column(Integer)
+    vector: Mapped[bytes] = mapped_column(LargeBinary)
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=utcnow, onupdate=utcnow
+    )
 
 
 class Conversation(Base):

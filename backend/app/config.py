@@ -23,11 +23,40 @@ class Settings:
     llm_base_url: str = ""
     llm_api_key: str = ""
     llm_model: str = ""
+    embedding_provider: str = "hash"
+    embedding_base_url: str = ""
+    embedding_api_key: str = ""
+    embedding_model: str = ""
+    embedding_dim: int = 1024
+    embedding_batch: int = 32
+    rerank_enabled: bool = False
+    rerank_base_url: str = ""
+    rerank_api_key: str = ""
+    rerank_model: str = ""
     cookie_secure: bool = False
 
     @property
     def files_dir(self) -> Path:
         return self.data_dir / "files"
+
+    @property
+    def embedding_ready(self) -> bool:
+        """embedding provider 为 openai 且三项配置齐全。"""
+        return (
+            self.embedding_provider == "openai"
+            and bool(self.embedding_base_url)
+            and bool(self.embedding_api_key)
+            and bool(self.embedding_model)
+        )
+
+    @property
+    def rerank_ready(self) -> bool:
+        return (
+            self.rerank_enabled
+            and bool(self.rerank_base_url)
+            and bool(self.rerank_api_key)
+            and bool(self.rerank_model)
+        )
 
 
 def _read_or_create_secret(data_dir: Path) -> str:
@@ -102,6 +131,12 @@ def load_settings(data_dir: str | Path | None = None) -> Settings:
     except ValueError:
         max_upload_mb = 50
 
+    def _int_env(name: str, default: int) -> int:
+        try:
+            return int(os.environ.get(name, "") or default)
+        except ValueError:
+            return default
+
     return Settings(
         data_dir=base,
         database_url=database_url,
@@ -112,5 +147,17 @@ def load_settings(data_dir: str | Path | None = None) -> Settings:
         llm_base_url=os.environ.get("COURSEMATE_LLM_BASE_URL", "").strip(),
         llm_api_key=os.environ.get("COURSEMATE_LLM_API_KEY", "").strip(),
         llm_model=os.environ.get("COURSEMATE_LLM_MODEL", "").strip(),
+        embedding_provider=os.environ.get("COURSEMATE_EMBEDDING_PROVIDER", "hash")
+        .strip()
+        .lower(),
+        embedding_base_url=os.environ.get("COURSEMATE_EMBEDDING_BASE_URL", "").strip(),
+        embedding_api_key=os.environ.get("COURSEMATE_EMBEDDING_API_KEY", "").strip(),
+        embedding_model=os.environ.get("COURSEMATE_EMBEDDING_MODEL", "").strip(),
+        embedding_dim=max(1, _int_env("COURSEMATE_EMBEDDING_DIM", 1024)),
+        embedding_batch=max(1, _int_env("COURSEMATE_EMBEDDING_BATCH", 32)),
+        rerank_enabled=os.environ.get("COURSEMATE_RERANK_ENABLED", "0") == "1",
+        rerank_base_url=os.environ.get("COURSEMATE_RERANK_BASE_URL", "").strip(),
+        rerank_api_key=os.environ.get("COURSEMATE_RERANK_API_KEY", "").strip(),
+        rerank_model=os.environ.get("COURSEMATE_RERANK_MODEL", "").strip(),
         cookie_secure=os.environ.get("COURSEMATE_COOKIE_SECURE", "0") == "1",
     )
