@@ -1,0 +1,19 @@
+{
+  "course": "计算机网络（演示）",
+  "username": "demo",
+  "note": "语义检索评测集：故意用与原文词面不重合的问法（中文同义改写 + 英文提问命中中文资料）。哈希 TF-IDF 在这类问题上基本失效，用来衡量真实 embedding 带来的语义泛化收益。",
+  "items": [
+    {"id": "s01", "question": "Why is layering useful in network design?", "answerable": true, "file": "第1讲-网络概述.pdf", "page": 2, "heading": null, "keywords": []},
+    {"id": "s02", "question": "How does the receiver slow the sender down?", "answerable": true, "file": "第5讲-传输层.docx", "page": null, "heading": "流量控制与拥塞控制", "keywords": []},
+    {"id": "s03", "question": "Which device stops broadcast traffic?", "answerable": true, "file": "第3讲-数据链路层.pptx", "page": 3, "heading": null, "keywords": []},
+    {"id": "s04", "question": "What happens when the network is congested?", "answerable": true, "file": "第5讲-传输层.docx", "page": null, "heading": "流量控制与拥塞控制", "keywords": []},
+    {"id": "s05", "question": "Why does content load faster from a nearby server?", "answerable": true, "file": "第6讲-应用层.md", "page": null, "heading": "6.4 Web 缓存与 CDN", "keywords": []},
+    {"id": "s06", "question": "What is the maximum data rate of a noisy channel?", "answerable": true, "file": "第2讲-物理层.pdf", "page": 1, "heading": null, "keywords": []},
+    {"id": "s07", "question": "怎么判断两台机器在不在同一个网段？", "answerable": true, "file": "第4讲-网络层.pdf", "page": 1, "heading": null, "keywords": []},
+    {"id": "s08", "question": "信号最快能跑多快取决于哪些参数？", "answerable": true, "file": "第2讲-物理层.pdf", "page": 1, "heading": null, "keywords": []},
+    {"id": "s09", "question": "帧最短可以是多少？", "answerable": true, "file": "第3讲-数据链路层.pptx", "page": 3, "heading": null, "keywords": []},
+    {"id": "s10", "question": "内网机器怎么跟外面的网络通信？", "answerable": true, "file": "第4讲-网络层.pdf", "page": 2, "heading": null, "keywords": []},
+    {"id": "s11", "question": "这门课的补考怎么安排？", "answerable": false, "file": null, "page": null, "heading": null, "keywords": []},
+    {"id": "s12", "question": "老师要求用哪个版本的教材？", "answerable": false, "file": null, "page": null, "heading": null, "keywords": []}
+  ]
+}

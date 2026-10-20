@@ -3,6 +3,11 @@
 用法（在 backend 目录执行）：
     ..\\.venv\\Scripts\\python.exe eval\\run_eval.py
     ..\\.venv\\Scripts\\python.exe eval\\run_eval.py --top-k 5
+    ..\\.venv\\Scripts\\python.exe eval\\run_eval.py --dataset eval\\semantic.json --save eval\\semantic.json
+    ..\\.venv\\Scripts\\python.exe eval\\run_eval.py --baseline eval\\baseline_v1.json
+
+只有使用默认数据集时才写 `docs/评测报告.md`，其余数据集只输出 JSON，
+避免用合成或补充数据集覆盖正式报告。
 """
 
 from __future__ import annotations
@@ -142,6 +147,59 @@ def _load_manual_support(answer_by_id: dict[str, dict]) -> dict | None:
         "unsupported": unsupported,
         "support_rate": supported / total if total else 0.0,
     }
+
+
+SEMANTIC_PATH = Path(__file__).with_name("semantic.json")
+SEMANTIC_BASELINE_PATH = Path(__file__).with_name("baseline_v1_semantic.json")
+
+
+def _semantic_section() -> str:
+    """语义检索集的说明与基线结果；缺文件时降级为一段提示。"""
+    lines = [
+        "## 9. 语义检索评测集（RAG 升级用）",
+        "",
+        "原 40 条数据集 Recall@5 已满分，无法体现检索升级的收益，因此另建 "
+        "`backend/eval/semantic.json`：12 条中 10 条可答，问法与原文**词面不重合**"
+        "（6 条英文提问命中中文资料 + 4 条中文同义改写），2 条无答案。",
+        "",
+    ]
+    if SEMANTIC_BASELINE_PATH.is_file():
+        semantic = json.loads(SEMANTIC_BASELINE_PATH.read_text(encoding="utf-8"))
+        metrics = semantic["metrics"]
+        lines.extend([
+            "| 数据集 | 题数 | Recall@5 | 拒答率 | 用途 |",
+            "|---|---:|---:|---:|---|",
+            "| `dataset.json` | 40 | 1.000 | 8/8（100%） | 回归：升级后不得下降 |",
+            f"| `semantic.json` | {metrics['total']} | "
+            f"**{metrics['recall_at_5']:.3f}** | "
+            f"{metrics['abstained_unanswerable']}/{metrics['unanswerable']}"
+            f"（{metrics['refusal_rate_unanswerable']:.0%}） | 收益：证明真实 embedding 的价值 |",
+            "",
+            f"语义集基线存档：`backend/eval/{SEMANTIC_BASELINE_PATH.name}`。",
+        ])
+    else:
+        lines.append("> 尚未生成语义集基线，请先运行 `run_eval.py --dataset eval/semantic.json`。")
+
+    lines.extend([
+        "",
+        "> 10 条可答题在语义集下全部未命中——这不是缺陷，而是演示语料太小（18 个 chunk）"
+        "且英文问法与中文原文零词面重合的必然结果。接入真实 embedding 后重跑该集，"
+        "用 `--baseline` 对比，才是升级收益的唯一硬证据。",
+        "",
+        "```powershell",
+        "cd backend",
+        "..\\.venv\\Scripts\\python.exe eval\\run_eval.py --dataset eval\\semantic.json --save eval\\semantic_openai.json",
+        "..\\.venv\\Scripts\\python.exe eval\\run_eval.py --dataset eval\\semantic.json --baseline eval\\baseline_v1_semantic.json",
+        "```",
+        "",
+        "一个必须写明的行为差异：**语义检索只解决「找得到」**。跨语言提问即使命中中文块，",
+        "离线摘录式回答仍会拒答，因为原文里没有 \"deadlock\" 这类词元可供抽取；",
+        "要真正回答必须让 `COURSEMATE_LLM_PROVIDER=openai` 走生成路径。",
+        "",
+        "详细改造方案与实施记录见 [RAG 升级改造清单](RAG升级改造清单.md)。",
+        "",
+    ])
+    return "\n".join(lines)
 
 
 def _format_metrics(metrics: dict) -> str:
@@ -312,7 +370,7 @@ def _build_report(
             "",
             "## 7. 方法与环境",
             "",
-            "- 检索：中文 bigram + BM25 + 哈希 TF-IDF 向量 + RRF，按课程过滤，取 Top-5。",
+            "- 检索：中文 bigram + BM25 + 向量（哈希 TF-IDF 或真实 embedding）+ RRF，按课程过滤，取 Top-5。",
             "- 回答：默认 `offline` 摘录式；配置 OpenAI 兼容 Provider 时走模型生成，失败自动降级。",
             "- 召回判定：Top-5 中命中预期文件与页码/幻灯片/章节即算命中。",
             "- 引用合法：引用 chunk、文件归属本课程，且文件名、定位和原文片段非空。",
@@ -322,20 +380,65 @@ def _build_report(
             "",
             "- 该评测基于合成演示课程，不等于真实课程资料分布。",
             "- 离线回答是原文摘录，不覆盖需要跨段总结的问题。",
-            "- 哈希 TF-IDF 是词面近似，同义改写检索仍可能失败。",
+            "- 默认的哈希向量是词面近似，同义改写检索仍可能失败（见第 9 节）。",
             "- 抽样支持率是开发者人工判断，样本量 20，未做多人标注一致性检验。",
             "",
+            _semantic_section(),
         ]
     )
     return "\n".join(lines)
 
 
-def run_eval(top_k: int) -> dict:
+def _compare_with_baseline(result: dict, baseline_path: Path) -> str:
+    """与基线逐题对比，输出变化清单。基线与本次都缺失的题目跳过。"""
+    baseline = json.loads(baseline_path.read_text(encoding="utf-8"))
+    old_by_id = {item["id"]: item for item in baseline.get("items", [])}
+    lines = ["| ID | 问题 | Recall@5 变化 | 拒答变化 |", "|---|---|---|---|"]
+    improved = downgraded = unchanged = 0
+    for item in result["items"]:
+        old = old_by_id.get(item["id"])
+        if old is None:
+            continue
+        old_recall = bool(old.get("recall_hit"))
+        new_recall = bool(item.get("recall_hit"))
+        old_abstain = bool(old.get("abstained"))
+        new_abstain = bool(item.get("abstained"))
+        recall_cell = {"u": "—", "n": "命中", "x": "未中"}
+        abstain_cell = {"u": "—", "y": "拒答", "n": "回答"}
+        rc = (
+            "→"
+            if old_recall == new_recall
+            else ("⬆ 新命中" if new_recall else "⬇ 丢失")
+        )
+        ac = "→" if old_abstain == new_abstain else ("改为拒答" if new_abstain else "改为回答")
+        if old_recall == new_recall and old_abstain == new_abstain:
+            unchanged += 1
+            continue
+        if new_recall and not old_recall:
+            improved += 1
+        elif old_recall and not new_recall:
+            downgraded += 1
+        lines.append(
+            f"| {item['id']} | {item['question']} | {rc} | {ac} |"
+        )
+    summary = (
+        f"\n对比基线 `{baseline_path.name}`："
+        f"改善 {improved} 题，回退 {downgraded} 题，无变化 {unchanged} 题。"
+    )
+    return "\n".join(lines) + summary
+
+
+def run_eval(
+    top_k: int,
+    dataset_path: Path = DATASET_PATH,
+    results_path: Path | None = None,
+    write_report: bool = True,
+) -> dict:
     settings = load_settings()
     engine, session_factory = create_engine_and_session(settings.database_url)
     db = session_factory()
     try:
-        dataset = json.loads(DATASET_PATH.read_text(encoding="utf-8"))
+        dataset = json.loads(dataset_path.read_text(encoding="utf-8"))
         course = _find_course(db, dataset)
         items = dataset["items"]
 
@@ -455,17 +558,23 @@ def run_eval(top_k: int) -> dict:
         output = {
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "provider": settings.llm_provider,
+            "embedding_provider": getattr(settings, "embedding_provider", "hash"),
             "top_k": top_k,
             "course": course.name,
             "metrics": metrics,
             "items": results,
         }
-        RESULTS_PATH.write_text(
+        results_path = results_path or RESULTS_PATH
+        results_path.parent.mkdir(parents=True, exist_ok=True)
+        results_path.write_text(
             json.dumps(output, ensure_ascii=False, indent=2), encoding="utf-8"
         )
-        report = _build_report(metrics, results, manual, settings.llm_provider, top_k)
-        REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
-        REPORT_PATH.write_text(report, encoding="utf-8")
+        if write_report:
+            report = _build_report(
+                metrics, results, manual, settings.llm_provider, top_k
+            )
+            REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
+            REPORT_PATH.write_text(report, encoding="utf-8")
         return output
     finally:
         db.close()
@@ -475,9 +584,28 @@ def run_eval(top_k: int) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser(description="CourseMate RAG 评测")
     parser.add_argument("--top-k", type=int, default=5)
+    parser.add_argument("--dataset", type=Path, default=DATASET_PATH)
+    parser.add_argument("--save", type=Path, default=None)
+    parser.add_argument("--baseline", type=Path, default=None)
+    parser.add_argument(
+        "--no-report", action="store_true", help="不写 docs/评测报告.md"
+    )
     args = parser.parse_args()
-    result = run_eval(args.top_k)
+
+    is_default_dataset = args.dataset.resolve() == DATASET_PATH.resolve()
+    write_report = is_default_dataset and not args.no_report
+    results_path = args.save
+    if results_path is None and not is_default_dataset:
+        results_path = args.dataset.with_suffix(".results.json")
+
+    result = run_eval(
+        args.top_k,
+        dataset_path=args.dataset,
+        results_path=results_path,
+        write_report=write_report,
+    )
     metrics = result["metrics"]
+    print(f"数据集: {args.dataset}")
     print(f"Recall@5: {metrics['recall_at_5']:.3f}")
     print(
         "拒答率: "
@@ -487,8 +615,13 @@ def main() -> None:
     print(f"引用定位合法率: {metrics['citation_locator_rate']:.1%}")
     print(f"p95: {metrics['p95_ms']:.0f} ms")
     print(f"解析成功率: {metrics['parse_success_rate']:.1%}")
-    print(f"结果: {RESULTS_PATH}")
-    print(f"报告: {REPORT_PATH}")
+    if args.baseline and args.baseline.is_file():
+        print(_compare_with_baseline(result, args.baseline))
+    elif args.baseline:
+        print(f"基线文件不存在，跳过对比：{args.baseline}")
+    print(f"结果: {results_path or RESULTS_PATH}")
+    if write_report:
+        print(f"报告: {REPORT_PATH}")
 
 
 if __name__ == "__main__":

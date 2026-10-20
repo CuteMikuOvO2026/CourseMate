@@ -1,0 +1,362 @@
+{
+  "generated_at": "2026-10-20T05:46:40.737136+00:00",
+  "provider": "offline",
+  "embedding_provider": "hash",
+  "top_k": 5,
+  "course": "计算机网络（演示）",
+  "metrics": {
+    "total": 12,
+    "answerable": 10,
+    "unanswerable": 2,
+    "answered_answerable": 0,
+    "abstained_unanswerable": 2,
+    "recall_at_5": 0.0,
+    "citation_locator_rate": 0.0,
+    "answered_with_citations_rate": 0.0,
+    "refusal_rate_unanswerable": 1.0,
+    "keyword_support_rate": 0.0,
+    "p95_ms": 4.358,
+    "parse_success_rate": 1.0,
+    "ready_files": 7,
+    "total_files": 7,
+    "manual_support_rate": 0.0,
+    "manual_sample_size": 0
+  },
+  "items": [
+    {
+      "id": "s01",
+      "question": "Why is layering useful in network design?",
+      "answerable": true,
+      "answer": "课程资料中没有找到足以支持这个问题的内容，因此暂不能回答。",
+      "abstained": true,
+      "confidence": "abstained",
+      "mode": "offline",
+      "elapsed_ms": 4.358,
+      "recall_hit": false,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 0,
+      "citation_valid_count": 0,
+      "citations": [],
+      "hits": [],
+      "expected": {
+        "file": "第1讲-网络概述.pdf",
+        "page": 2,
+        "heading": null
+      }
+    },
+    {
+      "id": "s02",
+      "question": "How does the receiver slow the sender down?",
+      "answerable": true,
+      "answer": "课程资料中没有找到足以支持这个问题的内容，因此暂不能回答。",
+      "abstained": true,
+      "confidence": "abstained",
+      "mode": "offline",
+      "elapsed_ms": 0.041,
+      "recall_hit": false,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 0,
+      "citation_valid_count": 0,
+      "citations": [],
+      "hits": [],
+      "expected": {
+        "file": "第5讲-传输层.docx",
+        "page": null,
+        "heading": "流量控制与拥塞控制"
+      }
+    },
+    {
+      "id": "s03",
+      "question": "Which device stops broadcast traffic?",
+      "answerable": true,
+      "answer": "课程资料中没有找到足以支持这个问题的内容，因此暂不能回答。",
+      "abstained": true,
+      "confidence": "abstained",
+      "mode": "offline",
+      "elapsed_ms": 0.03,
+      "recall_hit": false,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 0,
+      "citation_valid_count": 0,
+      "citations": [],
+      "hits": [],
+      "expected": {
+        "file": "第3讲-数据链路层.pptx",
+        "page": 3,
+        "heading": null
+      }
+    },
+    {
+      "id": "s04",
+      "question": "What happens when the network is congested?",
+      "answerable": true,
+      "answer": "课程资料中没有找到足以支持这个问题的内容，因此暂不能回答。",
+      "abstained": true,
+      "confidence": "abstained",
+      "mode": "offline",
+      "elapsed_ms": 0.026,
+      "recall_hit": false,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 0,
+      "citation_valid_count": 0,
+      "citations": [],
+      "hits": [],
+      "expected": {
+        "file": "第5讲-传输层.docx",
+        "page": null,
+        "heading": "流量控制与拥塞控制"
+      }
+    },
+    {
+      "id": "s05",
+      "question": "Why does content load faster from a nearby server?",
+      "answerable": true,
+      "answer": "课程资料中没有找到足以支持这个问题的内容，因此暂不能回答。",
+      "abstained": true,
+      "confidence": "abstained",
+      "mode": "offline",
+      "elapsed_ms": 0.029,
+      "recall_hit": false,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 0,
+      "citation_valid_count": 0,
+      "citations": [],
+      "hits": [],
+      "expected": {
+        "file": "第6讲-应用层.md",
+        "page": null,
+        "heading": "6.4 Web 缓存与 CDN"
+      }
+    },
+    {
+      "id": "s06",
+      "question": "What is the maximum data rate of a noisy channel?",
+      "answerable": true,
+      "answer": "课程资料中没有找到足以支持这个问题的内容，因此暂不能回答。",
+      "abstained": true,
+      "confidence": "abstained",
+      "mode": "offline",
+      "elapsed_ms": 0.027,
+      "recall_hit": false,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 0,
+      "citation_valid_count": 0,
+      "citations": [],
+      "hits": [],
+      "expected": {
+        "file": "第2讲-物理层.pdf",
+        "page": 1,
+        "heading": null
+      }
+    },
+    {
+      "id": "s07",
+      "question": "怎么判断两台机器在不在同一个网段？",
+      "answerable": true,
+      "answer": "课程资料中没有找到足以支持这个问题的内容，因此暂不能回答。",
+      "abstained": true,
+      "confidence": "abstained",
+      "mode": "offline",
+      "elapsed_ms": 0.045,
+      "recall_hit": false,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 0,
+      "citation_valid_count": 0,
+      "citations": [],
+      "hits": [],
+      "expected": {
+        "file": "第4讲-网络层.pdf",
+        "page": 1,
+        "heading": null
+      }
+    },
+    {
+      "id": "s08",
+      "question": "信号最快能跑多快取决于哪些参数？",
+      "answerable": true,
+      "answer": "课程资料中没有找到足以支持这个问题的内容，因此暂不能回答。",
+      "abstained": true,
+      "confidence": "abstained",
+      "mode": "offline",
+      "elapsed_ms": 0.358,
+      "recall_hit": false,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 0,
+      "citation_valid_count": 0,
+      "citations": [],
+      "hits": [
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.032787
+        }
+      ],
+      "expected": {
+        "file": "第2讲-物理层.pdf",
+        "page": 1,
+        "heading": null
+      }
+    },
+    {
+      "id": "s09",
+      "question": "帧最短可以是多少？",
+      "answerable": true,
+      "answer": "课程资料中没有找到足以支持这个问题的内容，因此暂不能回答。",
+      "abstained": true,
+      "confidence": "abstained",
+      "mode": "offline",
+      "elapsed_ms": 0.038,
+      "recall_hit": false,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 0,
+      "citation_valid_count": 0,
+      "citations": [],
+      "hits": [],
+      "expected": {
+        "file": "第3讲-数据链路层.pptx",
+        "page": 3,
+        "heading": null
+      }
+    },
+    {
+      "id": "s10",
+      "question": "内网机器怎么跟外面的网络通信？",
+      "answerable": true,
+      "answer": "课程资料中没有找到足以支持这个问题的内容，因此暂不能回答。",
+      "abstained": true,
+      "confidence": "abstained",
+      "mode": "offline",
+      "elapsed_ms": 0.588,
+      "recall_hit": false,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 0,
+      "citation_valid_count": 0,
+      "citations": [],
+      "hits": [
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.032787
+        },
+        {
+          "file": "第4讲-网络层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.032002
+        },
+        {
+          "file": "第5讲-传输层.docx",
+          "page_from": null,
+          "page_to": null,
+          "heading": "第5讲 传输层",
+          "rrf": 0.032002
+        },
+        {
+          "file": "第2讲-物理层.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.03101
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 2,
+          "page_to": 2,
+          "heading": "",
+          "rrf": 0.030536
+        }
+      ],
+      "expected": {
+        "file": "第4讲-网络层.pdf",
+        "page": 2,
+        "heading": null
+      }
+    },
+    {
+      "id": "s11",
+      "question": "这门课的补考怎么安排？",
+      "answerable": false,
+      "answer": "课程资料中没有找到足以支持这个问题的内容，因此暂不能回答。",
+      "abstained": true,
+      "confidence": "abstained",
+      "mode": "offline",
+      "elapsed_ms": 0.044,
+      "recall_hit": false,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 0,
+      "citation_valid_count": 0,
+      "citations": [],
+      "hits": [],
+      "expected": {
+        "file": null,
+        "page": null,
+        "heading": null
+      }
+    },
+    {
+      "id": "s12",
+      "question": "老师要求用哪个版本的教材？",
+      "answerable": false,
+      "answer": "课程资料中没有找到足以支持这个问题的内容，因此暂不能回答。",
+      "abstained": true,
+      "confidence": "abstained",
+      "mode": "offline",
+      "elapsed_ms": 0.423,
+      "recall_hit": false,
+      "keyword_hit": false,
+      "citation_valid": true,
+      "citation_errors": [],
+      "citation_count": 0,
+      "citation_valid_count": 0,
+      "citations": [],
+      "hits": [
+        {
+          "file": "作业与复习要求.txt",
+          "page_from": null,
+          "page_to": null,
+          "heading": "全文",
+          "rrf": 0.032522
+        },
+        {
+          "file": "第1讲-网络概述.pdf",
+          "page_from": 1,
+          "page_to": 1,
+          "heading": "",
+          "rrf": 0.016393
+        }
+      ],
+      "expected": {
+        "file": null,
+        "page": null,
+        "heading": null
+      }
+    }
+  ]
+}
