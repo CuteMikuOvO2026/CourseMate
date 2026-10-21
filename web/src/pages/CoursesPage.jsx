@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../api';
 import Modal from '../components/Modal';
-import TopBar from '../components/TopBar';
+import AppShell from '../components/AppShell';
 import { COURSE_COLORS, formatDate } from '../utils';
 
 const EMPTY_FORM = { name: '', semester: '', color: COURSE_COLORS[0] };
@@ -76,13 +76,12 @@ export default function CoursesPage() {
   }
 
   return (
-    <div className="page">
-      <TopBar />
-      <main className="container">
-        <header className="page-head">
+    <AppShell>
+      <main className="shell-content">
+        <header className="workbench-head">
           <div>
-            <p className="eyebrow">我的课程</p>
-            <h1>把资料收进一门课</h1>
+            <p className="eyebrow">工作台</p>
+            <h1>我的课程</h1>
             <p className="lede">每门课程独立存放资料与学习记录，互不干扰。</p>
           </div>
           <button type="button" className="primary-btn" onClick={openCreate}>
@@ -120,7 +119,7 @@ export default function CoursesPage() {
                   <h2>{course.name}</h2>
                   <p>{course.semester || '未填写学期'}</p>
                   <div className="course-meta">
-                    <span>{course.file_count} 份资料</span>
+                    <span className="chip">{course.file_count} 份资料</span>
                     <span>{formatDate(course.created_at)}</span>
                   </div>
                 </Link>
@@ -200,6 +199,6 @@ export default function CoursesPage() {
           </form>
         </Modal>
       )}
-    </div>
+    </AppShell>
   );
 }

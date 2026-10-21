@@ -30,9 +30,14 @@ function MessageBubble({ message }) {
       <span className="chat-avatar" aria-hidden="true">{assistant ? 'CM' : '我'}</span>
       <div className="chat-bubble-wrap">
         <div className="chat-bubble">
-          <div className="chat-message-content">{message.content}</div>
+          <div className="chat-message-content">
+            {message.content}
+            {message.streaming && <span className="stream-cursor" aria-hidden="true" />}
+          </div>
         </div>
-        {assistant && (
+        {assistant && (message.streaming ? (
+          <div className="answer-meta streaming-meta">正在生成…</div>
+        ) : (
           <div className="answer-meta">
             {message.abstained ? '资料不足，已拒答' : `置信度：${message.confidence === 'high' ? '高' : message.confidence === 'medium' ? '中' : '低'}`}
             {message.mode && <span>· {message.mode === 'openai' ? '模型生成' : '原文摘录'}</span>}
@@ -43,8 +48,8 @@ function MessageBubble({ message }) {
               <span className="answer-degraded">· 模型调用失败，已降级</span>
             )}
           </div>
-        )}
-        {assistant && <CitationList citations={message.citations} />}
+        ))}
+        {assistant && !message.streaming && <CitationList citations={message.citations} />}
       </div>
     </article>
   );
@@ -155,6 +160,79 @@ export default function ChatPanel({ courseId, readyFileCount }) {
       citations: [],
     };
     setMessages((prev) => [...prev, optimistic]);
+
+    const streaming = useLlm && Boolean(answerConfig?.model_available);
+    if (streaming) {
+      const assistantId = `answer-${Date.now()}`;
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: assistantId,
+          role: 'assistant',
+          content: '',
+          citations: [],
+          streaming: true,
+        },
+      ]);
+      const patch = (changed) =>
+        setMessages((prev) =>
+          prev.map((item) => (item.id === assistantId ? { ...item, ...changed } : item)),
+        );
+      const appendText = (text) =>
+        setMessages((prev) =>
+          prev.map((item) =>
+            item.id === assistantId ? { ...item, content: item.content + text } : item,
+          ),
+        );
+      const finishWith = (result) => {
+        patch({
+          streaming: false,
+          content: result.answer,
+          confidence: result.confidence,
+          abstained: result.abstained,
+          mode: result.mode,
+          model: result.model,
+          degraded: result.degraded,
+        });
+        if (result.citations) patch({ citations: result.citations });
+        setConversationId(result.conversation_id);
+        if (result.degraded) setError('模型调用失败，已降级为离线回答。');
+      };
+      let errored = false;
+      let doneReceived = false;
+      try {
+        await api.queryStream(courseId, trimmed, conversationId, true, {
+          meta: (data) => {
+            if (data.conversation_id) setConversationId(data.conversation_id);
+          },
+          delta: (data) => appendText(data.text),
+          citations: (data) => patch({ citations: data.citations }),
+          done: (data) => {
+            doneReceived = true;
+            finishWith(data);
+          },
+          error: () => {
+            errored = true;
+          },
+        });
+        if (errored || !doneReceived) {
+          // 流中途失败或异常结束：回退到非流式接口拿完整结果
+          // （新开对话，避免使用服务端已回滚的会话号）
+          const result = await api.query(courseId, trimmed, null, useLlm);
+          finishWith(result);
+        }
+        const refreshed = await api.conversations(courseId);
+        setConversations(refreshed);
+      } catch (err) {
+        setMessages((prev) => prev.filter((item) => item.id !== assistantId));
+        setQuestion(trimmed);
+        setError(err.message);
+      } finally {
+        setSending(false);
+      }
+      return;
+    }
+
     try {
       const result = await api.query(courseId, trimmed, conversationId, useLlm);
       setConversationId(result.conversation_id);
@@ -262,7 +340,7 @@ export default function ChatPanel({ courseId, readyFileCount }) {
               <p>回答只基于已解析的资料；每个要点都会附带文件、定位和原文片段。</p>
             </div>
           ) : messages.map((message) => <MessageBubble key={message.id} message={message} />)}
-          {sending && (
+          {sending && !messages.some((message) => message.streaming) && (
             <article className="chat-message assistant">
               <span className="chat-avatar">CM</span>
               <div className="chat-bubble loading-answer"><span className="spinner" />正在检索课程资料…</div>

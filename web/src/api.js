@@ -37,6 +37,64 @@ async function request(path, options = {}) {
   return data;
 }
 
+function parseSseBlock(raw, handlers) {
+  let event = 'message';
+  const dataLines = [];
+  for (const line of raw.split('\n')) {
+    if (line.startsWith('event:')) event = line.slice(6).trim();
+    else if (line.startsWith('data:')) dataLines.push(line.slice(5).trim());
+  }
+  if (!dataLines.length) return;
+  let payload;
+  try {
+    payload = JSON.parse(dataLines.join('\n'));
+  } catch {
+    return;
+  }
+  if (handlers[event]) handlers[event](payload);
+}
+
+async function queryStream(courseId, question, conversationId = null, useLlm = null, handlers = {}) {
+  let response;
+  try {
+    response = await fetch(`${BASE}/courses/${courseId}/query/stream`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        question,
+        ...(conversationId ? { conversation_id: conversationId } : {}),
+        ...(useLlm === null ? {} : { use_llm: useLlm }),
+      }),
+    });
+  } catch {
+    throw new ApiError(0, '无法连接服务器，请确认后端已启动');
+  }
+  // SSE 开始前的错误（如未配置模型的 409）仍是常规 JSON 响应
+  if (!response.ok || !response.body) {
+    const data = await response.json().catch(() => null);
+    const detail = data && data.detail;
+    throw new ApiError(
+      response.status,
+      typeof detail === 'string' ? detail : '请求失败，请稍后重试',
+    );
+  }
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = '';
+  for (;;) {
+    const { value, done } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+    let boundary = buffer.indexOf('\n\n');
+    while (boundary >= 0) {
+      parseSseBlock(buffer.slice(0, boundary), handlers);
+      buffer = buffer.slice(boundary + 2);
+      boundary = buffer.indexOf('\n\n');
+    }
+  }
+}
+
 export const api = {
   me: () => request('/auth/me'),
   login: (username, password) =>
@@ -71,6 +129,7 @@ export const api = {
         ...(useLlm === null ? {} : { use_llm: useLlm }),
       },
     }),
+  queryStream,
   answerConfig: () => request('/answer/config'),
   conversations: (courseId) => request(`/courses/${courseId}/conversations`),
   messages: (conversationId) => request(`/conversations/${conversationId}/messages`),

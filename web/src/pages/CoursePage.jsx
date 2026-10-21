@@ -8,16 +8,8 @@ import FlashcardsPanel from '../components/FlashcardsPanel';
 import TasksPanel from '../components/TasksPanel';
 import Modal from '../components/Modal';
 import StatusBadge from '../components/StatusBadge';
-import TopBar from '../components/TopBar';
+import AppShell from '../components/AppShell';
 import { fileExtension, formatBytes, formatDate } from '../utils';
-
-const TABS = [
-  { id: 'files', label: '资料' },
-  { id: 'chat', label: '问答' },
-  { id: 'quiz', label: '练习' },
-  { id: 'cards', label: '复习卡' },
-  { id: 'tasks', label: '待办' },
-];
 
 const ACTIVE_STATUSES = new Set(['queued', 'processing']);
 
@@ -171,21 +163,21 @@ export default function CoursePage() {
 
   if (loading) {
     return (
-      <div className="page">
-        <TopBar />
-        <div className="boot">
-          <span className="spinner large" />
-          <p>正在加载课程…</p>
-        </div>
-      </div>
+      <AppShell>
+        <main className="shell-content">
+          <div className="boot">
+            <span className="spinner large" />
+            <p>正在加载课程…</p>
+          </div>
+        </main>
+      </AppShell>
     );
   }
 
   if (notFound) {
     return (
-      <div className="page">
-        <TopBar />
-        <main className="container">
+      <AppShell>
+        <main className="shell-content">
           <section className="empty">
             <div className="empty-mark">🔍</div>
             <h2>课程不存在或无权访问</h2>
@@ -195,45 +187,31 @@ export default function CoursePage() {
             </Link>
           </section>
         </main>
-      </div>
+      </AppShell>
     );
   }
 
   if (!course) return null;
 
-  return (
-    <div className="page">
-      <TopBar />
-      <main className="container">
-        <Link to="/" className="back-link">
-          ← 返回课程列表
-        </Link>
+  const readyCount = files.filter((file) => file.status === 'ready').length;
 
-        <header className="course-head" style={{ '--course-color': course.color }}>
-          <div className="course-head-main">
-            <span className="course-dot large" />
-            <div>
-              <h1>{course.name}</h1>
-              <p>
-                {course.semester || '未填写学期'} · {course.file_count} 份资料
-              </p>
+  return (
+    <AppShell course={course} activeTab={tab} onTabChange={setTab}>
+      <main className="shell-content">
+        <header className="workbench-head course" style={{ '--course-color': course.color }}>
+          <div>
+            <p className="eyebrow">
+              <span className="course-dot" />
+              {course.semester || '未填写学期'}
+            </p>
+            <h1>{course.name}</h1>
+            <div className="stat-row">
+              <span className="chip">{course.file_count} 份资料</span>
+              <span className="chip">{readyCount} 份已解析</span>
+              <span className="chip chip-quiet">课程内检索 · 数据隔离</span>
             </div>
           </div>
         </header>
-
-        <nav className="tabs">
-          {TABS.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              className={`tab${tab === item.id ? ' active' : ''}`}
-              onClick={() => setTab(item.id)}
-            >
-              {item.label}
-              {item.hint && <em>{item.hint}</em>}
-            </button>
-          ))}
-        </nav>
 
         {error && <div className="alert error">{error}</div>}
         {uploadErrors.length > 0 && (
@@ -400,6 +378,6 @@ export default function CoursePage() {
           )}
         </Modal>
       )}
-    </div>
+    </AppShell>
   );
 }
